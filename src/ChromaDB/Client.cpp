@@ -131,4 +131,72 @@ namespace chromadb {
 		m_APIClient.Put("/collections/" + oldCollection.GetId() + "?tenant=" + m_Tenant + "&database=" + m_Database, json);
 	}
 
+	void Client::AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
+	{
+		ValidationResult validationResult = this->Validate(collection, ids, embeddings, metadata, documents);
+
+		nlohmann::json json = {
+			{ "ids", validationResult.ids },
+			{ "embeddings", validationResult.embeddings },
+			{ "metadata", validationResult.metadatas },
+			{ "documents", validationResult.documents }
+		};
+
+		if (validationResult.metadatas.empty())
+			json.erase("metadata");
+
+		if (validationResult.documents.empty())
+			json.erase("documents");
+
+		m_APIClient.Post("/collections/" + collection.GetId() + "/add", json);
+	}
+
+	// Source for this function: https://github.com/CodeWithKyrian/chromadb-php
+	ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
+	{
+		if (embeddings.empty() && documents.empty())
+			throw ChromaException("You must provide either embeddings or documents");
+
+		if ((!embeddings.empty() && embeddings.size() != ids.size()) || (!metadata.empty() && metadata.size() != ids.size()) || (!documents.empty() && documents.size() != ids.size()))
+			throw ChromaException("The number of ids, embeddings, metadatas and documents must be the same");
+
+		std::vector<std::vector<double>> finalEmbeddings;
+		if (embeddings.empty())
+		{
+			if (collection.m_EmbeddingFunction == nullptr)
+				throw ChromaException("You must provide an embedding function if you did not provide embeddings");
+			else if (!documents.empty())
+				finalEmbeddings = collection.m_EmbeddingFunction->Generate(documents);
+			else
+				throw ChromaException("If you did not provide embeddings, you must provide documents");
+		}
+		else
+		{
+			finalEmbeddings = embeddings;
+		}
+
+		std::vector<std::string> validatedIds = ids;
+		std::transform(validatedIds.begin(), validatedIds.end(), validatedIds.begin(), [](const std::string& id) {
+			if (id.empty())
+				throw ChromaException("IDs must be non-empty strings");
+
+			return id;
+			});
+
+		std::unordered_set<std::string> uniqueIds(validatedIds.begin(), validatedIds.end());
+		if (uniqueIds.size() != validatedIds.size())
+		{
+			std::unordered_set<std::string> duplicates;
+			for (const auto& id : validatedIds)
+			{
+				if (std::count(validatedIds.begin(), validatedIds.end(), id) > 1)
+					duplicates.insert(id);
+			}
+
+			throw ChromaException("Expected IDs to be unique, found duplicates for: " + Utils::join(duplicates, ", "));
+		}
+
+		return { validatedIds, finalEmbeddings, metadata, documents };
+	}
+
 } // namespace chromadb

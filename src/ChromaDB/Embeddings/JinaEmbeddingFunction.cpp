@@ -7,7 +7,7 @@ namespace chromadb {
 	{
 	}
 
-	std::vector<std::vector<float>> JinaEmbeddingFunction::Generate(const std::vector<std::string>& documents)
+	std::vector<std::vector<double>> JinaEmbeddingFunction::Generate(const std::vector<std::string>& documents)
 	{
 		nlohmann::json body = {
 			{ "input", documents },
@@ -16,7 +16,7 @@ namespace chromadb {
 
 		nlohmann::json response = this->Request(body);
 
-		std::vector<std::vector<float>> embeddings;
+		std::vector<std::vector<double>> embeddings;
 		for (const auto& obj : response["data"])
 		{
 			embeddings.push_back(obj["embedding"]);

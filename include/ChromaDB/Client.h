@@ -2,6 +2,7 @@
 
 #include "ChromaDB/APIClient.h"
 #include "ChromaDB/Collection.h"
+#include "ChromaDB/Utils.h"
 
 #include "Http/httplib.h"
 #include "Json/json.h"
@@ -9,8 +10,17 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace chromadb {
+
+	struct ValidationResult
+	{
+		std::vector<std::string> ids;
+		std::vector<std::vector<double>> embeddings;
+		std::vector<std::unordered_map<std::string, std::string>> metadatas;
+		std::vector<std::string> documents;
+	};
 
 	class Client
 	{
@@ -36,6 +46,8 @@ namespace chromadb {
 		void DeleteCollection(const std::string& name);
 
 		void UpdateCollection(const std::string & oldName, const std::string & newName, const std::unordered_map<std::string, std::string>& newMetadata = {});
+
+		void AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 	private:
 		APIClient m_APIClient;
 
@@ -47,6 +59,8 @@ namespace chromadb {
 		void CreateTenant();
 
 		void CreateDatabase();
+
+		ValidationResult Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents);
 	};
 
 } // namespace chromadb
