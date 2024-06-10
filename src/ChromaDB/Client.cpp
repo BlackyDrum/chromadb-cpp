@@ -95,4 +95,9 @@ namespace chromadb {
 		return m_APIClient.Get("/count_collections?tenant=" + m_Tenant + "&database=" + m_Database);
 	}
 
+	void Client::DeleteCollection(const std::string& name)
+	{
+		m_APIClient.Delete("/collections/" + name + "?tenant=" + m_Tenant + "&database=" + m_Database);
+	}
+
 } // namespace chromadb
