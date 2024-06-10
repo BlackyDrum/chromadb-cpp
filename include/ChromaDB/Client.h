@@ -13,6 +13,10 @@ namespace chromadb {
 	{
 	public:
 		Client(const std::string& scheme, const std::string& host, const std::string& port, const std::string& database = "default_database", const std::string& tenant = "default_tenant", const std::string& authToken = "");
+
+		std::string GetVersion();
+
+		size_t GetHeartbeat();
 	private:
 		APIClient m_APIClient;
 

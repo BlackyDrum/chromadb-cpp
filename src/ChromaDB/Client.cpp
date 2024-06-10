@@ -7,5 +7,20 @@ namespace chromadb {
 	{
 	}
 
+	std::string Client::GetVersion()
+	{
+		std::string version = m_APIClient.Get("/version").dump();
+
+		version.erase(std::remove_if(version.begin(), version.end(), [](char c) {
+			return c == '"';
+		}), version.end());
+
+		return version;
+	}
+
+	size_t Client::GetHeartbeat()
+	{
+		return m_APIClient.Get("/heartbeat")["nanosecond heartbeat"];
+	}
 
 } // namespace chromadb

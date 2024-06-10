@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ChromaDB/ChromaDB.h"
+#include "ChromaDB/Client.h"
 
 #include "Exception.h"
 
