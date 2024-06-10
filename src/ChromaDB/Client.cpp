@@ -152,7 +152,7 @@ namespace chromadb {
 	}
 
 	// Source for this function: https://github.com/CodeWithKyrian/chromadb-php
-	ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
+	Client::ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
 	{
 		if (embeddings.empty() && documents.empty())
 			throw ChromaException("You must provide either embeddings or documents");

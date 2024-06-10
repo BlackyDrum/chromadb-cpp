@@ -14,14 +14,6 @@
 
 namespace chromadb {
 
-	struct ValidationResult
-	{
-		std::vector<std::string> ids;
-		std::vector<std::vector<double>> embeddings;
-		std::vector<std::unordered_map<std::string, std::string>> metadatas;
-		std::vector<std::string> documents;
-	};
-
 	class Client
 	{
 	public:
@@ -53,6 +45,14 @@ namespace chromadb {
 
 		std::string m_Database;
 		std::string m_Tenant;
+
+		struct ValidationResult
+		{
+			std::vector<std::string> ids;
+			std::vector<std::vector<double>> embeddings;
+			std::vector<std::unordered_map<std::string, std::string>> metadatas;
+			std::vector<std::string> documents;
+		};
 	private:
 		void Initialize();
 
