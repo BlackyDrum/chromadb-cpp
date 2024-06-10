@@ -1,11 +1,14 @@
 #pragma once
 
 #include "ChromaDB/APIClient.h"
+#include "ChromaDB/Collection.h"
 
 #include "Http/httplib.h"
 #include "Json/json.h"
 
 #include <string>
+#include <vector>
+#include <unordered_map>
 
 namespace chromadb {
 
@@ -21,11 +24,18 @@ namespace chromadb {
 		std::string GetDatabase() const { return m_Database; }
 
 		std::string GetTenant() const { return m_Tenant; }
+
+		Collection CreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata = {}, std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
+
+		Collection GetCollection(const std::string& name, std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
+
+		size_t GetCollectionCount();
 	private:
 		APIClient m_APIClient;
 
 		std::string m_Database;
 		std::string m_Tenant;
+		std::vector<std::vector<std::string>> m_Metadata;
 	private:
 		void Initialize();
 

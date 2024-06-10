@@ -63,4 +63,36 @@ namespace chromadb {
 		return m_APIClient.Get("/heartbeat")["nanosecond heartbeat"];
 	}
 
+	Collection Client::CreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata, std::shared_ptr<EmbeddingFunction> embeddingFunction)
+	{
+		nlohmann::json json = {
+			{ "name", name },
+			{ "metadata", metadata }	
+		};
+
+		if (metadata.empty())
+			json.erase("metadata");
+
+		m_APIClient.Post("/collections?tenant=" + m_Tenant + "&database=" + m_Database, json);
+
+		return this->GetCollection(name, embeddingFunction);
+	}
+
+	Collection Client::GetCollection(const std::string& name, std::shared_ptr<EmbeddingFunction> embeddingFunction)
+	{
+		auto json = m_APIClient.Get("/collections/" + name + "?tenant=" + m_Tenant + "&database=" + m_Database);
+
+		std::unordered_map<std::string, std::string> metadata;
+		if (!json["metadata"].is_null()) {
+			metadata = json["metadata"].get<std::unordered_map<std::string, std::string>>();
+		}
+
+		return Collection(json["id"], json["name"], metadata, embeddingFunction);
+	}
+
+	size_t Client::GetCollectionCount()
+	{
+		return m_APIClient.Get("/count_collections?tenant=" + m_Tenant + "&database=" + m_Database);
+	}
+
 } // namespace chromadb
