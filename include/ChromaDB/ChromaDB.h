@@ -7,3 +7,4 @@
 #include "Exception.h"
 
 #include "Embeddings/JinaEmbeddingFunction.h"
+#include "Embeddings/OpenAIEmbeddingFunction.h"

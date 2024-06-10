@@ -17,9 +17,9 @@ namespace chromadb {
 	public:
 		EmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& baseUrl, const std::string& path);
 
-		virtual std::vector<std::vector<double>> Generate(const std::vector<std::string>& documents) = 0;
+		nlohmann::json Request(const nlohmann::json& body);
 
-		virtual nlohmann::json Request(const nlohmann::json& body) = 0;
+		virtual std::vector<std::vector<double>> Generate(const std::vector<std::string>& documents) = 0;
 	protected:
 		std::string m_BaseUrl;
 		std::string m_Path;

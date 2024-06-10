@@ -1,13 +1,13 @@
-#include "ChromaDB/Embeddings/JinaEmbeddingFunction.h"
+#include "ChromaDB/Embeddings/OpenAIEmbeddingFunction.h"
 
 namespace chromadb {
 
-	JinaEmbeddingFunction::JinaEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& baseUrl, const std::string& path)
+	OpenAIEmbeddingFunction::OpenAIEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& baseUrl, const std::string& path)
 		: EmbeddingFunction(apiKey, model, baseUrl, path)
 	{
 	}
 
-	std::vector<std::vector<double>> JinaEmbeddingFunction::Generate(const std::vector<std::string>& documents)
+	std::vector<std::vector<double>> OpenAIEmbeddingFunction::Generate(const std::vector<std::string>& documents)
 	{
 		nlohmann::json body = {
 			{ "input", documents },
