@@ -83,11 +83,27 @@ namespace chromadb {
 		auto json = m_APIClient.Get("/collections/" + name + "?tenant=" + m_Tenant + "&database=" + m_Database);
 
 		std::unordered_map<std::string, std::string> metadata;
-		if (!json["metadata"].is_null()) {
+		if (!json["metadata"].is_null())
 			metadata = json["metadata"].get<std::unordered_map<std::string, std::string>>();
-		}
 
 		return Collection(json["name"], json["id"], metadata, embeddingFunction);
+	}
+
+	std::vector<Collection> Client::GetCollections(std::shared_ptr<EmbeddingFunction> embeddingFunction)
+	{
+		auto json = m_APIClient.Get("/collections?tenant=" + m_Tenant + "&database=" + m_Database);
+
+		std::vector<Collection> collections;
+		for (const auto& collection : json)
+		{
+			std::unordered_map<std::string, std::string> metadata;
+			if (!collection["metadata"].is_null())
+				metadata = collection["metadata"].get<std::unordered_map<std::string, std::string>>();
+
+			collections.push_back(Collection(collection["name"], collection["id"], metadata, embeddingFunction));
+		}
+
+		return collections;
 	}
 
 	size_t Client::GetCollectionCount()

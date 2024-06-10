@@ -29,6 +29,8 @@ namespace chromadb {
 
 		Collection GetCollection(const std::string& name, std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
 
+		std::vector<Collection> GetCollections(std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
+
 		size_t GetCollectionCount();
 
 		void DeleteCollection(const std::string& name);
