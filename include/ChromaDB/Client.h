@@ -41,7 +41,6 @@ namespace chromadb {
 
 		std::string m_Database;
 		std::string m_Tenant;
-		std::vector<std::vector<std::string>> m_Metadata;
 	private:
 		void Initialize();
 
