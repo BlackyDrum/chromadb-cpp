@@ -17,11 +17,21 @@ namespace chromadb {
 		std::string GetVersion();
 
 		size_t GetHeartbeat();
+
+		std::string GetDatabase() const { return m_Database; }
+
+		std::string GetTenant() const { return m_Tenant; }
 	private:
 		APIClient m_APIClient;
 
 		std::string m_Database;
 		std::string m_Tenant;
+	private:
+		void Initialize();
+
+		void CreateTenant();
+
+		void CreateDatabase();
 	};
 
 } // namespace chromadb
