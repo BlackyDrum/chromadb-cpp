@@ -87,7 +87,7 @@ namespace chromadb {
 			metadata = json["metadata"].get<std::unordered_map<std::string, std::string>>();
 		}
 
-		return Collection(json["id"], json["name"], metadata, embeddingFunction);
+		return Collection(json["name"], json["id"], metadata, embeddingFunction);
 	}
 
 	size_t Client::GetCollectionCount()
@@ -98,6 +98,21 @@ namespace chromadb {
 	void Client::DeleteCollection(const std::string& name)
 	{
 		m_APIClient.Delete("/collections/" + name + "?tenant=" + m_Tenant + "&database=" + m_Database);
+	}
+
+	void Client::UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata)
+	{
+		nlohmann::json json = {
+			{ "new_name", newName },
+			{ "new_metadata", newMetadata }
+		};
+
+		if (newMetadata.empty())
+			json.erase("metadata");
+
+		Collection oldCollection = this->GetCollection(oldName);
+
+		m_APIClient.Put("/collections/" + oldCollection.GetId() + "?tenant=" + m_Tenant + "&database=" + m_Database, json);
 	}
 
 } // namespace chromadb

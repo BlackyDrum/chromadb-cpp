@@ -32,6 +32,8 @@ namespace chromadb {
 		size_t GetCollectionCount();
 
 		void DeleteCollection(const std::string& name);
+
+		void UpdateCollection(const std::string & oldName, const std::string & newName, const std::unordered_map<std::string, std::string>& newMetadata = {});
 	private:
 		APIClient m_APIClient;
 

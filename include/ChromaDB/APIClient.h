@@ -20,8 +20,9 @@ namespace chromadb {
 
 		nlohmann::json Post(const std::string& endpoint, const nlohmann::json& body);
 
-		nlohmann::json Delete(const std::string& endpoint);
+		nlohmann::json Put(const std::string& endpoint, const nlohmann::json& body);
 
+		nlohmann::json Delete(const std::string& endpoint);
 	private:
 		std::string m_Scheme;
 		std::string m_Host;

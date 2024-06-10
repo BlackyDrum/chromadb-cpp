@@ -51,6 +51,30 @@ namespace chromadb {
         throw ChromaException(httplib::to_string(res.error()));
     }
 
+    nlohmann::json APIClient::Put(const std::string& endpoint, const nlohmann::json& body)
+    {
+		httplib::Client client(m_BaseUrl);
+		httplib::SSLClient sslClient(m_Host);
+
+		bool https = m_Scheme == "https";
+
+        nlohmann::json headers = {
+			{ "Content-Type", "application/json" },
+			{ "Authorization", "Bearer " + m_AuthToken },
+		};
+
+		auto res = https ? sslClient.Put(m_Prefix + endpoint, headers, body.dump(), "application/json") : client.Put(m_Prefix + endpoint, headers, body.dump(), "application/json");
+        if (res)
+        {
+			if (res->status == httplib::OK_200)
+				return nlohmann::json::parse(res->body);
+
+			throw ChromaException(res->body);
+		}
+
+		throw ChromaException(httplib::to_string(res.error()));
+	}
+
     nlohmann::json APIClient::Delete(const std::string& endpoint)
     {
         httplib::Client client(m_BaseUrl);
