@@ -3,8 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-#main
+# main
 main.cpp
+
+# Build Files
+/build
 
 # User-specific files
 *.rsuser
