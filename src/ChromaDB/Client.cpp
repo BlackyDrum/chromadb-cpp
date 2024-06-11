@@ -156,6 +156,15 @@ namespace chromadb {
 		return m_APIClient.Get("/collections/" + collection.GetId() + "/count");
 	}
 
+	void Client::DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids)
+	{
+		nlohmann::json json = {
+			{ "ids", ids },
+		};
+
+		m_APIClient.Post("/collections/" + collection.GetId() + "/delete", json);
+	}
+
 	// Source for this function: https://github.com/CodeWithKyrian/chromadb-php
 	Client::ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
 	{
