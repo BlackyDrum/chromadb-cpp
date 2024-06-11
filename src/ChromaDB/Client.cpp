@@ -151,6 +151,11 @@ namespace chromadb {
 		m_APIClient.Post("/collections/" + collection.GetId() + "/add", json);
 	}
 
+	size_t Client::GetEmbeddingCount(const Collection& collection)
+	{
+		return m_APIClient.Get("/collections/" + collection.GetId() + "/count");
+	}
+
 	// Source for this function: https://github.com/CodeWithKyrian/chromadb-php
 	Client::ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
 	{
