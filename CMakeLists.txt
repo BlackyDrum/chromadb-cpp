@@ -43,6 +43,4 @@ install(TARGETS chromadb
 install(DIRECTORY include/ChromaDB/Embeddings DESTINATION include/ChromaDB)
 install(DIRECTORY include/Http/ DESTINATION include/Http)
 install(DIRECTORY include/Json/ DESTINATION include/Json)
-install(DIRECTORY include/OpenSSL/include/ DESTINATION include/)
-install(DIRECTORY include/OpenSSL/lib/ DESTINATION lib/)
 install(FILES include/ChromaDB/APIClient.h include/ChromaDB/Utils.h include/ChromaDB/Client.h include/ChromaDB/Collection.h include/ChromaDB/Exception.h DESTINATION include/ChromaDB)
