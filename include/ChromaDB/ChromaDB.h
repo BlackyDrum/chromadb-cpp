@@ -6,5 +6,6 @@
 
 #include "Exception.h"
 
+#include "Embeddings/EmbeddingResource.h"
 #include "Embeddings/JinaEmbeddingFunction.h"
 #include "Embeddings/OpenAIEmbeddingFunction.h"

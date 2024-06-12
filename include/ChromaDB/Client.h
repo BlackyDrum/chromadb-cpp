@@ -4,6 +4,8 @@
 #include "ChromaDB/Collection.h"
 #include "ChromaDB/Utils.h"
 
+#include "Embeddings/EmbeddingResource.h"
+
 #include "Http/httplib.h"
 #include "Json/json.h"
 
@@ -44,6 +46,8 @@ namespace chromadb {
 		size_t GetEmbeddingCount(const Collection& collection);
 
 		void DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids);
+
+		std::vector<EmbeddingResource> GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids = {}, const std::vector<std::string>& include = { "metadatas", "documents" });
 	private:
 		APIClient m_APIClient;
 

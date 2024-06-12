@@ -138,7 +138,7 @@ namespace chromadb {
 		nlohmann::json json = {
 			{ "ids", validationResult.ids },
 			{ "embeddings", validationResult.embeddings },
-			{ "metadata", validationResult.metadatas },
+			{ "metadatas", validationResult.metadatas },
 			{ "documents", validationResult.documents }
 		};
 
@@ -211,6 +211,42 @@ namespace chromadb {
 		}
 
 		return { validatedIds, finalEmbeddings, metadata, documents };
+	}
+
+	std::vector<EmbeddingResource> Client::GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::string>& include)
+	{
+		nlohmann::json json = {
+			{ "ids", ids },
+			{ "include", include }
+		};
+
+		if (ids.empty())
+			json.erase("ids");
+
+		if (include.empty())
+			json.erase("include");
+
+		auto response = m_APIClient.Post("/collections/" + collection.GetId() + "/get", json);
+
+		std::vector<EmbeddingResource> embeddings;
+		for (size_t i = 0; i < response["ids"].size(); i++)
+		{
+			EmbeddingResource embedding;
+			embedding.id = response["ids"][i];
+
+			if (!response["embeddings"].is_null() && !response["embeddings"][i].is_null())
+				embedding.embeddings = response["embeddings"][i].get<std::vector<double>>();
+
+			if (!response["metadatas"].is_null() && !response["metadatas"][i].is_null())
+				embedding.metadata = response["metadatas"][i].get<std::unordered_map<std::string, std::string>>();
+
+			if (!response["documents"].is_null() && !response["documents"][i].is_null())
+				embedding.document = response["documents"][i];
+
+			embeddings.push_back(embedding);
+		}
+
+		return embeddings;
 	}
 
 } // namespace chromadb
