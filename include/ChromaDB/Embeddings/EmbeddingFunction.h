@@ -23,7 +23,6 @@ namespace chromadb {
 		std::string m_Path;
 		std::string m_ApiKey;
 		std::string m_Model;
-
 	protected:
 		nlohmann::json Request(const nlohmann::json& body);
 	};

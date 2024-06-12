@@ -11,10 +11,10 @@
 
 namespace chromadb {
 
-	class APIClient
+	class ChromaApiClient
 	{
 	public:
-		APIClient(const std::string& scheme, const std::string& host, const std::string& port, const std::string& authToken);
+		ChromaApiClient(const std::string& scheme, const std::string& host, const std::string& port, const std::string& authToken);
 
 		nlohmann::json Get(const std::string& endpoint);
 

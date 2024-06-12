@@ -1,14 +1,14 @@
-#include "ChromaDB/APIClient.h"
+#include "ChromaDB/ChromaApiClient.h"
 
 namespace chromadb {
 
-	APIClient::APIClient(const std::string& scheme, const std::string& host, const std::string& port, const std::string& authToken)
+	ChromaApiClient::ChromaApiClient(const std::string& scheme, const std::string& host, const std::string& port, const std::string& authToken)
 		: m_Scheme(scheme), m_Host(host), m_Port(port), m_AuthToken(authToken)
 	{
         m_BaseUrl = m_Scheme + "://" + m_Host + ":" + m_Port;
 	}
 
-    nlohmann::json APIClient::Get(const std::string& endpoint)
+    nlohmann::json ChromaApiClient::Get(const std::string& endpoint)
     {
         httplib::Client client(m_BaseUrl);
         httplib::SSLClient sslClient(m_Host);
@@ -27,7 +27,7 @@ namespace chromadb {
         throw ChromaException(httplib::to_string(res.error()));
     }
 
-    nlohmann::json APIClient::Post(const std::string& endpoint, const nlohmann::json& body)
+    nlohmann::json ChromaApiClient::Post(const std::string& endpoint, const nlohmann::json& body)
     {
         httplib::Client client(m_BaseUrl);
         httplib::SSLClient sslClient(m_Host);
@@ -51,7 +51,7 @@ namespace chromadb {
         throw ChromaException(httplib::to_string(res.error()));
     }
 
-    nlohmann::json APIClient::Put(const std::string& endpoint, const nlohmann::json& body)
+    nlohmann::json ChromaApiClient::Put(const std::string& endpoint, const nlohmann::json& body)
     {
 		httplib::Client client(m_BaseUrl);
 		httplib::SSLClient sslClient(m_Host);
@@ -75,7 +75,7 @@ namespace chromadb {
 		throw ChromaException(httplib::to_string(res.error()));
 	}
 
-    nlohmann::json APIClient::Delete(const std::string& endpoint)
+    nlohmann::json ChromaApiClient::Delete(const std::string& endpoint)
     {
         httplib::Client client(m_BaseUrl);
         httplib::SSLClient sslClient(m_Host);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ChromaDB/APIClient.h"
+#include "ChromaDB/ChromaApiClient.h"
 #include "ChromaDB/Collection.h"
 #include "ChromaDB/Utils.h"
 #include "ChromaDB/QueryResponseResource.h"
@@ -33,30 +33,30 @@ namespace chromadb {
 		Collection CreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata = {}, std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
 
 		Collection GetCollection(const std::string& name, std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
-
+		
 		std::vector<Collection> GetCollections(std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
-
+		
 		size_t GetCollectionCount();
-
+		
+		void UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata = {});
+		
 		void DeleteCollection(const std::string& name);
-
-		void UpdateCollection(const std::string & oldName, const std::string & newName, const std::unordered_map<std::string, std::string>& newMetadata = {});
 
 		void AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 
+		std::vector<EmbeddingResource> GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids = {}, const std::vector<std::string>& include = { "metadatas", "documents" });
+		
+		size_t GetEmbeddingCount(const Collection& collection);
+		
 		void UpdateEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 
 		void UpsertEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 
-		size_t GetEmbeddingCount(const Collection& collection);
-
 		void DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids);
-
-		std::vector<EmbeddingResource> GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids = {}, const std::vector<std::string>& include = { "metadatas", "documents" });
 
 		std::vector<QueryResponseResource> Query(const Collection& collection, const std::vector<std::string>& queryDocuments = {}, const std::vector<std::vector<double>>& queryEmbeddings = {}, size_t nResults = 10, const std::vector<std::string>& include = { "metadatas", "documents", "embeddings", "distances" });
 	private:
-		APIClient m_APIClient;
+		ChromaApiClient m_ChromaApiClient;
 
 		std::string m_Database;
 		std::string m_Tenant;
