@@ -133,7 +133,7 @@ namespace chromadb {
 
 	void Client::AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
 	{
-		ValidationResult validationResult = this->Validate(collection, ids, embeddings, metadata, documents);
+		ValidationResult validationResult = this->Validate(collection, ids, embeddings, metadata, documents, true);
 
 		nlohmann::json json = {
 			{ "ids", validationResult.ids },
@@ -149,6 +149,26 @@ namespace chromadb {
 			json.erase("documents");
 
 		m_APIClient.Post("/collections/" + collection.GetId() + "/add", json);
+	}
+
+	void Client::UpdateEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
+	{
+		ValidationResult validationResult = this->Validate(collection, ids, embeddings, metadata, documents, false);
+
+		nlohmann::json json = {
+			{ "ids", validationResult.ids },
+			{ "embeddings", validationResult.embeddings },
+			{ "metadatas", validationResult.metadatas },
+			{ "documents", validationResult.documents }
+		};
+
+		if (validationResult.metadatas.empty())
+			json.erase("metadata");
+
+		if (validationResult.documents.empty())
+			json.erase("documents");
+
+		m_APIClient.Post("/collections/" + collection.GetId() + "/update", json);
 	}
 
 	size_t Client::GetEmbeddingCount(const Collection& collection)
@@ -167,16 +187,19 @@ namespace chromadb {
 	}
 
 	// Source for this function: https://github.com/CodeWithKyrian/chromadb-php
-	Client::ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
+	Client::ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents, bool requireEmbeddingsOrDocuments)
 	{
-		if (embeddings.empty() && documents.empty())
-			throw ChromaException("You must provide either embeddings or documents");
+		if (requireEmbeddingsOrDocuments)
+		{
+			if (embeddings.empty() && documents.empty())
+				throw ChromaException("You must provide either embeddings or documents");
+		}
 
 		if ((!embeddings.empty() && embeddings.size() != ids.size()) || (!metadata.empty() && metadata.size() != ids.size()) || (!documents.empty() && documents.size() != ids.size()))
 			throw ChromaException("The number of ids, embeddings, metadatas and documents must be the same");
 
 		std::vector<std::vector<double>> finalEmbeddings;
-		if (embeddings.empty())
+		if (requireEmbeddingsOrDocuments && embeddings.empty())
 		{
 			if (collection.m_EmbeddingFunction == nullptr)
 				throw ChromaException("You must provide an embedding function if you did not provide embeddings");

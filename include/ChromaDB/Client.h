@@ -43,6 +43,8 @@ namespace chromadb {
 
 		void AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 
+		void UpdateEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
+
 		size_t GetEmbeddingCount(const Collection& collection);
 
 		void DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids);
@@ -68,7 +70,7 @@ namespace chromadb {
 
 		void CreateDatabase();
 
-		ValidationResult Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents);
+		ValidationResult Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents, bool requireEmbeddingsOrDocuments);
 	};
 
 } // namespace chromadb
