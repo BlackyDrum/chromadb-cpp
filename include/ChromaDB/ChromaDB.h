@@ -3,6 +3,7 @@
 #include "ChromaDB/ChromaDB.h"
 #include "ChromaDB/Client.h"
 #include "ChromaDB/Collection.h"
+#include "ChromaDB/QueryResponseResource.h"
 
 #include "Exception.h"
 

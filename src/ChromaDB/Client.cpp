@@ -294,4 +294,74 @@ namespace chromadb {
 		return embeddings;
 	}
 
+	// TODO: Add 'where' and 'where_document' parameters
+	std::vector<QueryResponseResource> Client::Query(const Collection& collection, const std::vector<std::string>& queryTexts, const std::vector<std::vector<double>>& queryEmbeddings, size_t nResults, const std::vector<std::string>& include)
+	{
+		if (!((!queryEmbeddings.empty() && queryTexts.empty()) || (queryEmbeddings.empty() && !queryTexts.empty()) || (queryEmbeddings.empty() && queryTexts.empty())))
+			throw ChromaException("You must provide only one of queryEmbeddings or queryTexts");
+
+		std::vector<std::vector<double>> finalEmbeddings;
+		if (queryEmbeddings.empty())
+		{
+			if (collection.m_EmbeddingFunction == nullptr)
+				throw ChromaException("You must provide an embedding function if you did not provide embeddings");
+			if (!queryTexts.empty())
+				finalEmbeddings = collection.m_EmbeddingFunction->Generate(queryTexts);
+			else
+				throw ChromaException("If you did not provide embeddings, you must provide texts");
+		}
+		else
+		{
+			finalEmbeddings = queryEmbeddings;
+		}
+
+		nlohmann::json json = {
+			{ "query_embeddings", finalEmbeddings },
+			{ "n_results", nResults },
+			{ "include", include }
+		};
+
+		auto response = m_APIClient.Post("/collections/" + collection.GetId() + "/query", json);
+
+		std::vector<QueryResponseResource> queryResponses;
+		for (size_t i = 0; i < response["ids"].size(); i++)
+		{
+			QueryResponseResource queryResponse;
+
+			queryResponse.ids = response["ids"][i].get<std::vector<std::string>>();
+
+			if (!response["embeddings"].is_null() && !response["embeddings"][i].is_null())
+				queryResponse.embeddings = response["embeddings"][i].get<std::vector<std::vector<double>>>();
+
+			if (!response["metadatas"].is_null() && !response["metadatas"][i].is_null())
+			{
+				for (const auto& metadata : response["metadatas"][i])
+				{
+					if (!metadata.is_null())
+						queryResponse.metadatas.push_back(metadata.get<std::unordered_map<std::string, std::string>>());
+					else
+						queryResponse.metadatas.push_back({});
+				}
+			}
+
+			if (!response["documents"].is_null() && !response["documents"][i].is_null())
+			{
+				for (const auto& document : response["documents"][i])
+				{
+					if (!document.is_null())
+						queryResponse.documents.push_back(document.get<std::string>());
+					else
+						queryResponse.documents.push_back("");
+				}
+			}
+			
+			if (!response["distances"].is_null() && !response["distances"][i].is_null())
+				queryResponse.distances = response["distances"][i].get<std::vector<double>>();
+
+			queryResponses.push_back(queryResponse);
+		}
+
+		return queryResponses;
+	}
+
 } // namespace chromadb

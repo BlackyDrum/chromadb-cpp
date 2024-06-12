@@ -3,6 +3,7 @@
 #include "ChromaDB/APIClient.h"
 #include "ChromaDB/Collection.h"
 #include "ChromaDB/Utils.h"
+#include "ChromaDB/QueryResponseResource.h"
 
 #include "Embeddings/EmbeddingResource.h"
 
@@ -52,6 +53,8 @@ namespace chromadb {
 		void DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids);
 
 		std::vector<EmbeddingResource> GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids = {}, const std::vector<std::string>& include = { "metadatas", "documents" });
+
+		std::vector<QueryResponseResource> Query(const Collection& collection, const std::vector<std::string>& queryDocuments = {}, const std::vector<std::vector<double>>& queryEmbeddings = {}, size_t nResults = 10, const std::vector<std::string>& include = { "metadatas", "documents", "embeddings", "distances" });
 	private:
 		APIClient m_APIClient;
 
