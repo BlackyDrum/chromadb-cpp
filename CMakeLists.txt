@@ -2,9 +2,13 @@ cmake_minimum_required(VERSION 3.10)
 project(chromadb VERSION 0.0.1)
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+if (MSVC)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+endif()
 
 include_directories(include)
 
@@ -44,3 +48,24 @@ install(DIRECTORY include/ChromaDB/Embeddings DESTINATION include/ChromaDB)
 install(DIRECTORY include/Http/ DESTINATION include/Http)
 install(DIRECTORY include/Json/ DESTINATION include/Json)
 install(FILES include/ChromaDB/ChromaApiClient.h include/ChromaDB/QueryResponseResource.h include/ChromaDB/Utils.h include/ChromaDB/Client.h include/ChromaDB/Collection.h include/ChromaDB/Exception.h DESTINATION include/ChromaDB)
+
+# Add Google Test
+add_subdirectory(googletest)
+
+# Enable testing
+enable_testing()
+
+# Add the test executable
+add_executable(runTests tests/test_main.cpp tests/test_client.cpp)
+
+# Ensure Google Test uses the same runtime library
+if (MSVC)
+    set_target_properties(gtest PROPERTIES COMPILE_FLAGS "/MD")
+    set_target_properties(gtest_main PROPERTIES COMPILE_FLAGS "/MD")
+endif()
+
+# Link the test executable against Google Test and the project library
+target_link_libraries(runTests gtest gtest_main chromadb OpenSSL::SSL OpenSSL::Crypto)
+
+# Add tests to CTest
+add_test(NAME ClientTest COMMAND runTests)
