@@ -171,6 +171,26 @@ namespace chromadb {
 		m_APIClient.Post("/collections/" + collection.GetId() + "/update", json);
 	}
 
+	void Client::UpsertEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
+	{
+		ValidationResult validationResult = this->Validate(collection, ids, embeddings, metadata, documents, true);
+
+		nlohmann::json json = {
+			{ "ids", validationResult.ids },
+			{ "embeddings", validationResult.embeddings },
+			{ "metadatas", validationResult.metadatas },
+			{ "documents", validationResult.documents }
+		};
+
+		if (validationResult.metadatas.empty())
+			json.erase("metadata");
+
+		if (validationResult.documents.empty())
+			json.erase("documents");
+
+		m_APIClient.Post("/collections/" + collection.GetId() + "/upsert", json);
+	}
+
 	size_t Client::GetEmbeddingCount(const Collection& collection)
 	{
 		return m_APIClient.Get("/collections/" + collection.GetId() + "/count");

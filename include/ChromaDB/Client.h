@@ -45,6 +45,8 @@ namespace chromadb {
 
 		void UpdateEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 
+		void UpsertEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
+
 		size_t GetEmbeddingCount(const Collection& collection);
 
 		void DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids);
