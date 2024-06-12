@@ -5,6 +5,7 @@
 
 # main
 main.cpp
+!examples/src/main.cpp
 
 # Build Files
 /build
