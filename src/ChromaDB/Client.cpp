@@ -156,6 +156,7 @@ namespace chromadb {
 		return m_APIClient.Get("/collections/" + collection.GetId() + "/count");
 	}
 
+	// TODO: Add 'where' and 'where_document' parameters
 	void Client::DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids)
 	{
 		nlohmann::json json = {
@@ -213,6 +214,7 @@ namespace chromadb {
 		return { validatedIds, finalEmbeddings, metadata, documents };
 	}
 
+	// TODO: Add 'where' and 'where_document' parameters
 	std::vector<EmbeddingResource> Client::GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::string>& include)
 	{
 		nlohmann::json json = {
