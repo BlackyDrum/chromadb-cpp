@@ -18,6 +18,8 @@ namespace chromadb {
 		std::unordered_map<std::string, std::string> GetMetadata() const { return m_Metadata; }
 
 		void SetEmbeddingFunction(std::shared_ptr<EmbeddingFunction> embeddingFunction) { m_EmbeddingFunction = embeddingFunction; }
+
+		std::shared_ptr<EmbeddingFunction> GetEmbeddingFunction() const { return m_EmbeddingFunction; }
 	private:
 		std::string m_Name;
 		std::string m_Id;

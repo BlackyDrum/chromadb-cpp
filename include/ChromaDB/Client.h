@@ -38,7 +38,7 @@ namespace chromadb {
 		
 		size_t GetCollectionCount();
 		
-		void UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata = {});
+		Collection UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata = {});
 		
 		void DeleteCollection(const std::string& name);
 

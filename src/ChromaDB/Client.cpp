@@ -124,7 +124,7 @@ namespace chromadb {
 			this->DeleteCollection(collection.GetName());
 	}
 
-	void Client::UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata)
+	Collection Client::UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata)
 	{
 		nlohmann::json json = {
 			{ "new_name", newName },
@@ -137,6 +137,8 @@ namespace chromadb {
 		Collection oldCollection = this->GetCollection(oldName);
 
 		m_ChromaApiClient.Put("/collections/" + oldCollection.GetId() + "?tenant=" + m_Tenant + "&database=" + m_Database, json);
+
+		return this->GetCollection(newName, oldCollection.GetEmbeddingFunction());
 	}
 
 	void Client::AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
