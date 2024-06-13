@@ -2,13 +2,13 @@
 
 namespace chromadb {
 
-	struct QueryResponseResource
-	{
-		std::vector<std::string> ids;
-		std::vector<std::vector<double>> embeddings;
-		std::vector<std::unordered_map<std::string, std::string>> metadatas;
-		std::vector<std::string> documents;
-		std::vector<double> distances;
-	};
+    struct QueryResponseResource
+    {
+        std::shared_ptr<const std::vector<std::string>> ids;
+        std::shared_ptr<const std::vector<std::vector<double>>> embeddings;
+        std::shared_ptr<const std::vector<std::unordered_map<std::string, std::string>>> metadatas;
+        std::shared_ptr<const std::vector<std::string>> documents;
+        std::shared_ptr<const std::vector<double>> distances;
+    };
 
 } // namespace chromadb

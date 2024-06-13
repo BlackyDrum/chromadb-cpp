@@ -285,35 +285,41 @@ namespace chromadb {
 		{
 			QueryResponseResource queryResponse;
 
-			queryResponse.ids = response["ids"][i].get<std::vector<std::string>>();
+			queryResponse.ids = std::make_shared<std::vector<std::string>>(response["ids"][i].get<std::vector<std::string>>());
 
 			if (!response["embeddings"].is_null() && !response["embeddings"][i].is_null())
-				queryResponse.embeddings = response["embeddings"][i].get<std::vector<std::vector<double>>>();
+				queryResponse.embeddings = std::make_shared<std::vector<std::vector<double>>>(response["embeddings"][i].get<std::vector<std::vector<double>>>());
 
 			if (!response["metadatas"].is_null() && !response["metadatas"][i].is_null())
 			{
+				auto metadatas = std::make_shared<std::vector<std::unordered_map<std::string, std::string>>>();
 				for (const auto& metadata : response["metadatas"][i])
 				{
 					if (!metadata.is_null())
-						queryResponse.metadatas.push_back(metadata.get<std::unordered_map<std::string, std::string>>());
+						metadatas->push_back(metadata.get<std::unordered_map<std::string, std::string>>());
 					else
-						queryResponse.metadatas.push_back({});
+						metadatas->push_back({});
 				}
+
+				queryResponse.metadatas = std::const_pointer_cast<const std::vector<std::unordered_map<std::string, std::string>>>(metadatas);
 			}
 
 			if (!response["documents"].is_null() && !response["documents"][i].is_null())
 			{
+				auto documents = std::make_shared<std::vector<std::string>>();
 				for (const auto& document : response["documents"][i])
 				{
 					if (!document.is_null())
-						queryResponse.documents.push_back(document.get<std::string>());
+						documents->push_back(document.get<std::string>());
 					else
-						queryResponse.documents.push_back("");
+						documents->push_back("");
 				}
+
+				queryResponse.documents = std::const_pointer_cast<const std::vector<std::string>>(documents);
 			}
-			
+
 			if (!response["distances"].is_null() && !response["distances"][i].is_null())
-				queryResponse.distances = response["distances"][i].get<std::vector<double>>();
+				queryResponse.distances = std::make_shared<std::vector<double>>(response["distances"][i].get<std::vector<double>>());
 
 			queryResponses.push_back(queryResponse);
 		}
