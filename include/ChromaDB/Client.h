@@ -46,7 +46,7 @@ namespace chromadb {
 
 		void AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 
-		std::vector<EmbeddingResource> GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids = {}, const std::vector<std::string>& include = { "metadatas", "documents" });
+		std::vector<EmbeddingResource> GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids = {}, const std::vector<std::string>& include = { "metadatas", "documents" }, const nlohmann::json& where_document = {});
 		
 		size_t GetEmbeddingCount(const Collection& collection);
 		
@@ -54,9 +54,9 @@ namespace chromadb {
 
 		void UpsertEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 
-		void DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids);
+		void DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const nlohmann::json& where_document = {});
 
-		std::vector<QueryResponseResource> Query(const Collection& collection, const std::vector<std::string>& queryDocuments = {}, const std::vector<std::vector<double>>& queryEmbeddings = {}, size_t nResults = 10, const std::vector<std::string>& include = { "metadatas", "documents", "embeddings", "distances" });
+		std::vector<QueryResponseResource> Query(const Collection& collection, const std::vector<std::string>& queryDocuments = {}, const std::vector<std::vector<double>>& queryEmbeddings = {}, size_t nResults = 10, const std::vector<std::string>& include = { "metadatas", "documents", "embeddings", "distances" }, const nlohmann::json& where_document = {});
 	private:
 		ChromaApiClient m_ChromaApiClient;
 
