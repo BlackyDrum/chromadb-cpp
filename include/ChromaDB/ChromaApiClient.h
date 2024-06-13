@@ -14,14 +14,60 @@ namespace chromadb {
 	class ChromaApiClient
 	{
 	public:
+		/*
+		* @brief Construct a new ChromaApiClient object
+		* 
+		* @param scheme The scheme of the server (http or https)
+		* @param host The host of the server
+		* @param port The port of the server
+		* @param authToken The authorization token to use
+		*/
 		ChromaApiClient(const std::string& scheme, const std::string& host, const std::string& port, const std::string& authToken);
 
+		/*
+		* @brief Make a GET request to the server
+		* 
+		* @param endpoint The endpoint to make the request to
+		* 
+		* @return nlohmann::json The response from the server
+		* 
+		* @throw ChromaException if something goes wrong
+		*/
 		nlohmann::json Get(const std::string& endpoint);
 
+		/*
+		* @brief Make a POST request to the server
+		* 
+		* @param endpoint The endpoint to make the request to
+		* @param body The body of the request
+		* 
+		* @return nlohmann::json The response from the server
+		* 
+		* @throw ChromaException if something goes wrong
+		*/
 		nlohmann::json Post(const std::string& endpoint, const nlohmann::json& body);
 
+		/*
+		* @brief Make a PUT request to the server
+		* 
+		* @param endpoint The endpoint to make the request to
+		* @param body The body of the request
+		* 
+		* @return nlohmann::json The response from the server
+		* 
+		* @throw ChromaException if something goes wrong
+		*/
 		nlohmann::json Put(const std::string& endpoint, const nlohmann::json& body);
 
+		/*
+		* @brief Make a DELETE request to the server
+		* 
+		* @param endpoint The endpoint to make the request to
+		* 
+		* @return nlohmann::json The response from the server
+		* 
+		* @throw ChromaException if something goes wrong
+		*/
 		nlohmann::json Delete(const std::string& endpoint);
 	private:
 		std::string m_Scheme;

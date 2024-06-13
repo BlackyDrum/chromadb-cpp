@@ -11,14 +11,39 @@ namespace chromadb {
 	class Collection
 	{
 	public:
+		/*
+		* @brief Get the name of the collection
+		* 
+		* @return std::string The name of the collection
+		*/
 		std::string GetName() const { return m_Name; }
 
+		/*
+		* @brief Get the id of the collection
+		* 
+		* @return std::string The id of the collection
+		*/
 		std::string GetId() const { return m_Id; }
 
+		/*
+		* @brief Get the metadata of the collection
+		* 
+		* @return std::unordered_map<std::string, std::string> The metadata of the collection
+		*/
 		std::unordered_map<std::string, std::string> GetMetadata() const { return m_Metadata; }
 
+		/*
+		* @brief Set the embedding function of the collection
+		* 
+		* @param embeddingFunction The embedding function of the collection
+		*/
 		void SetEmbeddingFunction(std::shared_ptr<EmbeddingFunction> embeddingFunction) { m_EmbeddingFunction = embeddingFunction; }
 
+		/*
+		* @brief Get the embedding function of the collection
+		* 
+		* @return std::shared_ptr<EmbeddingFunction> The embedding function of the collection
+		*/
 		std::shared_ptr<EmbeddingFunction> GetEmbeddingFunction() const { return m_EmbeddingFunction; }
 	private:
 		std::string m_Name;
