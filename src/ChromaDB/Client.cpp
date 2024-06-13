@@ -204,27 +204,30 @@ namespace chromadb {
 		return m_ChromaApiClient.Get("/collections/" + collection.GetId() + "/count");
 	}
 
-	// TODO: Add 'where' parameters
-	void Client::DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const nlohmann::json& where_document)
+	void Client::DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const nlohmann::json& where_document, const nlohmann::json& where)
 	{
 		nlohmann::json json = {
 			{ "ids", ids },
-			{ "where_document", where_document }
+			{ "where_document", where_document },
+			{ "where", where }
 		};
 
 		if (where_document.empty())
 			json.erase("where_document");
 
+		if (where.empty())
+			json.erase("where");
+
 		m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/delete", json);
 	}
 
-	// TODO: Add 'where' parameters
-	std::vector<EmbeddingResource> Client::GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::string>& include, const nlohmann::json& where_document)
+	std::vector<EmbeddingResource> Client::GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::string>& include, const nlohmann::json& where_document, const nlohmann::json& where)
 	{
 		nlohmann::json json = {
 			{ "ids", ids },
 			{ "include", include },
-			{ "where_document", where_document }
+			{ "where_document", where_document },
+			{ "where", where }
 		};
 
 		if (ids.empty())
@@ -235,6 +238,9 @@ namespace chromadb {
 
 		if (where_document.empty())
 			json.erase("where_document");
+
+		if (where.empty())
+			json.erase("where");
 
 		auto response = m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/get", json);
 
@@ -259,8 +265,7 @@ namespace chromadb {
 		return embeddings;
 	}
 
-	// TODO: Add 'where' parameters
-	std::vector<QueryResponseResource> Client::Query(const Collection& collection, const std::vector<std::string>& queryTexts, const std::vector<std::vector<double>>& queryEmbeddings, size_t nResults, const std::vector<std::string>& include, const nlohmann::json& where_document)
+	std::vector<QueryResponseResource> Client::Query(const Collection& collection, const std::vector<std::string>& queryTexts, const std::vector<std::vector<double>>& queryEmbeddings, size_t nResults, const std::vector<std::string>& include, const nlohmann::json& where_document, const nlohmann::json& where)
 	{
 		if (!((!queryEmbeddings.empty() && queryTexts.empty()) || (queryEmbeddings.empty() && !queryTexts.empty()) || (queryEmbeddings.empty() && queryTexts.empty())))
 			throw ChromaException("You must provide only one of queryEmbeddings or queryTexts");
@@ -284,7 +289,8 @@ namespace chromadb {
 			{ "query_embeddings", finalEmbeddings },
 			{ "n_results", nResults },
 			{ "include", include },
-			{ "where_document", where_document }
+			{ "where_document", where_document },
+			{ "where", where }
 		};
 
 		if (include.empty())
@@ -292,6 +298,9 @@ namespace chromadb {
 
 		if (where_document.empty())
 			json.erase("where_document");
+
+		if (where.empty())
+			json.erase("where");
 
 		auto response = m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/query", json);
 
