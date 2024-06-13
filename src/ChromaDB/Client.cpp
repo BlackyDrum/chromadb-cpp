@@ -233,19 +233,19 @@ namespace chromadb {
 		std::vector<EmbeddingResource> embeddings;
 		for (size_t i = 0; i < response["ids"].size(); i++)
 		{
-			EmbeddingResource embedding;
-			embedding.id = response["ids"][i];
-
+			std::shared_ptr<const std::vector<double>> embeddingsPtr;
 			if (!response["embeddings"].is_null() && !response["embeddings"][i].is_null())
-				embedding.embeddings = response["embeddings"][i].get<std::vector<double>>();
+				embeddingsPtr = std::make_shared<const std::vector<double>>(response["embeddings"][i].get<std::vector<double>>());
 
+			std::shared_ptr<const std::unordered_map<std::string, std::string>> metadata;
 			if (!response["metadatas"].is_null() && !response["metadatas"][i].is_null())
-				embedding.metadata = response["metadatas"][i].get<std::unordered_map<std::string, std::string>>();
+				metadata = std::make_shared<const std::unordered_map<std::string, std::string>>(response["metadatas"][i].get<std::unordered_map<std::string, std::string>>());
 
+			std::shared_ptr<const std::string> document;
 			if (!response["documents"].is_null() && !response["documents"][i].is_null())
-				embedding.document = response["documents"][i];
+				document = std::make_shared<const std::string>(response["documents"][i].get<std::string>());
 
-			embeddings.push_back(embedding);
+			embeddings.emplace_back(response["ids"][i], embeddingsPtr, metadata, document);
 		}
 
 		return embeddings;
@@ -285,7 +285,7 @@ namespace chromadb {
 		{
 			QueryResponseResource queryResponse;
 
-			queryResponse.ids = std::make_shared<std::vector<std::string>>(response["ids"][i].get<std::vector<std::string>>());
+			queryResponse.ids = response["ids"][i].get<std::vector<std::string>>();
 
 			if (!response["embeddings"].is_null() && !response["embeddings"][i].is_null())
 				queryResponse.embeddings = std::make_shared<std::vector<std::vector<double>>>(response["embeddings"][i].get<std::vector<std::vector<double>>>());
