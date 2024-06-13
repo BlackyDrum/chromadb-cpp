@@ -42,6 +42,8 @@ namespace chromadb {
 		
 		void DeleteCollection(const std::string& name);
 
+		void DeleteCollections();
+
 		void AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings = {}, const std::vector<std::unordered_map<std::string, std::string>>& metadata = {}, const std::vector<std::string>& documents = {});
 
 		std::vector<EmbeddingResource> GetEmbeddings(const Collection& collection, const std::vector<std::string>& ids = {}, const std::vector<std::string>& include = { "metadatas", "documents" });

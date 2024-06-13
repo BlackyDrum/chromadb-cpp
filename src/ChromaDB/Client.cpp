@@ -116,6 +116,14 @@ namespace chromadb {
 		m_ChromaApiClient.Delete("/collections/" + name + "?tenant=" + m_Tenant + "&database=" + m_Database);
 	}
 
+	void Client::DeleteCollections()
+	{
+		auto collections = this->GetCollections();
+
+		for (const auto& collection : collections)
+			this->DeleteCollection(collection.GetName());
+	}
+
 	void Client::UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata)
 	{
 		nlohmann::json json = {
