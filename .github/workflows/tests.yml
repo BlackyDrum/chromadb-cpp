@@ -22,7 +22,7 @@ jobs:
           - 8081:8000
         env:
             CHROMA_SERVER_AUTHN_CREDENTIALS: authToken
-            CHROMA_SERVER_AUTHN_PROVIDER: chromadb.auth.token.TokenConfigServerAuthCredentialsProvider
+            CHROMA_SERVER_AUTHN_PROVIDER: chromadb.auth.token_authn.TokenAuthenticationServerProvider
 
     steps:
     - name: Checkout code
