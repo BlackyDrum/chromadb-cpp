@@ -15,7 +15,12 @@ namespace chromadb {
 
         bool https = m_Scheme == "https";
 
-        auto res = https ? sslClient.Get(m_Prefix + endpoint) : client.Get(m_Prefix + endpoint);
+        nlohmann::json headers = {
+			{ "Authorization", "Bearer " + m_AuthToken },
+		};
+
+        auto res = https ? sslClient.Get(m_Prefix + endpoint, headers) : client.Get(m_Prefix + endpoint, headers);
+
         if (res)
         {
             if (res->status == httplib::OK_200)
@@ -82,7 +87,11 @@ namespace chromadb {
 
         bool https = m_Scheme == "https";
 
-        auto res = https ? sslClient.Delete(m_Prefix + endpoint) : client.Delete(m_Prefix + endpoint);
+        nlohmann::json headers = {
+            { "Authorization", "Bearer " + m_AuthToken },
+        };
+
+        auto res = https ? sslClient.Delete(m_Prefix + endpoint, headers) : client.Delete(m_Prefix + endpoint, headers);
         if (res)
         {
             if (res->status == httplib::OK_200)
