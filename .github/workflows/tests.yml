@@ -1,0 +1,42 @@
+name: Testing
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      chroma-no-auth:
+        image: chromadb/chroma
+        ports:
+          - 8080:8000
+
+      chroma-with-auth:
+        image: chromadb/chroma
+        ports:
+          - 8081:8000
+        env:
+          CHROMA_SERVER_AUTH_CREDENTIALS: authToken
+          CHROMA_SERVER_AUTH_CREDENTIALS_PROVIDER: chromadb.auth.token.TokenConfigServerAuthCredentialsProvider
+          CHROMA_SERVER_AUTH_PROVIDER: chromadb.auth.token.TokenAuthServerProvider
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y cmake libssl-dev
+
+    - name: Configure CMake
+      run: cmake -S . -B build
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Run tests
+      run: ctest --test-dir build -C Release --output-on-failure
