@@ -50,7 +50,7 @@ install(DIRECTORY include/Json/ DESTINATION include/Json)
 install(FILES include/ChromaDB/ChromaApiClient.h include/ChromaDB/QueryResponseResource.h include/ChromaDB/Utils.h include/ChromaDB/Client.h include/ChromaDB/Collection.h include/ChromaDB/Exception.h DESTINATION include/ChromaDB)
 
 # Add Google Test
-add_subdirectory(googletest)
+add_subdirectory(tests/googletest)
 
 # Enable testing
 enable_testing()
