@@ -2,7 +2,7 @@
 
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 
-#include "Exception.h"
+#include "ChromaDB/Exceptions/Exception.h"
 
 #include "Http/httplib.h"
 #include "Json/json.h"

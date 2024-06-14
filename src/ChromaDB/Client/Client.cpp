@@ -1,4 +1,4 @@
-#include "ChromaDB/Client.h"
+#include "ChromaDB/Client/Client.h"
 
 namespace chromadb {
 

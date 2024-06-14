@@ -16,9 +16,9 @@ find_package(OpenSSL REQUIRED)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
 set(SOURCES
-    src/ChromaDB/ChromaApiClient.cpp
-    src/ChromaDB/Client.cpp
-    src/ChromaDB/Collection.cpp
+    src/ChromaDB/Client/ChromaApiClient.cpp
+    src/ChromaDB/Client/Client.cpp
+    src/ChromaDB/Resources/Collection.cpp
     src/ChromaDB/Embeddings/EmbeddingFunction.cpp
     src/ChromaDB/Embeddings/JinaEmbeddingFunction.cpp
     src/ChromaDB/Embeddings/OpenAIEmbeddingFunction.cpp
@@ -45,9 +45,12 @@ install(TARGETS chromadb
 )
 
 install(DIRECTORY include/ChromaDB/Embeddings DESTINATION include/ChromaDB)
+install(DIRECTORY include/ChromaDB/Exceptions DESTINATION include/ChromaDB)
+install(DIRECTORY include/ChromaDB/Resources DESTINATION include/ChromaDB)
+install(DIRECTORY include/ChromaDB/Utils DESTINATION include/ChromaDB)
+install(DIRECTORY include/ChromaDB/Client DESTINATION include/ChromaDB)
 install(DIRECTORY include/Http/ DESTINATION include/Http)
 install(DIRECTORY include/Json/ DESTINATION include/Json)
-install(FILES include/ChromaDB/ChromaApiClient.h include/ChromaDB/QueryResponseResource.h include/ChromaDB/Utils.h include/ChromaDB/Client.h include/ChromaDB/Collection.h include/ChromaDB/Exception.h DESTINATION include/ChromaDB)
 
 # Add Google Test
 add_subdirectory(tests/googletest)

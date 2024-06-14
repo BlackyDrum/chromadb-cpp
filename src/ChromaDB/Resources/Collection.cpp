@@ -1,4 +1,4 @@
-#include "ChromaDB/Collection.h"
+#include "ChromaDB/Resources/Collection.h"
 
 namespace chromadb {
 

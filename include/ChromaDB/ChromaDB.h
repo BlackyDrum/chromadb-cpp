@@ -1,11 +1,12 @@
 #pragma once
 
-#include "ChromaDB/Client.h"
-#include "ChromaDB/Collection.h"
-#include "ChromaDB/QueryResponseResource.h"
+#include "ChromaDB/Client/Client.h"
+#include "ChromaDB/Resources/Collection.h"
 
-#include "Exception.h"
+#include "ChromaDB/Resources/QueryResponseResource.h"
+#include "ChromaDB/Resources/EmbeddingResource.h"
 
-#include "Embeddings/EmbeddingResource.h"
-#include "Embeddings/JinaEmbeddingFunction.h"
-#include "Embeddings/OpenAIEmbeddingFunction.h"
+#include "ChromaDB/Exceptions/Exception.h"
+
+#include "ChromaDB/Embeddings/JinaEmbeddingFunction.h"
+#include "ChromaDB/Embeddings/OpenAIEmbeddingFunction.h"

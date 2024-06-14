@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ChromaDB/ChromaApiClient.h"
-#include "ChromaDB/Collection.h"
-#include "ChromaDB/Utils.h"
-#include "ChromaDB/QueryResponseResource.h"
+#include "ChromaDB/Client/ChromaApiClient.h"
+#include "ChromaDB/Resources/Collection.h"
+#include "ChromaDB/Utils/Utils.h"
+#include "ChromaDB/Resources/QueryResponseResource.h"
 
-#include "Embeddings/EmbeddingResource.h"
+#include "ChromaDB/Resources/EmbeddingResource.h"
 
 #include "Http/httplib.h"
 #include "Json/json.h"

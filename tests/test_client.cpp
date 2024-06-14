@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
+
 #include "ChromaDB/ChromaDB.h"
-#include "ChromaDB/Collection.h"
 
 using namespace chromadb;
 
