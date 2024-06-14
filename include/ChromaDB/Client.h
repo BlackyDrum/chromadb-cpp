@@ -34,7 +34,6 @@ namespace chromadb {
 		*/
 		Client(const std::string& scheme, const std::string& host, const std::string& port, const std::string& database = "default_database", const std::string& tenant = "default_tenant", const std::string& authToken = "");
 
-
 		/*
 		* @brief Get the version of the server
 		* 
@@ -175,7 +174,7 @@ namespace chromadb {
 		* @param collection The collection
 		* 
 		* @return size_t The count of embeddings
-		* 
+		*	
 		* @throw ChromaException if something goes wrong
 		*/
 		size_t GetEmbeddingCount(const Collection& collection);
