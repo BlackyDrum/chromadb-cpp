@@ -67,5 +67,14 @@ endif()
 # Link the test executable against Google Test and the project library
 target_link_libraries(runTests gtest gtest_main chromadb OpenSSL::SSL OpenSSL::Crypto)
 
+set_target_properties(runTests PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# Add a post-build step to copy the DLL to the output directory
+add_custom_command(TARGET chromadb POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:chromadb> ${CMAKE_BINARY_DIR}/bin
+)
+
 # Add tests to CTest
 add_test(NAME ClientTest COMMAND runTests)
