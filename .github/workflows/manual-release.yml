@@ -1,0 +1,36 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Extract Latest Changelog Entry
+        id: changelog
+        run: |
+          latest_entry=$(awk 'BEGIN {found=0} /^## \[/{if (found) exit} /^## \['${{ github.event.inputs.version }}'\]/{found=1} found' CHANGELOG.md)
+          echo "latest_entry<<EOF" >> $GITHUB_ENV
+          echo "$latest_entry" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          release_name: v${{ github.event.inputs.version }}
+          draft: false
+          prerelease: false
+          body: ${{ env.latest_entry }}
