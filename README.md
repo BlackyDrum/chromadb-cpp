@@ -308,3 +308,61 @@ int main()
 ```
 **Parameters**
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collections.
+
+### Get collection count
+To get the total number of collections in ChromaDB, use the `GetCollectionCount` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    size_t collectionCount = client.GetCollectionCount();
+    std::cout << "Collection count: " << collectionCount << std::endl;
+}
+```
+
+### Update a collection
+To update an existing collection in ChromaDB, use the `UpdateCollection` method. This method allows you to change the name and metadata of a collection.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::string newName = "test_collection_updated";
+    std::unordered_map<std::string, std::string> newMetadata = { {"key3", "value3"}, {"key4", "value4"} };
+    Collection updatedCollection = client.UpdateCollection("test_collection", newName, newMetadata);
+
+    std::cout << updatedCollection.GetName() << std::endl; // "test_collection_updated"
+}
+```
+**Parameters**
+- **oldName**: The old name of the collection to update.
+- **newName**: The new name for the collection.
+- **newMetadata**: (Optional) A map of new metadata key-value pairs for the collection.
+
+### Delete a collection
+To delete an existing collection in ChromaDB, use the `DeleteCollection` method. This method allows you to specify the name of the collection you want to remove.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    client.DeleteCollection("test_collection");
+}
+```
+**Parameters**
+- **name**: The name of the collection to delete.
+
+### Delete all collections
+To delete all existing collections for the current database, use the ``DeleteCollections`` method.
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    client.DeleteCollections();
+}
+```
