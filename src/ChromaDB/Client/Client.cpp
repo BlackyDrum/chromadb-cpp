@@ -505,7 +505,7 @@ namespace chromadb {
 				throw ChromaInvalidArgumentException("IDs must be non-empty strings");
 
 			return id;
-			});
+		});
 
 		std::unordered_set<std::string> uniqueIds(validatedIds.begin(), validatedIds.end());
 		if (uniqueIds.size() != validatedIds.size())
