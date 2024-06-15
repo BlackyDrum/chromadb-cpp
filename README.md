@@ -534,3 +534,136 @@ int main()
     std::cout << queryResponse[1].id << std::endl; // ID3
 }
 ```
+
+The `where_document` filter works similarly to the `where` filter but for filtering documents. It additionally supports the `$contains` filter value for more advanced document filtering:
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    Collection collection = client.CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3", "ID4" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 }, { 10.0, 11.0, 12.0 } };
+    std::vector<std::string> documents = { { "Document1" }, { "Document2Special" }, { "Document3" }, { "Document4" } };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"}, {"key2", "value2"} }, { {"key1", "value2"}, {"key2", "value3"} }, { {"key1", "value3"}, {"key2", "value4"} }, { {"key1", "value4"}, {"key2", "value5"} } };
+
+    client.AddEmbeddings(collection, ids, embeddings, metadatas, documents);
+
+    nlohmann::json where_document = { {"$and", { {{"$contains", "Document2"}}, {{"$contains", "Special"}} }} };
+    auto queryResponse = client.GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, where_document, {});
+	
+    std::cout << queryResponse.size() << std::endl; // 1
+    std::cout << queryResponse[0].id << std::endl; // ID2
+    std::cout << queryResponse[0].embeddings->at(0) << std::endl; // 4.0
+    std::cout << queryResponse[0].embeddings->at(1) << std::endl; // 5.0
+    std::cout << queryResponse[0].embeddings->at(2) << std::endl; // 6.0
+    std::cout << *queryResponse[0].document << std::endl; // Document2Special
+    std::cout << queryResponse[0].metadata->at("key1") << std::endl; // value2
+    std::cout << queryResponse[0].metadata->at("key2") << std::endl; // value3
+}
+```
+> If you need guidance on structuring filters such as the `where` clause, refer to `tests/test_client.cpp` for numerous examples.
+
+### Get Embedding Count from a Collection
+To retrieve the count of embeddings from an existing collection in ChromaDB, use the `GetEmbeddingCount` method. This method provides a straightforward way to determine the number of embeddings in a collection.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    Collection collection = client.CreateCollection("test_collection");
+
+    std::cout << client.GetEmbeddingCount(collection) << std::endl;
+}
+```
+
+**Parameters**
+- **collection**: The collection from which to retrieve the count of embeddings.
+
+### Update Embeddings in a collection
+To update embeddings in an existing collection in ChromaDB, use the `UpdateEmbeddings` method. This method allows you to specify the collection, the IDs of the embeddings to update, and optionally, the new embeddings, metadata, and documents associated with the embeddings.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    Collection collection = client.GetCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2" };
+    std::vector<std::string> new_documents = { "NewDocument1", "NewDocument2" };
+    std::vector<std::unordered_map<std::string, std::string>> new_metadatas = { { {"key1", "NewValue3"}, {"key2", "NewValue4"} }, { {"key1", "NewValue4"}, {"key2", "NewValue5"} } };
+
+    client.UpdateEmbeddings(collection, ids, {}, new_metadatas, new_documents);
+}
+```
+
+**Parameters**
+- **collection**: The collection in which to update embeddings.
+- **ids**: The IDs of the embeddings to update.
+- **embeddings**: (Optional) The new embeddings.
+- **metadata**: (Optional) The new metadata associated with the embeddings.
+- **documents**: (Optional) The new documents associated with the embeddings.
+
+### Delete Embeddings from a Collection
+To delete embeddings from an existing collection in ChromaDB, use the `DeleteEmbeddings` method. This method allows you to specify the collection, the IDs of the embeddings to delete, and optionally, the `where_document` and `where` clauses to filter which embeddings to delete based on document or metadata criteria.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    Collection collection = client.GetCollection("test_collection");
+
+    client.DeleteEmbeddings(collection, { "ID1", "ID3" });
+}
+```
+
+**Parameters**
+- **collection**: The collection from which to delete embeddings.
+- **ids**: The IDs of the embeddings to delete.
+- **where_document**: (Optional) The where clause for filtering which documents to delete.
+- **where**: (Optional) The where clause for filtering which metadata to delete.
+
+### Query a collection
+To query an existing collection in ChromaDB, use the `Query` method. This method allows you to specify the collection, optional query documents, query embeddings, number of results, fields to include in the results, and optional `where_document` and `where` clauses to filter the query based on document or metadata criteria.
+
+> You MUST either provide queryEmbeddings OR queryDocuments. If you provide queryDocuments, you also need to pass an Embedding Function to the collection.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<JinaEmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
+
+    Collection collection = client.GetCollection("test_collection", embeddingFunction); // or collection.SetEmbeddingFunction(embeddingFunction);
+
+    auto queryResponse = client.Query(collection, { "This is a query document" }, {}, 3, { "metadatas", "documents", "embeddings", "distances" });
+
+    for (auto& response : queryResponse)
+    {
+        for (size_t i = 0; i < response.ids.size(); i++)
+        {
+            std::cout << response.ids[i] << std::endl;
+            std::cout << response.documents->at(i).c_str() << std::endl;
+
+            for (auto& metadata : response.metadatas->at(i))
+            {
+                std::cout << metadata.first << ": " << metadata.second << std::endl;
+            }
+        }
+    }
+}
+```
+
+**Parameters**
+- **collection**: The collection to query.
+- **queryDocuments**: (Optional) The documents to query.
+- **queryEmbeddings**: (Optional) The embeddings to query.
+- **nResults**: (Optional) The number of results to return. Defaults to 10.
+- **include**: (Optional) The fields to include in the results (e.g., "metadatas", "documents", "embeddings", "distances").
+- **where_document**: (Optional) The where clause for filtering documents.
+- **where**: (Optional) The where clause for filtering metadata.
