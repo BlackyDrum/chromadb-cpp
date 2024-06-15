@@ -196,6 +196,7 @@ ctest -C Release
 This will execute the tests defined in the `tests` directory, using Google Test.
 
 ## Usage
+> To use ChromaDB in your project, simply include the header file "ChromaDB/ChromaDB.h". This header provides access to the full suite of functionalities offered by the ChromaDB C++ library, enabling you to easily manage collections, embeddings, and perform advanced queries within your application.
 
 ### Connecting to ChromaDB
 To connect to a ChromaDB server, you need to create an instance of the `Client` class. You can specify the connection details such as the scheme, host, port, database, tenant, and an authorization token.
