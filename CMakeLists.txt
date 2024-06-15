@@ -22,7 +22,7 @@ set(SOURCES
     src/ChromaDB/Embeddings/EmbeddingFunction.cpp
     src/ChromaDB/Embeddings/JinaEmbeddingFunction.cpp
     src/ChromaDB/Embeddings/OpenAIEmbeddingFunction.cpp
-    src/ChromaDB/Exceptions/Exception.cpp
+    src/ChromaDB/Exceptions/ChromaException.cpp
 )
 
 add_library(chromadb SHARED ${SOURCES})
