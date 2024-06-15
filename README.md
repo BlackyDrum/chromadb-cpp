@@ -258,7 +258,7 @@ volumes:
 
 ```
 
-### Create a collection
+### Create a Collection
 To create a new collection in ChromaDB, use the `CreateCollection` method. This method allows you to specify the name of the collection, optional metadata, and an optional embedding function.
 
 ```cpp
@@ -277,7 +277,7 @@ int main()
 - **metadata**: (Optional) A map of metadata key-value pairs for the collection.
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
 
-### Get a collection
+### Get a Collection
 To retrieve an existing collection in ChromaDB, use the `GetCollection` method. This method allows you to specify the name of the collection and an optional embedding function.
 
 ```cpp
@@ -298,7 +298,7 @@ int main()
 - **name**: The name of the collection to retrieve.
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
 
-### Get all collections
+### Get all Collections
 To retrieve all existing collections in ChromaDB, use the `GetCollections` method. This method allows you to specify an optional embedding function that applies to all collections.
 
 ```cpp
@@ -315,7 +315,7 @@ int main()
 **Parameters**
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collections.
 
-### Get collection count
+### Get Collection Count
 To get the total number of collections in ChromaDB, use the `GetCollectionCount` method.
 
 ```cpp
@@ -328,7 +328,7 @@ int main()
 }
 ```
 
-### Update a collection
+### Update a Collection
 To update an existing collection in ChromaDB, use the `UpdateCollection` method. This method allows you to change the name and metadata of a collection.
 
 ```cpp
@@ -348,7 +348,7 @@ int main()
 - **newName**: The new name for the collection.
 - **newMetadata**: (Optional) A map of new metadata key-value pairs for the collection.
 
-### Delete a collection
+### Delete a Collection
 To delete an existing collection in ChromaDB, use the `DeleteCollection` method. This method allows you to specify the name of the collection you want to remove.
 
 ```cpp
@@ -362,13 +362,175 @@ int main()
 **Parameters**
 - **name**: The name of the collection to delete.
 
-### Delete all collections
+### Delete all Collections
 To delete all existing collections for the current database, use the ``DeleteCollections`` method.
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
 int main()
 {
     client.DeleteCollections();
+}
+```
+
+### Add Embeddings to a Collection
+To add embeddings to an existing collection in ChromaDB, use the `AddEmbeddings` method. 
+This method allows you to specify the collection, the IDs of the embeddings, and optionally, the embeddings themselves, metadata, and documents associated with the embeddings.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key2", "value2"} }, { {"key3", "value3"} } };
+
+    client.AddEmbeddings(collection, ids, embeddings, metadatas, {});
+}
+```
+
+**Parameters**
+- **collection**: The collection to which embeddings will be added.
+- **ids**: The unique IDs of the embeddings.
+- **embeddings**: (Optional) A vector of embeddings.
+- **metadata**: (Optional) A vector of metadata key-value pairs associated with the embeddings.
+- **documents**: (Optional) A vector of documents associated with the embeddings
+
+> If you do not provide embeddings, you must provide documents along with an embedding function.
+
+### Add Embeddings with Embedding Function
+When adding embeddings to a collection in ChromaDB, you can utilize an embedding function to generate embeddings from documents.
+You need to pass an embedding function to a collection and either call `embeddingFunction->Generate()` to generate embeddings before passing them to `AddEmbeddings`, or simply pass the collection and the embeddings will be automatically generated.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::OpenAIEmbeddingFunction> embeddingFunction = std::make_shared<chromadb::OpenAIEmbeddingFunction>("openai-api-key");
+
+    Collection collection = client.GetCollection("test_collection", embeddingFunction);
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> documents = { "document1", "document2", "document3" };
+
+    client.AddEmbeddings(collection, ids, {}, {}, documents);
+}
+```
+
+We currently supports `JinaEmbeddingFunction` and `OpenAIEmbeddingFunction` for this purpose. 
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::OpenAIEmbeddingFunction> openaiEmbeddingFunction = std::make_shared<chromadb::OpenAIEmbeddingFunction>("openai-api-key");
+    std::shared_ptr<chromadb::JinaEmbeddingFunction> jinaEmbeddingFunction = std::make_shared<chromadb::JinaEmbeddingFunction>("jina-api-key");
+}
+```
+
+**Parameters**
+- **apiKey**: The API key to access the API.
+- **model**: (Optional) The model to use for generating embeddings. Defaults to "text-embedding-3-small" or "jina-embeddings-v2-base-en".
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to "api.openai.com" or "api.jina.ai".
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to "/v1/embeddings".
+
+### Get Embeddings from a Collection
+To retrieve embeddings from an existing collection in ChromaDB, use the `GetEmbeddings` method. This method allows you to specify the collection, optional IDs of the embeddings, and optional filters and fields to include in the result.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    Collection collection = client.GetCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
+
+    client.AddEmbeddings(collection, ids, embeddings, metadatas, documents);
+
+    auto queryResponse = client.GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, {}, {});
+
+    std::cout << queryResponse.size() << std::endl; // 3
+    std::cout << queryResponse[0].id << std::endl; // ID1
+    std::cout << queryResponse[0].embeddings->at(0) << std::endl; // 1.0
+    std::cout << queryResponse[1].metadata->at("key1") << std::endl; // value2
+    std::cout << queryResponse[2].document->c_str() << std::endl; // Document3
+}
+```
+
+**Parameters**
+- **collection**: The collection from which to retrieve embeddings.
+- **ids**: (Optional) The IDs of the embeddings to retrieve.
+- **include**: (Optional) The fields to include in the result (e.g., "metadatas", "documents", "embeddings").
+- **where_document**: (Optional) The where clause for filtering documents.
+- **where**: (Optional) The where clause for filtering metadata.
+
+You can also filter the results based on their metadata using a `where` clause:
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    nlohmann::json where = { {"key1", "value2"} };
+    auto queryResponse = client.GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, {}, where);
+
+    std::cout << queryResponse.size() << std::endl; // 1
+    std::cout << queryResponse[0].id << std::endl; // ID2
+}
+```
+The where clause must be an array of key-value pairs. The key must be a string, and the value can be a string or an nested objects of valid filter values:
+- `$eq`: Equals
+- `$ne`: Not equals
+- `$in`: In
+- `$nin`: Not In
+- `$and`: And
+- `$or`: Or
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    nlohmann::json where = { {"key1", { {"$ne", "value1"} }} };
+    auto queryResponse = client.GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, {}, where);
+
+    std::cout << queryResponse.size() << std::endl; // 2
+    std::cout << queryResponse[0].id << std::endl; // ID2
+    std::cout << queryResponse[1].id << std::endl; // ID3
+}
+```
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    nlohmann::json where = { {"key1", { {"$nin", { "value1", "value3" }} }} };
+    auto queryResponse = client.GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, {}, where);
+
+    std::cout << queryResponse.size() << std::endl; // 1
+    std::cout << queryResponse[0].id << std::endl; // ID2
+}
+```
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    nlohmann::json where = { { "$or", { { {"key1", "value1"} }, { {"key1", "value3"} } } } };
+    auto queryResponse = client.GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, {}, where);
+
+    std::cout << queryResponse.size() << std::endl; // 2
+    std::cout << queryResponse[0].id << std::endl; // ID1
+    std::cout << queryResponse[1].id << std::endl; // ID3
 }
 ```
