@@ -222,9 +222,9 @@ int main()
 - **scheme**: The protocol to use (`http` or `https`).
 - **host**: The hostname or IP address of the ChromaDB server.
 - **port**: The port number on which the ChromaDB server is running.
-- **database**: The database to use (optional, defaults to `default_database`). If it does not exist, it will be created.
-- **tenant**: The tenant to use (optional, defaults to `default_tenant`). If it does not exist, it will be created.
-- **authToken**: The authorization token to use (optional).
+- **database**: (Optional) The database to use (defaults to `default_database`). If it does not exist, it will be created.
+- **tenant**: (Optional) The tenant to use (defaults to `default_tenant`). If it does not exist, it will be created.
+- **authToken**: (Optional) The authorization token to use.
 
 ### Authentication
 ChromaDB supports static token-based authentication. To use it, start the Chroma server with the necessary environment variables as specified in the [documentation](https://docs.trychroma.com/deployment/auth#static-api-token-authentication).
