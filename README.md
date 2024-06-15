@@ -194,3 +194,117 @@ cd build
 ctest -C Release
 ```
 This will execute the tests defined in the `tests` directory, using Google Test.
+
+## Usage
+
+### Connecting to ChromaDB
+To connect to a ChromaDB server, you need to create an instance of the `Client` class. You can specify the connection details such as the scheme, host, port, database, tenant, and an authorization token.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    // Define connection parameters
+    std::string scheme = "http";
+    std::string host = "localhost";
+    std::string port = "8080";
+    std::string database = "my_database";
+    std::string tenant = "my_tenant";
+    std::string authToken = "my_auth_token";
+
+    // Create a ChromaDB client
+    chromadb::Client client(scheme, host, port, database, tenant, authToken);
+}
+```
+**Parameters**
+- **scheme**: The protocol to use (`http` or `https`).
+- **host**: The hostname or IP address of the ChromaDB server.
+- **port**: The port number on which the ChromaDB server is running.
+- **database**: The database to use (optional, defaults to `default_database`). If it does not exist, it will be created.
+- **tenant**: The tenant to use (optional, defaults to `default_tenant`). If it does not exist, it will be created.
+- **authToken**: The authorization token to use (optional).
+
+### Authentication
+ChromaDB supports static token-based authentication. To use it, start the Chroma server with the necessary environment variables as specified in the [documentation](https://docs.trychroma.com/deployment/auth#static-api-token-authentication).
+For Docker Compose, you can use the `env_file` option or pass the environment variables directly as shown below:
+
+```yml
+version: '3.9'
+
+services:
+    chroma-with-auth:
+        image: 'chromadb/chroma'
+        ports:
+            - '8081:8000'
+        volumes:
+            - chroma-data:/chroma/chroma
+        env_file: 
+            - .env
+        # Alternatively, you can specify the environment variables directly
+        environment:
+            CHROMA_SERVER_AUTHN_CREDENTIALS: 'authToken'
+            CHROMA_SERVER_AUTHN_PROVIDER: 'chromadb.auth.token_authn.TokenAuthenticationServerProvider'
+
+volumes:
+    chroma-data:
+        driver: local
+
+```
+
+### Create a collection
+To create a new collection in ChromaDB, use the `CreateCollection` method. This method allows you to specify the name of the collection, optional metadata, and an optional embedding function.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::unordered_map<std::string, std::string> metadata = { {"key1", "value1"}, {"key2", "value2"} };
+    std::shared_ptr<chromadb::EmbeddingFunction> embeddingFunction = std::make_shared<chromadb::OpenAIEmbeddingFunction>("openai-api-key");
+
+    chromadb::Collection collection = client.CreateCollection("test_collection", metadata, embeddingFunction);
+}
+```
+**Parameters**
+- **name**: The name of the collection to create.
+- **metadata**: (Optional) A map of metadata key-value pairs for the collection.
+- **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
+
+### Get a collection
+To retrieve an existing collection in ChromaDB, use the `GetCollection` method. This method allows you to specify the name of the collection and an optional embedding function.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    Collection collection = client.GetCollection("test_collection");
+    std::cout << "Collection name: " << collection.GetName() << std::endl;
+    std::cout << "Collection id: " << collection.GetId() << std::endl;
+
+    std::cout << "Collection metadata: " << std::endl;
+    for (const auto& [key, value] : collection.GetMetadata())
+	std::cout << key << ": " << value << std::endl;
+}
+```
+**Parameters**
+- **name**: The name of the collection to retrieve.
+- **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
+
+### Get all collections
+To retrieve all existing collections in ChromaDB, use the `GetCollections` method. This method allows you to specify an optional embedding function that applies to all collections.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::vector<Collection> collections = client.GetCollections();
+
+    for (Collection& collection : collections)
+        std::cout << "Collection name: " << collection.GetName() << std::endl;
+}
+```
+**Parameters**
+- **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collections.
