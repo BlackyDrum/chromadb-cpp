@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(chromadb VERSION 0.0.1)
+project(chromadb VERSION 0.2.0)
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_CXX_STANDARD 17)
@@ -22,6 +22,7 @@ set(SOURCES
     src/ChromaDB/Embeddings/EmbeddingFunction.cpp
     src/ChromaDB/Embeddings/JinaEmbeddingFunction.cpp
     src/ChromaDB/Embeddings/OpenAIEmbeddingFunction.cpp
+    src/ChromaDB/Exceptions/Exception.cpp
 )
 
 add_library(chromadb SHARED ${SOURCES})

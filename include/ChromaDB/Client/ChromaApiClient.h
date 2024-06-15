@@ -31,7 +31,8 @@ namespace chromadb {
 		* 
 		* @return nlohmann::json The response from the server
 		* 
-		* @throw ChromaException if something goes wrong
+		* @throw ChromaRequestException if the request fails
+		* @throw ChromaConnectionException if the connection to the server fails
 		*/
 		nlohmann::json Get(const std::string& endpoint);
 
@@ -43,7 +44,8 @@ namespace chromadb {
 		* 
 		* @return nlohmann::json The response from the server
 		* 
-		* @throw ChromaException if something goes wrong
+		* @throw ChromaRequestException if the request fails
+		* @throw ChromaConnectionException if the connection to the server fails
 		*/
 		nlohmann::json Post(const std::string& endpoint, const nlohmann::json& body);
 
@@ -55,7 +57,8 @@ namespace chromadb {
 		* 
 		* @return nlohmann::json The response from the server
 		* 
-		* @throw ChromaException if something goes wrong
+		* @throw ChromaRequestException if the request fails
+		* @throw ChromaConnectionException if the connection to the server fails
 		*/
 		nlohmann::json Put(const std::string& endpoint, const nlohmann::json& body);
 
@@ -66,7 +69,8 @@ namespace chromadb {
 		* 
 		* @return nlohmann::json The response from the server
 		* 
-		* @throw ChromaException if something goes wrong
+		* @throw ChromaRequestException if the request fails
+		* @throw ChromaConnectionException if the connection to the server fails
 		*/
 		nlohmann::json Delete(const std::string& endpoint);
 	private:

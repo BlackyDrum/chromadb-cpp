@@ -14,6 +14,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <regex>
 
 namespace chromadb {
 
@@ -254,6 +255,8 @@ namespace chromadb {
 		void CreateDatabase();
 
 		ValidationResult Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents, bool requireEmbeddingsOrDocuments);
+
+		void handleChromaApiException(const ChromaException& e);
 	};
 
 } // namespace chromadb

@@ -29,7 +29,7 @@ TEST_F(ClientTest, ConstructorInitializesCorrectly)
 
 TEST_F(ClientTest, ConstructorThrowsExceptionIfServerIsNotReachable)
 {
-    EXPECT_THROW(Client("http", "localhost", "8070", "test_database", "test_tenant", "authToken"), ChromaException);
+    EXPECT_THROW(Client("http", "localhost", "8070", "test_database", "test_tenant", "authToken"), ChromaConnectionException);
 }
 
 TEST_F(ClientTest, ConstructorDoesNotThrowExceptionIfAuthTokenIsValid)
@@ -39,7 +39,7 @@ TEST_F(ClientTest, ConstructorDoesNotThrowExceptionIfAuthTokenIsValid)
 
 TEST_F(ClientTest, ConstructorThrowsExceptionIfAuthTokenIsInvalid)
 {
-	EXPECT_THROW(Client("http", "localhost", "8081", "test_database", "test_tenant", "wrongAuthToken"), ChromaException);
+	EXPECT_THROW(Client("http", "localhost", "8081", "test_database", "test_tenant", "wrongAuthToken"), ChromaAuthorizationException);
 }
 
 TEST_F(ClientTest, ReturnsCorrectVersion)
@@ -152,7 +152,12 @@ TEST_F(ClientTest, CreateCollectionThrowsExceptionIfCollectionAlreadyExists)
 {
 	Collection collection = client->CreateCollection("test_collection");
 
-	EXPECT_THROW(client->CreateCollection("test_collection"), ChromaException);
+	EXPECT_THROW(client->CreateCollection("test_collection"), ChromaUniqueConstraintException);
+}
+
+TEST_F(ClientTest, CreateCollectionThrowsExceptionIfInvalidNameProvided)
+{
+	EXPECT_THROW(client->CreateCollection("te"), ChromaValueException);
 }
 
 TEST_F(ClientTest, CanGetCollection)
@@ -180,7 +185,7 @@ TEST_F(ClientTest, GetCollectionThrowsExceptionIfCollectionDoesNotExist)
 {
 	Collection collection = client->CreateCollection("test_collection");
 
-	EXPECT_THROW(client->GetCollection("test_collection2"), ChromaException);
+	EXPECT_THROW(client->GetCollection("test_collection2"), ChromaValueException);
 }
 
 TEST_F(ClientTest, CanGetCollections)
@@ -303,7 +308,7 @@ TEST_F(ClientTest, UpdateCollectionThrowsExceptionIfCollectionDoesNotExist)
 {
 	Collection collection = client->CreateCollection("test_collection");
 
-	EXPECT_THROW(client->UpdateCollection("test_collection2", "test_collection_updated"), ChromaException);
+	EXPECT_THROW(client->UpdateCollection("test_collection2", "test_collection_updated"), ChromaValueException);
 }
 
 TEST_F(ClientTest, CanDeleteCollection)
@@ -321,7 +326,7 @@ TEST_F(ClientTest, DeleteCollectionThrowsExceptionIfCollectionDoesNotExist)
 {
 	Collection collection = client->CreateCollection("test_collection");
 
-	EXPECT_THROW(client->DeleteCollection("test_collection2"), ChromaException);
+	EXPECT_THROW(client->DeleteCollection("test_collection2"), ChromaValueException);
 }
 
 TEST_F(ClientTest, CanGetCollectionCount)
@@ -1014,5 +1019,5 @@ TEST_F(ClientTest, ThrowsIfNoDocumentsAndNoEmbeddingsForQuery)
 {
 	Collection collection = client->CreateCollection("test_collection");
 
-	EXPECT_THROW(client->Query(collection, {}, {}, 2, { "embeddings", "documents", "metadatas", "distances" }), ChromaException);
+	EXPECT_THROW(client->Query(collection, {}, {}, 2, { "embeddings", "documents", "metadatas", "distances" }), ChromaInvalidArgumentException);
 }

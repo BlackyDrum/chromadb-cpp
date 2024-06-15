@@ -26,10 +26,10 @@ namespace chromadb {
             if (res->status == httplib::OK_200)
                 return nlohmann::json::parse(res->body);
 
-            throw ChromaException(res->body);
+            throw ChromaRequestException(res->body);
         }
 
-        throw ChromaException(httplib::to_string(res.error()));
+        throw ChromaConnectionException(httplib::to_string(res.error()));
     }
 
     nlohmann::json ChromaApiClient::Post(const std::string& endpoint, const nlohmann::json& body)
@@ -50,10 +50,10 @@ namespace chromadb {
             if (res->status == httplib::OK_200 || res->status == httplib::Created_201)
                 return nlohmann::json::parse(res->body);
 
-            throw ChromaException(res->body);
+            throw ChromaRequestException(res->body);
         }
 
-        throw ChromaException(httplib::to_string(res.error()));
+        throw ChromaConnectionException(httplib::to_string(res.error()));
     }
 
     nlohmann::json ChromaApiClient::Put(const std::string& endpoint, const nlohmann::json& body)
@@ -74,10 +74,10 @@ namespace chromadb {
 			if (res->status == httplib::OK_200)
 				return nlohmann::json::parse(res->body);
 
-			throw ChromaException(res->body);
+			throw ChromaRequestException(res->body);
 		}
 
-		throw ChromaException(httplib::to_string(res.error()));
+		throw ChromaConnectionException(httplib::to_string(res.error()));
 	}
 
     nlohmann::json ChromaApiClient::Delete(const std::string& endpoint)
@@ -97,10 +97,10 @@ namespace chromadb {
             if (res->status == httplib::OK_200)
                 return nlohmann::json::parse(res->body);
 
-            throw ChromaException(res->body);
+            throw ChromaRequestException(res->body);
         }
 
-        throw ChromaException(httplib::to_string(res.error()));
+        throw ChromaConnectionException(httplib::to_string(res.error()));
     }
 
 } // namespace chromadb
