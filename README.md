@@ -84,6 +84,11 @@ This guide will help you build and install the ChromaDB library and run an examp
 
 ### Building ChromaDB Library
 
+Make sure to run the following command to initialize and update the submodules on both Linux and Windows if not done already:
+```bash
+git submodule update --init --recursive
+```
+
 **Linux**
 
 1. Create a build directory
