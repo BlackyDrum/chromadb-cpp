@@ -438,6 +438,8 @@ int main()
 - **baseUrl**: (Optional) The base URL of the API server. Defaults to "api.openai.com" or "api.jina.ai".
 - **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to "/v1/embeddings".
 
+> Note: You can get started immediately by obtaining a free Jina API Key [here](https://jina.ai/embeddings/#apiform)
+
 ### Get Embeddings from a Collection
 To retrieve embeddings from an existing collection in ChromaDB, use the `GetEmbeddings` method. This method allows you to specify the collection, optional IDs of the embeddings, and optional filters and fields to include in the result.
 
