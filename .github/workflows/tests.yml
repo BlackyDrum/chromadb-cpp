@@ -3,6 +3,9 @@ name: Testing
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'CHANGELOG.md'
   pull_request:
     branches: [ main ]
 
