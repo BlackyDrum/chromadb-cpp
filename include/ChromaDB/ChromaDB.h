@@ -24,3 +24,4 @@
 #include "ChromaDB/Embeddings/OpenAIEmbeddingFunction.h"
 #include "ChromaDB/Embeddings/CohereEmbeddingFunction.h"
 #include "ChromaDB/Embeddings/VoyageAIEmbeddingFunction.h"
+#include "ChromaDB/Embeddings/TogetherAIEmbeddingFunction.h"
