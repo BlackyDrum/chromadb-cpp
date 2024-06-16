@@ -402,8 +402,27 @@ int main()
 
 ### Add Embeddings with Embedding Function
 When adding embeddings to a collection in ChromaDB, you can utilize an embedding function to generate embeddings from documents.
-You need to pass an embedding function to a collection and either call `embeddingFunction->Generate()` to generate embeddings before passing them to `AddEmbeddings`, or simply pass the collection and the embeddings will be automatically generated.
+You need to either call `embeddingFunction->Generate()` to generate embeddings before manually passing them to `AddEmbeddings`, or simply pass an embedding function directly to a collection, and the embeddings will be generated automatically.
 
+**Manual Generation of Embeddings**
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::OpenAIEmbeddingFunction> embeddingFunction = std::make_shared<chromadb::OpenAIEmbeddingFunction>("openai-api-key");
+
+    chromadb::Collection collection = client.GetCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> documents = { "document1", "document2", "document3" };
+    auto embeddings = embeddingFunction->Generate(documents);
+
+    client.AddEmbeddings(collection, ids, embeddings, {}, documents);
+}
+```
+
+**Automatic Generation of Embeddings**
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -737,3 +756,7 @@ int main()
 - **include**: (Optional) The fields to include in the results (e.g., "metadatas", "documents", "embeddings", "distances").
 - **where_document**: (Optional) The where clause for filtering documents.
 - **where**: (Optional) The where clause for filtering metadata.
+
+
+## License
+This project is licensed under the MIT License.
