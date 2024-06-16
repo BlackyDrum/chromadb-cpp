@@ -285,7 +285,7 @@ To retrieve an existing collection in ChromaDB, use the `GetCollection` method. 
 
 int main()
 {
-    Collection collection = client.GetCollection("test_collection");
+    chromadb::Collection collection = client.GetCollection("test_collection");
     std::cout << "Collection name: " << collection.GetName() << std::endl;
     std::cout << "Collection id: " << collection.GetId() << std::endl;
 
@@ -306,9 +306,9 @@ To retrieve all existing collections in ChromaDB, use the `GetCollections` metho
 
 int main()
 {
-    std::vector<Collection> collections = client.GetCollections();
+    std::vector<chromadb::Collection> collections = client.GetCollections();
 
-    for (Collection& collection : collections)
+    for (chromadb::Collection& collection : collections)
         std::cout << "Collection name: " << collection.GetName() << std::endl;
 }
 ```
@@ -338,7 +338,7 @@ int main()
 {
     std::string newName = "test_collection_updated";
     std::unordered_map<std::string, std::string> newMetadata = { {"key3", "value3"}, {"key4", "value4"} };
-    Collection updatedCollection = client.UpdateCollection("test_collection", newName, newMetadata);
+    chromadb::Collection updatedCollection = client.UpdateCollection("test_collection", newName, newMetadata);
 
     std::cout << updatedCollection.GetName() << std::endl; // "test_collection_updated"
 }
@@ -411,7 +411,7 @@ int main()
 {
     std::shared_ptr<chromadb::OpenAIEmbeddingFunction> embeddingFunction = std::make_shared<chromadb::OpenAIEmbeddingFunction>("openai-api-key");
 
-    Collection collection = client.GetCollection("test_collection", embeddingFunction);
+    chromadb::Collection collection = client.GetCollection("test_collection", embeddingFunction);
 
     std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
     std::vector<std::string> documents = { "document1", "document2", "document3" };
@@ -448,7 +448,7 @@ To retrieve embeddings from an existing collection in ChromaDB, use the `GetEmbe
 
 int main()
 {
-    Collection collection = client.GetCollection("test_collection");
+    chromadb::Collection collection = client.GetCollection("test_collection");
 
     std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
     std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
@@ -543,7 +543,7 @@ The `where_document` filter works similarly to the `where` filter but for filter
 
 int main()
 {
-    Collection collection = client.CreateCollection("test_collection");
+    chromadb::Collection collection = client.CreateCollection("test_collection");
 
     std::vector<std::string> ids = { "ID1", "ID2", "ID3", "ID4" };
     std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 }, { 10.0, 11.0, 12.0 } };
@@ -575,7 +575,7 @@ To retrieve the count of embeddings from an existing collection in ChromaDB, use
 
 int main()
 {
-    Collection collection = client.CreateCollection("test_collection");
+    chromadb::Collection collection = client.CreateCollection("test_collection");
 
     std::cout << client.GetEmbeddingCount(collection) << std::endl;
 }
@@ -592,7 +592,7 @@ To update embeddings in an existing collection in ChromaDB, use the `UpdateEmbed
 
 int main()
 {
-    Collection collection = client.GetCollection("test_collection");
+    chromadb::Collection collection = client.GetCollection("test_collection");
 
     std::vector<std::string> ids = { "ID1", "ID2" };
     std::vector<std::string> new_documents = { "NewDocument1", "NewDocument2" };
@@ -617,7 +617,7 @@ To delete embeddings from an existing collection in ChromaDB, use the `DeleteEmb
 
 int main()
 {
-    Collection collection = client.GetCollection("test_collection");
+    chromadb::Collection collection = client.GetCollection("test_collection");
 
     client.DeleteEmbeddings(collection, { "ID1", "ID3" });
 }
@@ -639,9 +639,9 @@ To query an existing collection in ChromaDB, use the `Query` method. This method
 
 int main()
 {
-    std::shared_ptr<JinaEmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
+    std::shared_ptr<chromadb::JinaEmbeddingFunction> embeddingFunction = std::make_shared<chromadb::JinaEmbeddingFunction>("jina-api-key");
 
-    Collection collection = client.GetCollection("test_collection", embeddingFunction); // or collection.SetEmbeddingFunction(embeddingFunction);
+    chromadb::Collection collection = client.GetCollection("test_collection", embeddingFunction); // or collection.SetEmbeddingFunction(embeddingFunction);
 
     auto queryResponse = client.Query(collection, { "This is a query document" }, {}, 3, { "metadatas", "documents", "embeddings", "distances" });
 
