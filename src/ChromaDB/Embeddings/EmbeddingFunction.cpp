@@ -12,7 +12,7 @@ namespace chromadb {
 		httplib::SSLClient sslClient(m_BaseUrl);
 
 		httplib::Headers headers = {
-			{ "Content-Type", "application/json" },
+			{ "Content-Type", "application/json;charset=utf-8" },
 			{ "Authorization", "Bearer " + m_ApiKey }
 		};
 
@@ -20,9 +20,7 @@ namespace chromadb {
 		if (res)
 		{
 			if (res->status == httplib::OK_200)
-			{
 				return nlohmann::json::parse(res->body);
-			}
 
 			throw ChromaException(res->body);
 		}

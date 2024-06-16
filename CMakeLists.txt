@@ -22,6 +22,7 @@ set(SOURCES
     src/ChromaDB/Embeddings/EmbeddingFunction.cpp
     src/ChromaDB/Embeddings/JinaEmbeddingFunction.cpp
     src/ChromaDB/Embeddings/OpenAIEmbeddingFunction.cpp
+    src/ChromaDB/Embeddings/CohereEmbeddingFunction.cpp
     src/ChromaDB/Exceptions/ChromaException.cpp
 )
 

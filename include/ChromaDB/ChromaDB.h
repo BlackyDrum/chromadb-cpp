@@ -20,3 +20,4 @@
 
 #include "ChromaDB/Embeddings/JinaEmbeddingFunction.h"
 #include "ChromaDB/Embeddings/OpenAIEmbeddingFunction.h"
+#include "ChromaDB/Embeddings/CohereEmbeddingFunction.h"
