@@ -434,9 +434,9 @@ int main()
 
 **Parameters**
 - **apiKey**: The API key to access the API.
-- **model**: (Optional) The model to use for generating embeddings. Defaults to "jina-embeddings-v2-base-en".
-- **baseUrl**: (Optional) The base URL of the API server. Defaults to "api.jina.ai".
-- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to "/v1/embeddings".
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `jina-embeddings-v2-base-en`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.jina.ai`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 > Note: You can get started immediately by obtaining a free Jina API Key with 1M Tokens [here](https://jina.ai/embeddings/#apiform)
 
@@ -452,10 +452,10 @@ int main()
 
 **Parameters**
 - **apiKey**: The API key to access the API.
-- **model**: (Optional) The model to use for generating embeddings. Defaults to "text-embedding-3-small".
-- **dimensions**: (Optional) The number of dimensions of the embeddings. Defaults to 1536.
-- **baseUrl**: (Optional) The base URL of the API server. Defaults to "api.openai.com".
-- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to "/v1/embeddings".
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `text-embedding-3-small`.
+- **dimensions**: (Optional) The number of dimensions of the embeddings. Defaults to `1536`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.openai.com`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 **CohereEmbeddingFunction**
 ```cpp
@@ -469,10 +469,10 @@ int main()
 
 **Parameters**
 - **apiKey**: The API key to access the API.
-- **model**: (Optional) The model to use for generating embeddings. Defaults to "embed-english-v3.0".
-- **inputType**: (Optional) The input type passed to the model. Defaults to "classification".
-- **baseUrl**: (Optional) The base URL of the API server. Defaults to "api.cohere.com".
-- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to "/v1/embed".
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `embed-english-v3.0`.
+- **inputType**: (Optional) The input type passed to the model. Defaults to `classification`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.cohere.com`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embed`.
 
 
 **VoyageAIEmbeddingFunction**
@@ -487,10 +487,10 @@ int main()
 
 **Parameters**
 - **apiKey**: The API key to access the API.
-- **model**: (Optional) The model to use for generating embeddings. Defaults to "voyage-2".
-- **inputType**: (Optional) The input type passed to the model. Defaults to "document".
-- **baseUrl**: (Optional) The base URL of the API server. Defaults to "api.voyageai.com".
-- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to "/v1/embeddings".
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `voyage-2`.
+- **inputType**: (Optional) The input type passed to the model. Defaults to `document`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.voyageai.com`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 **TogetherAIEmbeddingFunction**
 ```cpp
@@ -504,9 +504,9 @@ int main()
 
 **Parameters**
 - **apiKey**: The API key to access the API.
-- **model**: (Optional) The model to use for generating embeddings. Defaults to "togethercomputer/m2-bert-80M-8k-retrieval".
-- **baseUrl**: (Optional) The base URL of the API server. Defaults to "api.together.xyz".
-- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to "/v1/embeddings".
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `togethercomputer/m2-bert-80M-8k-retrieval`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.together.xyz`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 ### Get Embeddings from a Collection
 To retrieve embeddings from an existing collection in ChromaDB, use the `GetEmbeddings` method. This method allows you to specify the collection, optional IDs of the embeddings, and optional filters and fields to include in the result.
