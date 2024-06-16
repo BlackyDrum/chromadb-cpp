@@ -2,9 +2,7 @@
 **Easily interact with ChromaDB Vector Database in C++**
 
 ## Description
-[ChromaDB](https://www.trychroma.com/) is a powerful, high-performance database designed specifically for managing and querying vector embeddings and other high-dimensional data.
-Tailored to support machine learning and artificial intelligence applications, ChromaDB offers an efficient and scalable solution for handling
-large volumes of complex data, enabling rapid similarity searches and facilitating advanced data analytics.
+[ChromaDB](https://www.trychroma.com/) is an open-source vector database designed for managing and querying high-dimensional vector data efficiently.
 
 ChromaDB C++ lets you easily interact with the ChromaDB Vector Database:
 - **Collection Management**: Create, retrieve, update, and delete collections
