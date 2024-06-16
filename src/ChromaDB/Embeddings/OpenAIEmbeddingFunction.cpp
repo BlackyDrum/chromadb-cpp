@@ -2,8 +2,8 @@
 
 namespace chromadb {
 
-	OpenAIEmbeddingFunction::OpenAIEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& baseUrl, const std::string& path)
-		: EmbeddingFunction(apiKey, model, baseUrl, path)
+	OpenAIEmbeddingFunction::OpenAIEmbeddingFunction(const std::string& apiKey, const std::string& model, size_t dimensions, const std::string& baseUrl, const std::string& path)
+		: EmbeddingFunction(apiKey, model, baseUrl, path), m_Dimensions(dimensions)
 	{
 	}
 
@@ -11,7 +11,8 @@ namespace chromadb {
 	{
 		nlohmann::json body = {
 			{ "input", documents },
-			{ "model", m_Model }
+			{ "model", m_Model },
+			{ "dimensions", m_Dimensions },
 		};
 
 		nlohmann::json response = this->Request(body);
