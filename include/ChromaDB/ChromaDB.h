@@ -17,6 +17,9 @@
 #include "ChromaDB/Exceptions/ChromaTypeException.h"
 #include "ChromaDB/Exceptions/ChromaUniqueConstraintException.h"
 #include "ChromaDB/Exceptions/ChromaValueException.h"
+#include "ChromaDB/Exceptions/External/EmbeddingProviderConnectionException.h"
+#include "ChromaDB/Exceptions/External/EmbeddingProviderRequestException.h"
+
 
 #include "ChromaDB/Embeddings/JinaEmbeddingFunction.h"
 #include "ChromaDB/Embeddings/OpenAIEmbeddingFunction.h"

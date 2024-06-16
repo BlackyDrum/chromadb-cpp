@@ -22,10 +22,10 @@ namespace chromadb {
 			if (res->status == httplib::OK_200)
 				return nlohmann::json::parse(res->body);
 
-			throw ChromaException(res->body);
+			throw EmbeddingProviderRequestException(res->body);
 		}
 
-		throw ChromaException(httplib::to_string(res.error()));
+		throw EmbeddingProviderConnectionException(httplib::to_string(res.error()));
 	}
 
 } // namespace chromadb
