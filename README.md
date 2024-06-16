@@ -581,6 +581,8 @@ The where clause must be an array of key-value pairs. The key must be a string, 
 - `$and`: And
 - `$or`: Or
 
+> The `$gt`, `$gte`, `$lt`, and `$lte` filters are also officially supported in ChromaDB. However, this C++ driver only supports strings for metadata values, so these operators are not available in this implementation yet.
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
