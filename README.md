@@ -285,7 +285,7 @@ To retrieve an existing collection in ChromaDB, use the `GetCollection` method. 
 
 int main()
 {
-    Collection collection = client.GetCollection("test_collection");
+    chromadb::Collection collection = client.GetCollection("test_collection");
     std::cout << "Collection name: " << collection.GetName() << std::endl;
     std::cout << "Collection id: " << collection.GetId() << std::endl;
 
@@ -306,9 +306,9 @@ To retrieve all existing collections in ChromaDB, use the `GetCollections` metho
 
 int main()
 {
-    std::vector<Collection> collections = client.GetCollections();
+    std::vector<chromadb::Collection> collections = client.GetCollections();
 
-    for (Collection& collection : collections)
+    for (chromadb::Collection& collection : collections)
         std::cout << "Collection name: " << collection.GetName() << std::endl;
 }
 ```
@@ -338,7 +338,7 @@ int main()
 {
     std::string newName = "test_collection_updated";
     std::unordered_map<std::string, std::string> newMetadata = { {"key3", "value3"}, {"key4", "value4"} };
-    Collection updatedCollection = client.UpdateCollection("test_collection", newName, newMetadata);
+    chromadb::Collection updatedCollection = client.UpdateCollection("test_collection", newName, newMetadata);
 
     std::cout << updatedCollection.GetName() << std::endl; // "test_collection_updated"
 }
@@ -411,7 +411,7 @@ int main()
 {
     std::shared_ptr<chromadb::OpenAIEmbeddingFunction> embeddingFunction = std::make_shared<chromadb::OpenAIEmbeddingFunction>("openai-api-key");
 
-    Collection collection = client.GetCollection("test_collection", embeddingFunction);
+    chromadb::Collection collection = client.GetCollection("test_collection", embeddingFunction);
 
     std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
     std::vector<std::string> documents = { "document1", "document2", "document3" };
@@ -420,25 +420,93 @@ int main()
 }
 ```
 
-We currently supports `JinaEmbeddingFunction` and `OpenAIEmbeddingFunction` for this purpose. 
+We currently supports `JinaEmbeddingFunction`, `OpenAIEmbeddingFunction`, `CohereEmbeddingFunction`, `VoyageAIEmbeddingFunction` and `TogetherAIEmbeddingFunction` for this purpose. 
 
+**JinaEmbeddingFunction**
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
 int main()
 {
-    std::shared_ptr<chromadb::OpenAIEmbeddingFunction> openaiEmbeddingFunction = std::make_shared<chromadb::OpenAIEmbeddingFunction>("openai-api-key");
     std::shared_ptr<chromadb::JinaEmbeddingFunction> jinaEmbeddingFunction = std::make_shared<chromadb::JinaEmbeddingFunction>("jina-api-key");
 }
 ```
 
 **Parameters**
 - **apiKey**: The API key to access the API.
-- **model**: (Optional) The model to use for generating embeddings. Defaults to "text-embedding-3-small" or "jina-embeddings-v2-base-en".
-- **baseUrl**: (Optional) The base URL of the API server. Defaults to "api.openai.com" or "api.jina.ai".
-- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to "/v1/embeddings".
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `jina-embeddings-v2-base-en`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.jina.ai`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
-> Note: You can get started immediately by obtaining a free Jina API Key [here](https://jina.ai/embeddings/#apiform)
+> Note: You can get started immediately by obtaining a free Jina API Key with 1M Tokens [here](https://jina.ai/embeddings/#apiform)
+
+**OpenAIEmbeddingFunction**
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::OpenAIEmbeddingFunction> openAIEmbeddingFunction = std::make_shared<chromadb::OpenAIEmbeddingFunction>("openai-api-key");
+}
+```
+
+**Parameters**
+- **apiKey**: The API key to access the API.
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `text-embedding-3-small`.
+- **dimensions**: (Optional) The number of dimensions of the embeddings. Defaults to `1536`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.openai.com`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
+
+**CohereEmbeddingFunction**
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::CohereEmbeddingFunction> cohereEmbeddingFunction = std::make_shared<chromadb::CohereEmbeddingFunction>("cohere-api-key");
+}
+```
+
+**Parameters**
+- **apiKey**: The API key to access the API.
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `embed-english-v3.0`.
+- **inputType**: (Optional) The input type passed to the model. Defaults to `classification`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.cohere.com`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embed`.
+
+
+**VoyageAIEmbeddingFunction**
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::VoyageAIEmbeddingFunction> voyageAIEmbeddingFunction = std::make_shared<chromadb::VoyageAIEmbeddingFunction>("voyageai-api-key");
+}
+```
+
+**Parameters**
+- **apiKey**: The API key to access the API.
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `voyage-2`.
+- **inputType**: (Optional) The input type passed to the model. Defaults to `document`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.voyageai.com`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
+
+**TogetherAIEmbeddingFunction**
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::TogetherAIEmbeddingFunction> togetherAIEmbeddingFunction = std::make_shared<chromadb::TogetherAIEmbeddingFunction>("togetherai-api-key");
+}
+```
+
+**Parameters**
+- **apiKey**: The API key to access the API.
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `togethercomputer/m2-bert-80M-8k-retrieval`.
+- **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.together.xyz`.
+- **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 ### Get Embeddings from a Collection
 To retrieve embeddings from an existing collection in ChromaDB, use the `GetEmbeddings` method. This method allows you to specify the collection, optional IDs of the embeddings, and optional filters and fields to include in the result.
@@ -448,7 +516,7 @@ To retrieve embeddings from an existing collection in ChromaDB, use the `GetEmbe
 
 int main()
 {
-    Collection collection = client.GetCollection("test_collection");
+    chromadb::Collection collection = client.GetCollection("test_collection");
 
     std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
     std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
@@ -543,7 +611,7 @@ The `where_document` filter works similarly to the `where` filter but for filter
 
 int main()
 {
-    Collection collection = client.CreateCollection("test_collection");
+    chromadb::Collection collection = client.CreateCollection("test_collection");
 
     std::vector<std::string> ids = { "ID1", "ID2", "ID3", "ID4" };
     std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 }, { 10.0, 11.0, 12.0 } };
@@ -575,7 +643,7 @@ To retrieve the count of embeddings from an existing collection in ChromaDB, use
 
 int main()
 {
-    Collection collection = client.CreateCollection("test_collection");
+    chromadb::Collection collection = client.CreateCollection("test_collection");
 
     std::cout << client.GetEmbeddingCount(collection) << std::endl;
 }
@@ -592,7 +660,7 @@ To update embeddings in an existing collection in ChromaDB, use the `UpdateEmbed
 
 int main()
 {
-    Collection collection = client.GetCollection("test_collection");
+    chromadb::Collection collection = client.GetCollection("test_collection");
 
     std::vector<std::string> ids = { "ID1", "ID2" };
     std::vector<std::string> new_documents = { "NewDocument1", "NewDocument2" };
@@ -617,7 +685,7 @@ To delete embeddings from an existing collection in ChromaDB, use the `DeleteEmb
 
 int main()
 {
-    Collection collection = client.GetCollection("test_collection");
+    chromadb::Collection collection = client.GetCollection("test_collection");
 
     client.DeleteEmbeddings(collection, { "ID1", "ID3" });
 }
@@ -639,9 +707,9 @@ To query an existing collection in ChromaDB, use the `Query` method. This method
 
 int main()
 {
-    std::shared_ptr<JinaEmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
+    std::shared_ptr<chromadb::JinaEmbeddingFunction> embeddingFunction = std::make_shared<chromadb::JinaEmbeddingFunction>("jina-api-key");
 
-    Collection collection = client.GetCollection("test_collection", embeddingFunction); // or collection.SetEmbeddingFunction(embeddingFunction);
+    chromadb::Collection collection = client.GetCollection("test_collection", embeddingFunction); // or collection.SetEmbeddingFunction(embeddingFunction);
 
     auto queryResponse = client.Query(collection, { "This is a query document" }, {}, 3, { "metadatas", "documents", "embeddings", "distances" });
 
