@@ -188,7 +188,7 @@ cmake ..
 ### Notes
 - On Windows, ensure that the `chromadb.dll` is copied to the output directory where the `ExampleProject` executable resides. This is handled by the CMake script with a post-build command.
 - You may need to adjust the `CMAKE_PREFIX_PATH` in the examples `CMakeLists.txt` if the library and include paths for ChromaDB are different on your system.
-- If you encounter any issues with finding the OpenSSL libraries, ensure the `OPENSSL_ROOT_DIR` environment variable is set to the correct path of your OpenSSL installation.
+- If you encounter any issues with finding the OpenSSL libraries, ensure the `OPENSSL_ROOT_DIR` environment variable is set to the correct path of your OpenSSL installation. You can download OpenSSL pre-built binaries [here](https://github.com/CristiFati/Prebuilt-Binaries/tree/master/OpenSSL/v3.3).
 
 ## Testing
 To run tests included in the ChromaDB project:
