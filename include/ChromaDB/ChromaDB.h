@@ -20,7 +20,7 @@
 #include "ChromaDB/Exceptions/External/EmbeddingProviderConnectionException.h"
 #include "ChromaDB/Exceptions/External/EmbeddingProviderRequestException.h"
 
-
 #include "ChromaDB/Embeddings/JinaEmbeddingFunction.h"
 #include "ChromaDB/Embeddings/OpenAIEmbeddingFunction.h"
 #include "ChromaDB/Embeddings/CohereEmbeddingFunction.h"
+#include "ChromaDB/Embeddings/VoyageAIEmbeddingFunction.h"
