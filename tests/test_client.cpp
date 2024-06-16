@@ -59,15 +59,18 @@ TEST_F(ClientTest, CanCreateCollectionWithoutMetadata)
     Collection collection = client->CreateCollection("test_collection");
 	EXPECT_EQ(collection.GetName(), "test_collection");
 	EXPECT_EQ(collection.GetMetadata().size(), 0);
+	EXPECT_EQ(collection.GetId().empty(), false);
 
     Collection collection2 = client->GetCollection("test_collection");
     EXPECT_EQ(collection2.GetName(), "test_collection");
     EXPECT_EQ(collection2.GetMetadata().size(), 0);
+	EXPECT_EQ(collection2.GetId().empty(), false);
 
     std::vector<Collection> collections = client->GetCollections();
 	EXPECT_EQ(collections.size(), 1);
 	EXPECT_EQ(collections[0].GetName(), "test_collection");
     EXPECT_EQ(collections[0].GetMetadata().size(), 0);
+	EXPECT_EQ(collections[0].GetId().empty(), false);
 }
 
 TEST_F(ClientTest, CanCreateCollectionWithMetadata)
@@ -78,12 +81,14 @@ TEST_F(ClientTest, CanCreateCollectionWithMetadata)
 	EXPECT_EQ(collection.GetMetadata().size(), 2);
 	EXPECT_EQ(collection.GetMetadata().at("key1"), "value1");
 	EXPECT_EQ(collection.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection.GetId().empty(), false);
 
 	Collection collection2 = client->GetCollection("test_collection");
 	EXPECT_EQ(collection2.GetName(), "test_collection");
 	EXPECT_EQ(collection2.GetMetadata().size(), 2);
 	EXPECT_EQ(collection2.GetMetadata().at("key1"), "value1");
 	EXPECT_EQ(collection2.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection2.GetId().empty(), false);
 
 	std::vector<Collection> collections = client->GetCollections();
 	EXPECT_EQ(collections.size(), 1);
@@ -91,6 +96,7 @@ TEST_F(ClientTest, CanCreateCollectionWithMetadata)
 	EXPECT_EQ(collections[0].GetMetadata().size(), 2);
 	EXPECT_EQ(collections[0].GetMetadata().at("key1"), "value1");
 	EXPECT_EQ(collections[0].GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collections[0].GetId().empty(), false);
 }
 
 TEST_F(ClientTest, CanCreateCollectionWithEmbeddingFunction)
@@ -99,11 +105,13 @@ TEST_F(ClientTest, CanCreateCollectionWithEmbeddingFunction)
 	Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
 	EXPECT_EQ(collection.GetName(), "test_collection");
 	EXPECT_EQ(collection.GetMetadata().size(), 0);
+	EXPECT_EQ(collection.GetId().empty(), false);
 	EXPECT_EQ(collection.GetEmbeddingFunction(), embeddingFunction);
 
 	Collection collection2 = client->GetCollection("test_collection");
 	EXPECT_EQ(collection2.GetName(), "test_collection");
 	EXPECT_EQ(collection2.GetMetadata().size(), 0);
+	EXPECT_EQ(collection2.GetId().empty(), false);
 	EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
 	collection2.SetEmbeddingFunction(embeddingFunction);
 	EXPECT_EQ(collection2.GetEmbeddingFunction(), embeddingFunction);
@@ -112,6 +120,7 @@ TEST_F(ClientTest, CanCreateCollectionWithEmbeddingFunction)
 	EXPECT_EQ(collections.size(), 1);
 	EXPECT_EQ(collections[0].GetName(), "test_collection");
 	EXPECT_EQ(collections[0].GetMetadata().size(), 0);
+	EXPECT_EQ(collections[0].GetId().empty(), false);
 	EXPECT_EQ(collections[0].GetEmbeddingFunction(), nullptr);
 	collections[0].SetEmbeddingFunction(embeddingFunction);
 	EXPECT_EQ(collections[0].GetEmbeddingFunction(), embeddingFunction);
@@ -126,6 +135,7 @@ TEST_F(ClientTest, CanCreateCollectionWithMetadataAndEmbeddingFunction)
 	EXPECT_EQ(collection.GetMetadata().size(), 2);
 	EXPECT_EQ(collection.GetMetadata().at("key1"), "value1");
 	EXPECT_EQ(collection.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection.GetId().empty(), false);
 	EXPECT_EQ(collection.GetEmbeddingFunction(), embeddingFunction);
 
 	Collection collection2 = client->GetCollection("test_collection");
@@ -133,6 +143,7 @@ TEST_F(ClientTest, CanCreateCollectionWithMetadataAndEmbeddingFunction)
 	EXPECT_EQ(collection2.GetMetadata().size(), 2);
 	EXPECT_EQ(collection2.GetMetadata().at("key1"), "value1");
 	EXPECT_EQ(collection2.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection2.GetId().empty(), false);
 	EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
 	collection2.SetEmbeddingFunction(embeddingFunction);
 	EXPECT_EQ(collection2.GetEmbeddingFunction(), embeddingFunction);
@@ -143,6 +154,7 @@ TEST_F(ClientTest, CanCreateCollectionWithMetadataAndEmbeddingFunction)
 	EXPECT_EQ(collections[0].GetMetadata().size(), 2);
 	EXPECT_EQ(collections[0].GetMetadata().at("key1"), "value1");
 	EXPECT_EQ(collections[0].GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collections[0].GetId().empty(), false);
 	EXPECT_EQ(collections[0].GetEmbeddingFunction(), nullptr);
 	collections[0].SetEmbeddingFunction(embeddingFunction);
 	EXPECT_EQ(collections[0].GetEmbeddingFunction(), embeddingFunction);
@@ -162,11 +174,13 @@ TEST_F(ClientTest, CreateCollectionThrowsExceptionIfInvalidNameProvided)
 
 TEST_F(ClientTest, CanGetCollection)
 {
-	Collection collection = client->CreateCollection("test_collection");
+	client->CreateCollection("test_collection");
 
-	Collection collection2 = client->GetCollection("test_collection");
-	EXPECT_EQ(collection2.GetName(), "test_collection");
-	EXPECT_EQ(collection2.GetMetadata().size(), 0);
+	Collection collection = client->GetCollection("test_collection");
+	EXPECT_EQ(collection.GetName(), "test_collection");
+	EXPECT_EQ(collection.GetMetadata().size(), 0);
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), nullptr);
 }
 
 TEST_F(ClientTest, CanGetCollectionWithMetadata)
@@ -179,6 +193,35 @@ TEST_F(ClientTest, CanGetCollectionWithMetadata)
 	EXPECT_EQ(collection2.GetMetadata().size(), 2);
 	EXPECT_EQ(collection2.GetMetadata().at("key1"), "value1");
 	EXPECT_EQ(collection2.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection2.GetId().empty(), false);
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
+}
+
+TEST_F(ClientTest, CanGetCollectionWithEmbeddingFunction)
+{
+	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
+	client->CreateCollection("test_collection", {});
+
+	Collection collection = client->GetCollection("test_collection", embeddingFunction);
+	EXPECT_EQ(collection.GetName(), "test_collection");
+	EXPECT_EQ(collection.GetMetadata().size(), 0);
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), embeddingFunction);
+}
+
+TEST_F(ClientTest, CanGetCollectionWithMetadataAndEmbeddingFunction)
+{
+	std::unordered_map<std::string, std::string> metadata = { {"key1", "value1"}, {"key2", "value2"} };
+	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
+	client->CreateCollection("test_collection", metadata);
+
+	Collection collection = client->GetCollection("test_collection", embeddingFunction);
+	EXPECT_EQ(collection.GetName(), "test_collection");
+	EXPECT_EQ(collection.GetMetadata().size(), 2);
+	EXPECT_EQ(collection.GetMetadata().at("key1"), "value1");
+	EXPECT_EQ(collection.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), embeddingFunction);
 }
 
 TEST_F(ClientTest, GetCollectionThrowsExceptionIfCollectionDoesNotExist)
@@ -198,6 +241,8 @@ TEST_F(ClientTest, CanGetCollections)
 	EXPECT_EQ(collections.size(), 1);
 	EXPECT_EQ(collections[0].GetName(), "test_collection");
 	EXPECT_EQ(collections[0].GetMetadata().size(), 0);
+	EXPECT_EQ(collections[0].GetId().empty(), false);
+	EXPECT_EQ(collections[0].GetEmbeddingFunction(), nullptr);
 
 	Collection collection2 = client->CreateCollection("test_collection2");
 	collections = client->GetCollections();
@@ -208,6 +253,8 @@ TEST_F(ClientTest, CanGetCollections)
 	EXPECT_EQ(collections.size(), 1);
 	EXPECT_EQ(collections[0].GetName(), "test_collection2");
 	EXPECT_EQ(collections[0].GetMetadata().size(), 0);
+	EXPECT_EQ(collections[0].GetId().empty(), false);
+	EXPECT_EQ(collections[0].GetEmbeddingFunction(), nullptr);
 
 	client->DeleteCollection("test_collection2");
 	collections = client->GetCollections();
@@ -259,19 +306,27 @@ TEST_F(ClientTest, CanUpdateCollection)
 	Collection collection = client->CreateCollection("test_collection");
 	EXPECT_EQ(collection.GetName(), "test_collection");
 	EXPECT_EQ(collection.GetMetadata().size(), 0);
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), nullptr);
 
 	Collection updatedCollection = client->UpdateCollection("test_collection", "test_collection_updated");
 	EXPECT_EQ(updatedCollection.GetName(), "test_collection_updated");
 	EXPECT_EQ(updatedCollection.GetMetadata().size(), 0);
+	EXPECT_EQ(updatedCollection.GetId(), collection.GetId());
+	EXPECT_EQ(updatedCollection.GetEmbeddingFunction(), nullptr);
 
 	Collection collection2 = client->GetCollection("test_collection_updated");
 	EXPECT_EQ(collection2.GetName(), "test_collection_updated");
 	EXPECT_EQ(collection2.GetMetadata().size(), 0);
+	EXPECT_EQ(collection2.GetId(), collection.GetId());
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
 
 	std::vector<Collection> collections = client->GetCollections();
 	EXPECT_EQ(collections.size(), 1);
 	EXPECT_EQ(collections[0].GetName(), "test_collection_updated");
 	EXPECT_EQ(collections[0].GetMetadata().size(), 0);
+	EXPECT_EQ(collections[0].GetId(), collection.GetId());
+	EXPECT_EQ(collections[0].GetEmbeddingFunction(), nullptr);
 }
 
 TEST_F(ClientTest, CanUpdateCollectionWithMetadata)
@@ -282,6 +337,8 @@ TEST_F(ClientTest, CanUpdateCollectionWithMetadata)
 	EXPECT_EQ(collection.GetMetadata().size(), 2);
 	EXPECT_EQ(collection.GetMetadata().at("key1"), "value1");
 	EXPECT_EQ(collection.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), nullptr);
 
 	std::unordered_map<std::string, std::string> newMetadata = { {"key3", "value3"}, {"key4", "value4"} };
 	Collection updatedCollection = client->UpdateCollection("test_collection", "test_collection_updated", newMetadata);
@@ -289,12 +346,16 @@ TEST_F(ClientTest, CanUpdateCollectionWithMetadata)
 	EXPECT_EQ(updatedCollection.GetMetadata().size(), 2);
 	EXPECT_EQ(updatedCollection.GetMetadata().at("key3"), "value3");
 	EXPECT_EQ(updatedCollection.GetMetadata().at("key4"), "value4");
+	EXPECT_EQ(updatedCollection.GetId(), collection.GetId());
+	EXPECT_EQ(updatedCollection.GetEmbeddingFunction(), nullptr);
 
 	Collection collection2 = client->GetCollection("test_collection_updated");
 	EXPECT_EQ(collection2.GetName(), "test_collection_updated");
 	EXPECT_EQ(collection2.GetMetadata().size(), 2);
 	EXPECT_EQ(collection2.GetMetadata().at("key3"), "value3");
 	EXPECT_EQ(collection2.GetMetadata().at("key4"), "value4");
+	EXPECT_EQ(collection2.GetId(), collection.GetId());
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
 
 	std::vector<Collection> collections = client->GetCollections();
 	EXPECT_EQ(collections.size(), 1);
@@ -302,6 +363,8 @@ TEST_F(ClientTest, CanUpdateCollectionWithMetadata)
 	EXPECT_EQ(collections[0].GetMetadata().size(), 2);
 	EXPECT_EQ(collections[0].GetMetadata().at("key3"), "value3");
 	EXPECT_EQ(collections[0].GetMetadata().at("key4"), "value4");
+	EXPECT_EQ(collections[0].GetId(), collection.GetId());
+	EXPECT_EQ(collections[0].GetEmbeddingFunction(), nullptr);
 }
 
 TEST_F(ClientTest, UpdateCollectionThrowsExceptionIfCollectionDoesNotExist)
@@ -520,6 +583,103 @@ TEST_F(ClientTest, CanAddEmbeddingsWithEmbeddingsWithDocumentsWithMetadatas)
 	EXPECT_EQ(queryResponse[2].metadata->size(), 1);
 	EXPECT_EQ(queryResponse[2].metadata->at("key3"), "value3");
 }
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfCollectionDoesNotExist)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	client->DeleteCollection("test_collection");
+
+	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+	std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaInvalidCollectionException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfInvalidIdsProvided)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	std::vector<std::string> ids = { "ID1", "ID2" };
+	std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfInvalidEmbeddingsProvided)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+	std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfInvalidMetadatasProvided)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+	std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+	std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key2", "value2"} } };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, metadatas, {}), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfInvalidDocumentsProvided)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+	std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+	std::vector<std::string> documents = { { "Document1" }, { "Document2" } };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, documents), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfIDsAreEmpty)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	std::vector<std::string> ids = {};
+	std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 } };
+	std::vector<std::string> documents = { "Document1" };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, documents), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfIDsAreEmptyStrings)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	std::vector<std::string> ids = { "" };
+	std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 } };
+	std::vector<std::string> documents = { "Document1" };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, documents), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfIDsAreNotUnique)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	std::vector<std::string> ids = { "ID1", "ID1" };
+	std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
+	std::vector<std::string> documents = { "Document1", "Document2" };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, documents), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfNoDocumentsAndNoEmbeddingsAndNoEmbeddingFunctionProvided)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+
+	EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, {}), ChromaInvalidArgumentException);
+}
+
 
 TEST_F(ClientTest, CanGetEmbeddingsWithWhere)
 {
@@ -814,6 +974,15 @@ TEST_F(ClientTest, CanGetEmbeddingsWithWhereDocument$contains$or)
 	EXPECT_EQ(queryResponse[1].metadata->at("key2"), "value4");
 }
 
+TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForGet)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	client->DeleteCollection("test_collection");
+
+	EXPECT_THROW(client->GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, {}, {}), ChromaException);
+}
+
 TEST_F(ClientTest, CanGetEmbeddingCount)
 {
 	Collection collection = client->CreateCollection("test_collection");
@@ -947,6 +1116,16 @@ TEST_F(ClientTest, CanUpdateEmbeddingVectors)
 	EXPECT_EQ(queryResponse[3].metadata->at("key2"), "value5");
 }
 
+TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForUpdate)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	client->DeleteCollection("test_collection");
+
+	EXPECT_THROW(client->UpdateEmbeddings(collection, { "ID1", "ID2" }, {}, {}, {}), ChromaInvalidCollectionException);
+
+}
+
 TEST_F(ClientTest, CanDeleteEmbeddings)
 {
 	Collection collection = client->CreateCollection("test_collection");
@@ -982,6 +1161,15 @@ TEST_F(ClientTest, CanDeleteEmbeddings)
 	EXPECT_EQ(queryResponse[1].metadata->size(), 2);
 	EXPECT_EQ(queryResponse[1].metadata->at("key1"), "value4");
 	EXPECT_EQ(queryResponse[1].metadata->at("key2"), "value5");
+}
+
+TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForDelete)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	client->DeleteCollection("test_collection");
+
+	EXPECT_THROW(client->DeleteEmbeddings(collection, { "ID1", "ID3" }), ChromaInvalidCollectionException);
 }
 
 TEST_F(ClientTest, CanQueryWithEmbeddings)
@@ -1020,4 +1208,13 @@ TEST_F(ClientTest, ThrowsIfNoDocumentsAndNoEmbeddingsForQuery)
 	Collection collection = client->CreateCollection("test_collection");
 
 	EXPECT_THROW(client->Query(collection, {}, {}, 2, { "embeddings", "documents", "metadatas", "distances" }), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForQuery)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	client->DeleteCollection("test_collection");
+
+	EXPECT_THROW(client->Query(collection, {}, { { 1.0, 2.0, 3.0 } }, 2, { "embeddings", "documents", "metadatas", "distances" }), ChromaInvalidCollectionException);
 }
