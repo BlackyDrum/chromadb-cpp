@@ -358,15 +358,15 @@ namespace chromadb {
 			{
 				auto id = response["ids"][i].get<std::string>();
 
-				std::shared_ptr<const std::vector<double>> embeddings;
+				std::shared_ptr<const std::vector<double>> embeddings = nullptr;
 				if (!response["embeddings"].is_null() && !response["embeddings"][i].is_null())
 					embeddings = std::make_shared<const std::vector<double>>(response["embeddings"][i].get<std::vector<double>>());
 
-				std::shared_ptr<const std::unordered_map<std::string, std::string>> metadata;
+				std::shared_ptr<const std::unordered_map<std::string, std::string>> metadata = nullptr;
 				if (!response["metadatas"].is_null() && !response["metadatas"][i].is_null())
 					metadata = std::make_shared<const std::unordered_map<std::string, std::string>>(response["metadatas"][i].get<std::unordered_map<std::string, std::string>>());
 
-				std::shared_ptr<const std::string> document;
+				std::shared_ptr<const std::string> document = nullptr;
 				if (!response["documents"].is_null() && !response["documents"][i].is_null())
 					document = std::make_shared<const std::string>(response["documents"][i].get<std::string>());
 
