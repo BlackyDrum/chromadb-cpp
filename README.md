@@ -753,7 +753,7 @@ int main()
 - **queryDocuments**: (Optional) The documents to query.
 - **queryEmbeddings**: (Optional) The embeddings to query.
 - **nResults**: (Optional) The number of results to return. Defaults to 10.
-- **include**: (Optional) The fields to include in the results (e.g., "metadatas", "documents", "embeddings", "distances").
+- **include**: (Optional) The fields to include in the results (e.g., "metadatas", "documents", "embeddings", "distances"). Defaults to "metadatas" and "embeddings".
 - **where_document**: (Optional) The where clause for filtering documents.
 - **where**: (Optional) The where clause for filtering metadata.
 
