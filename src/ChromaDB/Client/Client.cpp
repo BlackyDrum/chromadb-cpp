@@ -353,12 +353,14 @@ namespace chromadb {
 		{
 			auto response = m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/get", json);
 
-			std::vector<EmbeddingResource> embeddings;
+			std::vector<EmbeddingResource> results;
 			for (size_t i = 0; i < response["ids"].size(); i++)
 			{
-				std::shared_ptr<const std::vector<double>> embeddingsPtr;
+				auto id = response["ids"][i].get<std::string>();
+
+				std::shared_ptr<const std::vector<double>> embeddings;
 				if (!response["embeddings"].is_null() && !response["embeddings"][i].is_null())
-					embeddingsPtr = std::make_shared<const std::vector<double>>(response["embeddings"][i].get<std::vector<double>>());
+					embeddings = std::make_shared<const std::vector<double>>(response["embeddings"][i].get<std::vector<double>>());
 
 				std::shared_ptr<const std::unordered_map<std::string, std::string>> metadata;
 				if (!response["metadatas"].is_null() && !response["metadatas"][i].is_null())
@@ -368,10 +370,10 @@ namespace chromadb {
 				if (!response["documents"].is_null() && !response["documents"][i].is_null())
 					document = std::make_shared<const std::string>(response["documents"][i].get<std::string>());
 
-				embeddings.emplace_back(response["ids"][i], embeddingsPtr, metadata, document);
+				results.emplace_back(id, embeddings, metadata, document);
 			}
 
-			return embeddings;
+			return results;
 		}
 		catch (ChromaException& e)
 		{
@@ -423,16 +425,16 @@ namespace chromadb {
 			std::vector<QueryResponseResource> queryResponses;
 			for (size_t i = 0; i < response["ids"].size(); i++)
 			{
-				QueryResponseResource queryResponse;
+				auto ids = response["ids"][i].get<std::vector<std::string>>();
 
-				queryResponse.ids = response["ids"][i].get<std::vector<std::string>>();
-
+				std::shared_ptr<std::vector<std::vector<double>>> embeddings = nullptr;
 				if (!response["embeddings"].is_null() && !response["embeddings"][i].is_null())
-					queryResponse.embeddings = std::make_shared<std::vector<std::vector<double>>>(response["embeddings"][i].get<std::vector<std::vector<double>>>());
+					embeddings = std::make_shared<std::vector<std::vector<double>>>(response["embeddings"][i].get<std::vector<std::vector<double>>>());
 
+				std::shared_ptr<std::vector<std::unordered_map<std::string, std::string>>> metadatas = nullptr;
 				if (!response["metadatas"].is_null() && !response["metadatas"][i].is_null())
 				{
-					auto metadatas = std::make_shared<std::vector<std::unordered_map<std::string, std::string>>>();
+					metadatas = std::make_shared<std::vector<std::unordered_map<std::string, std::string>>>();
 					for (const auto& metadata : response["metadatas"][i])
 					{
 						if (!metadata.is_null())
@@ -440,13 +442,12 @@ namespace chromadb {
 						else
 							metadatas->push_back({});
 					}
-
-					queryResponse.metadatas = std::const_pointer_cast<const std::vector<std::unordered_map<std::string, std::string>>>(metadatas);
 				}
 
+				std::shared_ptr<std::vector<std::string>> documents = nullptr;
 				if (!response["documents"].is_null() && !response["documents"][i].is_null())
 				{
-					auto documents = std::make_shared<std::vector<std::string>>();
+					documents = std::make_shared<std::vector<std::string>>();
 					for (const auto& document : response["documents"][i])
 					{
 						if (!document.is_null())
@@ -454,14 +455,13 @@ namespace chromadb {
 						else
 							documents->push_back("");
 					}
-
-					queryResponse.documents = std::const_pointer_cast<const std::vector<std::string>>(documents);
 				}
 
+				std::shared_ptr<std::vector<double>> distances = nullptr;
 				if (!response["distances"].is_null() && !response["distances"][i].is_null())
-					queryResponse.distances = std::make_shared<std::vector<double>>(response["distances"][i].get<std::vector<double>>());
+					distances = std::make_shared<std::vector<double>>(response["distances"][i].get<std::vector<double>>());
 
-				queryResponses.push_back(queryResponse);
+				queryResponses.emplace_back(ids, embeddings, metadatas, documents, distances);
 			}
 
 			return queryResponses;
