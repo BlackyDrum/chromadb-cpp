@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2024-06-18
+### Added
+- Copyright notice added to the main header
+
+### Changed
+- Members of `QueryResponseResource` and `EmbeddingResource` made const to ensure immutability.
+
 ## [0.3.0] - 2024-06-16
 ### Added
 - `CohereEmbeddingFunction`: Added new embedding function for Cohere.
