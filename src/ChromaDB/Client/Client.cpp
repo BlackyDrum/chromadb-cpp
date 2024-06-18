@@ -131,6 +131,18 @@ namespace chromadb {
 		}
 	}
 
+	Collection Client::GetOrCreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata, std::shared_ptr<EmbeddingFunction> embeddingFunction)
+	{
+		try
+		{
+			return this->GetCollection(name, embeddingFunction);
+		}
+		catch (ChromaException)
+		{
+			return this->CreateCollection(name, metadata, embeddingFunction);
+		}
+	}
+
 	std::vector<Collection> Client::GetCollections(std::shared_ptr<EmbeddingFunction> embeddingFunction)
 	{
 		try
@@ -523,7 +535,8 @@ namespace chromadb {
 		return { validatedIds, finalEmbeddings, metadata, documents };
 	}
 
-	void Client::handleChromaApiException(const ChromaException& e) {
+	void Client::handleChromaApiException(const ChromaException& e)
+	{
 		const auto* connectException = dynamic_cast<const ChromaConnectionException*>(&e);
 		if (connectException)
 			throw ChromaConnectionException(connectException->what());

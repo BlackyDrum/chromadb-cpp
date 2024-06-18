@@ -296,6 +296,22 @@ int main()
 - **name**: The name of the collection to retrieve.
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
 
+### Get or Create a Collection
+To retrieve an existing collection or create a new one in ChromaDB, use the `GetOrCreateCollection` method. This method allows you to specify the name of the collection, optional metadata, and an optional embedding function.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    chromadb::Collection collection = client.GetOrCreateCollection("test_collection");
+}
+```
+**Parameters**
+- **name**: The name of the collection to retrieve.
+- **metadata**: (Optional) A map of metadata key-value pairs to associate with the collection.
+- **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
+
 ### Get all Collections
 To retrieve all existing collections in ChromaDB, use the `GetCollections` method. This method allows you to specify an optional embedding function that applies to all collections.
 

@@ -231,6 +231,115 @@ TEST_F(ClientTest, GetCollectionThrowsExceptionIfCollectionDoesNotExist)
 	EXPECT_THROW(client->GetCollection("test_collection2"), ChromaValueException);
 }
 
+TEST_F(ClientTest, CanGetOrCreateCollectionWithoutMetadata)
+{
+	Collection collection = client->GetOrCreateCollection("test_collection");
+	EXPECT_EQ(collection.GetName(), "test_collection");
+	EXPECT_EQ(collection.GetMetadata().size(), 0);
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), nullptr);
+
+	Collection collection2 = client->GetCollection("test_collection");
+	EXPECT_EQ(collection2.GetName(), "test_collection");
+	EXPECT_EQ(collection2.GetMetadata().size(), 0);
+	EXPECT_EQ(collection2.GetId().empty(), false);
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
+}
+
+TEST_F(ClientTest, CanGetOrCreateCollectionWithMetadata)
+{
+	std::unordered_map<std::string, std::string> metadata = { {"key1", "value1"}, {"key2", "value2"} };
+	Collection collection = client->GetOrCreateCollection("test_collection", metadata);
+	EXPECT_EQ(collection.GetName(), "test_collection");
+	EXPECT_EQ(collection.GetMetadata().size(), 2);
+	EXPECT_EQ(collection.GetMetadata().at("key1"), "value1");
+	EXPECT_EQ(collection.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), nullptr);
+
+	Collection collection2 = client->GetCollection("test_collection");
+	EXPECT_EQ(collection2.GetName(), "test_collection");
+	EXPECT_EQ(collection2.GetMetadata().size(), 2);
+	EXPECT_EQ(collection2.GetMetadata().at("key1"), "value1");
+	EXPECT_EQ(collection2.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection2.GetId().empty(), false);
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
+}
+
+TEST_F(ClientTest, CanGetOrCreateCollectionWithEmbeddingFunction)
+{
+	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
+	Collection collection = client->GetOrCreateCollection("test_collection", {}, embeddingFunction);
+	EXPECT_EQ(collection.GetName(), "test_collection");
+	EXPECT_EQ(collection.GetMetadata().size(), 0);
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), embeddingFunction);
+
+	Collection collection2 = client->GetCollection("test_collection");
+	EXPECT_EQ(collection2.GetName(), "test_collection");
+	EXPECT_EQ(collection2.GetMetadata().size(), 0);
+	EXPECT_EQ(collection2.GetId().empty(), false);
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
+	collection2.SetEmbeddingFunction(embeddingFunction);
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), embeddingFunction);
+}
+
+TEST_F(ClientTest, CanGetOrCreateCollectionWithMetadataAndEmbeddingFunction)
+{
+	std::unordered_map<std::string, std::string> metadata = { {"key1", "value1"}, {"key2", "value2"} };
+	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
+	Collection collection = client->GetOrCreateCollection("test_collection", metadata, embeddingFunction);
+	EXPECT_EQ(collection.GetName(), "test_collection");
+	EXPECT_EQ(collection.GetMetadata().size(), 2);
+	EXPECT_EQ(collection.GetMetadata().at("key1"), "value1");
+	EXPECT_EQ(collection.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), embeddingFunction);
+
+	Collection collection2 = client->GetCollection("test_collection", embeddingFunction);
+	EXPECT_EQ(collection2.GetName(), "test_collection");
+	EXPECT_EQ(collection2.GetMetadata().size(), 2);
+	EXPECT_EQ(collection2.GetMetadata().at("key1"), "value1");
+	EXPECT_EQ(collection2.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection2.GetId().empty(), false);
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), embeddingFunction);
+}
+
+TEST_F(ClientTest, GetOrCreateCollectionDoesNotThrowExceptionIfCollectionAlreadyExists)
+{
+	Collection collection = client->CreateCollection("test_collection");
+
+	EXPECT_NO_THROW(client->GetOrCreateCollection("test_collection"));
+}
+
+TEST_F(ClientTest, GetOrCreateCollectionThrowsExceptionIfInvalidNameProvided)
+{
+	EXPECT_THROW(client->GetOrCreateCollection("te"), ChromaValueException);
+}
+
+TEST_F(ClientTest, CanGetOrCreateCollectionWithMetadataAndEmbeddingFunctionIfCollectionAlreadyExists)
+{
+	std::unordered_map<std::string, std::string> metadata = { {"key1", "value1"}, {"key2", "value2"} };
+	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
+	client->CreateCollection("test_collection", metadata);
+
+	Collection collection = client->GetOrCreateCollection("test_collection", metadata, embeddingFunction);
+	EXPECT_EQ(collection.GetName(), "test_collection");
+	EXPECT_EQ(collection.GetMetadata().size(), 2);
+	EXPECT_EQ(collection.GetMetadata().at("key1"), "value1");
+	EXPECT_EQ(collection.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection.GetId().empty(), false);
+	EXPECT_EQ(collection.GetEmbeddingFunction(), embeddingFunction);
+
+	Collection collection2 = client->GetCollection("test_collection", embeddingFunction);
+	EXPECT_EQ(collection2.GetName(), "test_collection");
+	EXPECT_EQ(collection2.GetMetadata().size(), 2);
+	EXPECT_EQ(collection2.GetMetadata().at("key1"), "value1");
+	EXPECT_EQ(collection2.GetMetadata().at("key2"), "value2");
+	EXPECT_EQ(collection2.GetId().empty(), false);
+	EXPECT_EQ(collection2.GetEmbeddingFunction(), embeddingFunction);
+}
+
 TEST_F(ClientTest, CanGetCollections)
 {
 	std::vector<Collection> collections = client->GetCollections();

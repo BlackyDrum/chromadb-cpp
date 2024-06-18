@@ -103,6 +103,19 @@ namespace chromadb {
 		* @throw ChromaException if something goes wrong
 		*/
 		Collection GetCollection(const std::string& name, std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
+
+		/*
+		* @brief Get or create a collection
+		* 
+		* @param name The name of the collection
+		* @param metadata The metadata of the collection (optional)
+		* @param embeddingFunction The embedding function of the collection (optional)
+		* 
+		* @return Collection The collection
+		* 
+		* @throw ChromaException if something goes wrong
+		*/
+		Collection GetOrCreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata = {}, std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
 		
 		/*
 		* @brief Get all collections
