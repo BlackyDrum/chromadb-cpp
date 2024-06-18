@@ -517,7 +517,7 @@ namespace chromadb {
 					duplicates.insert(id);
 			}
 
-			throw ChromaInvalidArgumentException("Expected IDs to be unique, found duplicates for: " + Utils::join(duplicates, ", "));
+			throw ChromaInvalidArgumentException("Expected IDs to be unique, found duplicates for: " + Utils::Join(duplicates, ", "));
 		}
 
 		return { validatedIds, finalEmbeddings, metadata, documents };

@@ -8,7 +8,7 @@ namespace chromadb {
 	{
 	public:
         template<typename T>
-        static std::string join(const T& container, const std::string& delimiter)
+        static std::string Join(const T& container, const std::string& delimiter)
         {
             std::ostringstream oss;
             for (auto it = container.begin(); it != container.end(); ++it)
