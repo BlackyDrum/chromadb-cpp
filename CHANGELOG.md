@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2024-06-19
+### Added
+- `GetOrCreateCollection`: Added `GetOrCreateCollection` method to retrieve an existing collection or create a new one if it does not exist.
+- Support for Retrieving Additional Metadata: Added support for retrieving additional metadata from embedding requests using the `GetLastRequestAdditionalMetadata()` method in embedding functions (e.g., JinaEmbeddingFunction, OpenAIEmbeddingFunction, ...).
+
+## Changed
+Renamed `Utils::join` to `Utils::Join`: The join function in the Utils class has been renamed to `Join` for consistency.
+
 ## [0.3.1] - 2024-06-18
 ### Added
 - Copyright notice added to the main header
