@@ -623,7 +623,7 @@ int main()
     std::cout << queryResponse[0].id << std::endl; // ID2
 }
 ```
-The where clause must be an array of key-value pairs. The key must be a string, and the value can be a string or an nested objects of valid filter values:
+The where clause must be an array of key-value pairs. The key must be a string, and the value can be a string or a nested objects of valid filter values:
 - `$eq`: Equals
 - `$ne`: Not equals
 - `$in`: In
