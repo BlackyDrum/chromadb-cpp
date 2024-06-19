@@ -541,6 +541,40 @@ int main()
 - **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.together.xyz`.
 - **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
+### Getting Additional Metadata from Embedding Requests
+If you generated embeddings using an embedding function that calls a provider (e.g., OpenAI or Jina), you can retrieve additional information about the request using the `embeddingFunction->GetLastRequestAdditionalMetadata()` method. This function returns specific metadata for a provider.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::JinaEmbeddingFunction> embeddingFunction = std::make_shared<chromadb::JinaEmbeddingFunction>("jina-api-key");
+
+    chromadb::Collection collection = client.GetOrCreateCollection("test_collection", {}, embeddingFunction);
+
+    std::vector<std::string> ids = { "ID1", "ID2" };
+    std::vector<std::string> documents = { "document1", "document2" };
+
+    client.AddEmbeddings(collection, ids, {}, {}, documents);
+
+    std::cout << embeddingFunction->GetLastRequestAdditionalMetadata() << std::endl;
+    // Example output (specific for the Jina API): 
+    // {
+    //     "model": "jina-embeddings-v2-base-en",
+    //     "object": "list",
+    //     "usage": {
+    //         "prompt_tokens": 8,
+    //         "total_tokens": 8
+    //     }
+    // }
+
+    // Access specific fields in the additional metadata
+    std::cout << embeddingFunction->GetLastRequestAdditionalMetadata()["usage"]["prompt_tokens"] << std::endl; // 8
+}
+
+```
+
 ### Get Embeddings from a Collection
 To retrieve embeddings from an existing collection in ChromaDB, use the `GetEmbeddings` method. This method allows you to specify the collection, optional IDs of the embeddings, and optional filters and fields to include in the result.
 

@@ -23,6 +23,12 @@ namespace chromadb {
 			embeddings.push_back(obj["embedding"]);
 		}
 
+		nlohmann::json additionalData;
+		additionalData["model"] = response["model"];
+		additionalData["object"] = response["object"];
+		additionalData["usage"] = response["usage"];
+		m_LastRequestAdditionalMetadata = additionalData;
+
 		return embeddings;
 	}
 

@@ -17,6 +17,12 @@ namespace chromadb {
 
 		nlohmann::json response = this->Request(body);
 
+		nlohmann::json additionalData;
+		additionalData["response_type"] = response["response_type"];
+		additionalData["id"] = response["id"];
+		additionalData["meta"] = response["meta"];
+		m_LastRequestAdditionalMetadata = additionalData;
+
 		return response["embeddings"].get<std::vector<std::vector<double>>>();
 	}
 
