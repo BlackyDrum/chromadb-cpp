@@ -61,6 +61,18 @@ namespace chromadb {
 		}
 	}
 
+	void Client::Reset()
+	{
+		try
+		{
+			m_ChromaApiClient.Post("/reset", {});
+		}
+		catch (ChromaException& e)
+		{
+			this->handleChromaApiException(e);
+		}
+	}
+
 	std::string Client::GetVersion()
 	{
 		try

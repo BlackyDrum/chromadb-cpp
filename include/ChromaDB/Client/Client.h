@@ -48,6 +48,13 @@ namespace chromadb {
 		Client(const std::string& scheme, const std::string& host, const std::string& port, const std::string& database = "default_database", const std::string& tenant = "default_tenant", const std::string& authToken = "");
 
 		/*
+		* @brief Reset ChromaDB
+		* 
+		* @throw ChromaException if something goes wrong
+		*/
+		void Reset();
+
+		/*
 		* @brief Get the version of the server
 		* 
 		* @return std::string The version of the server

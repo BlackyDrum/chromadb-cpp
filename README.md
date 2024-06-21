@@ -807,6 +807,19 @@ int main()
 - **where_document**: (Optional) The where clause for filtering documents.
 - **where**: (Optional) The where clause for filtering metadata.
 
+### Reset ChromaDB
+To reset ChromaDB, use the `Reset` method. This will delete all collections and entries.
+
+> Resetting may not be allowed by your configuration. To enable it, include `ALLOW_RESET=TRUE` in your environment variables.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    client.Reset();
+}
+```
 
 ## License
 This project is licensed under the MIT License.
