@@ -558,7 +558,8 @@ namespace chromadb {
         {
             nlohmann::json error = nlohmann::json::parse(requestException->what(), nullptr, false);
 
-            if (!error.is_discarded()) {
+            if (!error.is_discarded())
+            {
                 std::string errorValue = error.value("error", "");
 
                 std::smatch matches;
