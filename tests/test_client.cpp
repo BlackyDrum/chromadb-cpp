@@ -483,6 +483,11 @@ TEST_F(ClientTest, UpdateCollectionThrowsExceptionIfCollectionDoesNotExist)
     EXPECT_THROW(client->UpdateCollection("test_collection2", "test_collection_updated"), ChromaValueException);
 }
 
+TEST_F(ClientTest, UpdateCollectionThrowsExceptionIfInvalidNameProvided)
+{
+    EXPECT_THROW(client->UpdateCollection("test_collection", "te"), ChromaValueException);
+}
+
 TEST_F(ClientTest, CanDeleteCollection)
 {
     Collection collection = client->CreateCollection("test_collection");
