@@ -4,9 +4,9 @@
 
 namespace chromadb {
 
-	class Utils
-	{
-	public:
+    class Utils
+    {
+    public:
         template<typename T>
         static std::string Join(const T& container, const std::string& delimiter)
         {
@@ -22,7 +22,7 @@ namespace chromadb {
             return oss.str();
         }
     private:
-        	Utils() = default;
-	};
+            Utils() = default;
+    };
 
 } // namespace chromadb
