@@ -4,9 +4,9 @@
 
 namespace chromadb {
 
-	class EmbeddingProviderRequestException : public ChromaException
-	{
-		using ChromaException::ChromaException;
-	};
+    class EmbeddingProviderRequestException : public ChromaException
+    {
+        using ChromaException::ChromaException;
+    };
 
 } // namespace chromadb

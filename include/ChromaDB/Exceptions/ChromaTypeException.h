@@ -4,9 +4,9 @@
 
 namespace chromadb {
 
-	class ChromaTypeException : public ChromaException
-	{
-		using ChromaException::ChromaException;
-	};
+    class ChromaTypeException : public ChromaException
+    {
+        using ChromaException::ChromaException;
+    };
 
 } // namespace chromadb
