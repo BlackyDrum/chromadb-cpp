@@ -363,18 +363,22 @@ int main()
 - **newMetadata**: (Optional) A map of new metadata key-value pairs for the collection.
 
 ### Delete a Collection
-To delete an existing collection in ChromaDB, use the `DeleteCollection` method. This method allows you to specify the name of the collection you want to remove.
+To delete an existing collection in ChromaDB, use the `DeleteCollection` method. This method allows you to specify the collection you want to remove.
 
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
 int main()
 {
-    client.DeleteCollection("test_collection");
+    Collection collection = client.CreateCollection("test_collection");
+    client.DeleteCollection(collection);
+
+    // After deletion, the collection will not be usable anymore
+    collection.GetName(); // Throws exception
 }
 ```
 **Parameters**
-- **name**: The name of the collection to delete.
+- **collection**: The collection to delete.
 
 ### Delete all Collections
 To delete all existing collections for the current database, use the ``DeleteCollections`` method.
