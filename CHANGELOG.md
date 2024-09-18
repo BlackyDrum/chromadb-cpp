@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2024-09-19
+## Changed
+- Updated error type from `AuthorizationError` to `AuthError` for compatibility with the latest ChromaDB version.
+- Adjusted tests to expect other exception type.
+
 ## [0.4.0] - 2024-06-19
 ### Added
 - `GetOrCreateCollection`: Added `GetOrCreateCollection` method to retrieve an existing collection or create a new one if it does not exist.
