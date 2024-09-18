@@ -228,7 +228,7 @@ TEST_F(ClientTest, GetCollectionThrowsExceptionIfCollectionDoesNotExist)
 {
     Collection collection = client->CreateCollection("test_collection");
 
-    EXPECT_THROW(client->GetCollection("test_collection2"), ChromaValueException);
+    EXPECT_THROW(client->GetCollection("test_collection2"), ChromaInvalidCollectionException);
 }
 
 TEST_F(ClientTest, CanGetOrCreateCollectionWithoutMetadata)
@@ -480,12 +480,12 @@ TEST_F(ClientTest, UpdateCollectionThrowsExceptionIfCollectionDoesNotExist)
 {
     Collection collection = client->CreateCollection("test_collection");
 
-    EXPECT_THROW(client->UpdateCollection("test_collection2", "test_collection_updated"), ChromaValueException);
+    EXPECT_THROW(client->UpdateCollection("test_collection2", "test_collection_updated"), ChromaInvalidCollectionException);
 }
 
 TEST_F(ClientTest, UpdateCollectionThrowsExceptionIfInvalidNameProvided)
 {
-    EXPECT_THROW(client->UpdateCollection("test_collection", "te"), ChromaValueException);
+    EXPECT_THROW(client->UpdateCollection("test_collection", "te"), ChromaInvalidCollectionException);
 }
 
 TEST_F(ClientTest, CanDeleteCollection)
