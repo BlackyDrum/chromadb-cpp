@@ -703,7 +703,7 @@ TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfCollectionDoesNotExist)
     EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaInvalidCollectionException);
 }
 
-TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfInvalidIdsProvided)
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfNotEnoughIdsProvided)
 {
     Collection collection = client->CreateCollection("test_collection");
 
@@ -711,6 +711,48 @@ TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfInvalidIdsProvided)
     std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
 
     EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfNotEnoughEmbeddingsProvided)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
+
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfNotEnoughDocumentsProvided)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    std::vector<std::string> documents = { "Document1", "Document2" };
+
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, documents), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfNotEnoughMetadatasProvided)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key2", "value2"} } };
+
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, metadatas, {}), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfInvalidEmbeddingsSizeProvided)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaDimensionalityException);
 }
 
 TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfInvalidEmbeddingsProvided)
@@ -1418,4 +1460,52 @@ TEST_F(ClientTest, HasDeletedFlagCorrectlySet)
     client->DeleteCollection(collection);
 
     EXPECT_TRUE(collection.GetIsDeleted());
+}
+
+TEST_F(ClientTest, ThrowsIfDuplicateIdsForAdd)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID2" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
+
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, ThrowsIfDuplicateIdsForUpsert)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID2" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
+
+    EXPECT_THROW(client->UpsertEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, ThrowsIfDuplicateIdsForUpdate)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID2" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
+
+    EXPECT_THROW(client->UpdateEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidArgumentException);
+}
+
+TEST_F(ClientTest, ThrowsIfEmptyIdForAdd)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
+
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidArgumentException);
 }
