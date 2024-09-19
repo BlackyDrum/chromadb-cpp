@@ -36,7 +36,7 @@ int main()
 	std::cout << queryResponse[0].ids[0] << std::endl; // ID1
 	std::cout << queryResponse[0].metadatas->at(0).at("key1") << std::endl; // value1
 
-	client.DeleteCollection(collection.GetName());
+	client.DeleteCollection(collection);
 }
 ```
 
@@ -363,30 +363,21 @@ int main()
 - **newMetadata**: (Optional) A map of new metadata key-value pairs for the collection.
 
 ### Delete a Collection
-To delete an existing collection in ChromaDB, use the `DeleteCollection` method. This method allows you to specify the name of the collection you want to remove.
+To delete an existing collection in ChromaDB, use the `DeleteCollection` method. This method allows you to specify the collection you want to remove.
 
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
 int main()
 {
-    client.DeleteCollection("test_collection");
+    chromadb::Collection collection = client.CreateCollection("test_collection");
+    client.DeleteCollection(collection);
+
+    collection.GetName(); // Throws exception
 }
 ```
 **Parameters**
-- **name**: The name of the collection to delete.
-
-### Delete all Collections
-To delete all existing collections for the current database, use the ``DeleteCollections`` method.
-
-```cpp
-#include "ChromaDB/ChromaDB.h"
-
-int main()
-{
-    client.DeleteCollections();
-}
-```
+- **collection**: The collection to delete.
 
 ### Add Embeddings to a Collection
 To add embeddings to an existing collection in ChromaDB, use the `AddEmbeddings` method. 

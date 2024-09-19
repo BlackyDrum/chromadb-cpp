@@ -191,24 +191,22 @@ namespace chromadb {
         }
     }
 
-    void Client::DeleteCollection(const std::string& name)
+    void Client::DeleteCollection(Collection& collection)
     {
         try
         {
-            m_ChromaApiClient.Delete("/collections/" + name + "?tenant=" + m_Tenant + "&database=" + m_Database);
+            m_ChromaApiClient.Delete("/collections/" + collection.GetName() + "?tenant=" + m_Tenant + "&database=" + m_Database);
+
+            collection.m_IsDeleted = true;
+        }
+        catch (ChromaInvalidCollectionException& e)
+        {
+            throw e;
         }
         catch (ChromaException& e)
         {
             this->handleChromaApiException(e);
         }
-    }
-
-    void Client::DeleteCollections()
-    {
-        auto collections = this->GetCollections();
-
-        for (const auto& collection : collections)
-            this->DeleteCollection(collection.GetName());
     }
 
     Collection Client::UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata)
@@ -322,6 +320,10 @@ namespace chromadb {
         {
             return m_ChromaApiClient.Get("/collections/" + collection.GetId() + "/count");
         }
+        catch (ChromaInvalidCollectionException& e)
+        {
+            throw e;
+        }
         catch (ChromaException& e)
         {
             this->handleChromaApiException(e);
@@ -345,6 +347,10 @@ namespace chromadb {
         try
         {
             m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/delete", json);
+        }
+        catch (ChromaInvalidCollectionException& e)
+        {
+            throw e;
         }
         catch (ChromaException& e)
         {
@@ -399,6 +405,10 @@ namespace chromadb {
 
             return results;
         }
+        catch (ChromaInvalidCollectionException& e)
+        {
+            throw e;
+        }
         catch (ChromaException& e)
         {
             this->handleChromaApiException(e);
@@ -407,6 +417,9 @@ namespace chromadb {
 
     std::vector<QueryResponseResource> Client::Query(const Collection& collection, const std::vector<std::string>& queryTexts, const std::vector<std::vector<double>>& queryEmbeddings, size_t nResults, const std::vector<std::string>& include, const nlohmann::json& where_document, const nlohmann::json& where)
     {
+        if (collection.GetIsDeleted())
+            throw ChromaInvalidCollectionException("Collection " + collection.GetName() + " has already been deleted");
+
         if (!((!queryEmbeddings.empty() && queryTexts.empty()) || (queryEmbeddings.empty() && !queryTexts.empty()) || (queryEmbeddings.empty() && queryTexts.empty())))
             throw ChromaInvalidArgumentException("You must provide only one of queryEmbeddings or queryTexts");
 
@@ -499,6 +512,9 @@ namespace chromadb {
     // Source for this function: https://github.com/CodeWithKyrian/chromadb-php
     Client::ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents, bool requireEmbeddingsOrDocuments)
     {
+        if (collection.GetIsDeleted())
+            throw ChromaInvalidCollectionException("Collection " + collection.GetName() + " has already been deleted");
+
         if (requireEmbeddingsOrDocuments)
         {
             if (embeddings.empty() && documents.empty())

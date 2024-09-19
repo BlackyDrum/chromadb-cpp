@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.2] - 2024-09-19
+### Removed
+- Removed `version` from the `docker-compose.yml` file as it is no longer needed.
+- Removed `DeleteCollections` method due to incompatibility with the new API.
+
+### Added
+- Added version to the ChromaDB image in `docker-compose.yml` (e.g., `chromadb/chroma:0.5.7`).
+
+### Changed
+- Accessing a deleted collection now throws an exception if the collection object is accessed.
+
 ## [0.4.1] - 2024-09-19
 ## Changed
 - Updated error type from `AuthorizationError` to `AuthError` for compatibility with the latest ChromaDB version.

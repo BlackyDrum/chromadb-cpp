@@ -160,18 +160,11 @@ namespace chromadb {
         /*
         * @brief Delete a collection
         * 
-        * @param name The name of the collection
+        * @param collection The collection to delete
         * 
         * @throw ChromaException if something goes wrong
         */
-        void DeleteCollection(const std::string& name);
-
-        /*
-        * @brief Delete all collections
-        * 
-        * @throw ChromaException if something goes wrong
-        */
-        void DeleteCollections();
+        void DeleteCollection(Collection& collection);
 
         /*
         * @brief Add embeddings to a collection
