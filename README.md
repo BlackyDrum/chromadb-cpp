@@ -776,9 +776,9 @@ int main()
             std::cout << response.ids[i] << std::endl;
             std::cout << response.documents->at(i).c_str() << std::endl;
 
-            for (auto& metadata : response.metadatas->at(i))
+            for (const auto& [key, value] : response.metadatas->at(i))
             {
-                std::cout << metadata.first << ": " << metadata.second << std::endl;
+                std::cout << key << ": " << value << std::endl;
             }
         }
     }
