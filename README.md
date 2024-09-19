@@ -50,8 +50,6 @@ docker container run -p 8080:8000 chromadb/chroma
 
 Alternatively, you can use a `docker-compose` file:
 ```yml
-version: '3.9'
-
 services:
     chromadb:
         image: 'chromadb/chroma'
