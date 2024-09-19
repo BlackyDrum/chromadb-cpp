@@ -232,8 +232,6 @@ ChromaDB supports static token-based authentication. To use it, start the Chroma
 For Docker Compose, you can use the `env_file` option or pass the environment variables directly as shown below:
 
 ```yml
-version: '3.9'
-
 services:
     chroma-with-auth:
         image: 'chromadb/chroma'
