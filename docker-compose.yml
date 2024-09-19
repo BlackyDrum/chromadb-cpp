@@ -1,15 +1,13 @@
-version: '3.9'
-
 services:
     chroma-no-auth:
-        image: 'chromadb/chroma'
+        image: 'chromadb/chroma:0.5.7'
         ports:
             - '8080:8000'
         volumes:
             - chroma-data:/chroma/chroma
 
     chroma-with-auth:
-        image: 'chromadb/chroma'
+        image: 'chromadb/chroma:0.5.7'
         ports:
             - '8081:8000'
         volumes:
