@@ -48,7 +48,7 @@ jobs:
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 60
 
     - name: Configure CMake
-      run: cmake -S . -B build
+      run: cmake -S . -B build -DCMAKE_CXX_STANDARD=20
 
     - name: Build
       run: cmake --build build
