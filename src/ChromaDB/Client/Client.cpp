@@ -12,7 +12,7 @@ namespace chromadb {
     {
         try
         {
-            m_ChromaApiClient.Get("/tenants/" + m_Tenant);
+            m_ChromaApiClient.Get(std::format("/tenants/{}" ,m_Tenant));
         }
         catch (ChromaException)
         {
@@ -21,7 +21,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Get("/databases/" + m_Database + "?tenant=" + m_Tenant);
+            m_ChromaApiClient.Get(std::format("/databases/{}?tenant={}", m_Database, m_Tenant));
         }
         catch (ChromaException)
         {
@@ -53,7 +53,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Post("/databases?tenant=" + m_Tenant, json);
+            m_ChromaApiClient.Post(std::format("/databases?tenant={}", m_Tenant), json);
         }
         catch (ChromaException& e)
         {
@@ -81,7 +81,7 @@ namespace chromadb {
 
             version.erase(std::remove_if(version.begin(), version.end(), [](char c) {
                 return c == '"';
-                }), version.end());
+            }), version.end());
 
             return version;
         }
@@ -115,7 +115,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Post("/collections?tenant=" + m_Tenant + "&database=" + m_Database, json);
+            m_ChromaApiClient.Post(std::format("/collections?tenant={}&database={}", m_Tenant, m_Database), json);
         }
         catch (ChromaException& e)
         {
@@ -129,7 +129,7 @@ namespace chromadb {
     {
         try
         {
-            auto json = m_ChromaApiClient.Get("/collections/" + name + "?tenant=" + m_Tenant + "&database=" + m_Database);
+            auto json = m_ChromaApiClient.Get(std::format("/collections/{}?tenant={}&database={}", name, m_Tenant, m_Database));
 
             std::unordered_map<std::string, std::string> metadata;
             if (!json["metadata"].is_null())
@@ -159,7 +159,7 @@ namespace chromadb {
     {
         try
         {
-            auto json = m_ChromaApiClient.Get("/collections?tenant=" + m_Tenant + "&database=" + m_Database);
+            auto json = m_ChromaApiClient.Get(std::format("/collections?tenant={}&database={}", m_Tenant, m_Database));
 
             std::vector<Collection> collections;
             for (const auto& collection : json)
@@ -183,7 +183,7 @@ namespace chromadb {
     {
         try
         {
-            return m_ChromaApiClient.Get("/count_collections?tenant=" + m_Tenant + "&database=" + m_Database);
+            return m_ChromaApiClient.Get(std::format("/count_collections?tenant={}&database={}", m_Tenant, m_Database));
         }
         catch (ChromaException& e)
         {
@@ -195,7 +195,7 @@ namespace chromadb {
     {
         try
         {
-            m_ChromaApiClient.Delete("/collections/" + collection.GetName() + "?tenant=" + m_Tenant + "&database=" + m_Database);
+            m_ChromaApiClient.Delete(std::format("/collections/{}?tenant={}&database={}", collection.GetName(), m_Tenant, m_Database));
 
             collection.m_IsDeleted = true;
         }
@@ -223,7 +223,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Put("/collections/" + oldCollection.GetId() + "?tenant=" + m_Tenant + "&database=" + m_Database, json);
+            m_ChromaApiClient.Put(std::format("/collections/{}?tenant={}&database={}", oldCollection.GetId(), m_Tenant, m_Database), json);
         }
         catch (ChromaException& e)
         {
@@ -252,7 +252,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/add", json);
+            m_ChromaApiClient.Post(std::format("/collections/{}/add", collection.GetId()), json);
         }
         catch (ChromaException& e)
         {
@@ -279,7 +279,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/update", json);
+            m_ChromaApiClient.Post(std::format("/collections/{}/update", collection.GetId()), json);
         }
         catch (ChromaException& e)
         {
@@ -306,7 +306,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/upsert", json);
+            m_ChromaApiClient.Post(std::format("/collections/{}/upsert", collection.GetId()), json);
         }
         catch (ChromaException& e)
         {
@@ -318,7 +318,7 @@ namespace chromadb {
     {
         try
         {
-            return m_ChromaApiClient.Get("/collections/" + collection.GetId() + "/count");
+            return m_ChromaApiClient.Get(std::format("/collections/{}/count", collection.GetId()));
         }
         catch (ChromaInvalidCollectionException& e)
         {
@@ -346,7 +346,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/delete", json);
+            m_ChromaApiClient.Post(std::format("/collections/{}/delete", collection.GetId()), json);
         }
         catch (ChromaInvalidCollectionException& e)
         {
@@ -381,7 +381,7 @@ namespace chromadb {
 
         try
         {
-            auto response = m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/get", json);
+            auto response = m_ChromaApiClient.Post(std::format("/collections/{}/get", collection.GetId()), json);
 
             std::vector<EmbeddingResource> results;
             for (size_t i = 0; i < response["ids"].size(); i++)
@@ -418,7 +418,7 @@ namespace chromadb {
     std::vector<QueryResponseResource> Client::Query(const Collection& collection, const std::vector<std::string>& queryTexts, const std::vector<std::vector<double>>& queryEmbeddings, size_t nResults, const std::vector<std::string>& include, const nlohmann::json& where_document, const nlohmann::json& where)
     {
         if (collection.GetIsDeleted())
-            throw ChromaInvalidCollectionException("Collection " + collection.GetName() + " has already been deleted");
+            throw ChromaInvalidCollectionException(std::format("Collection {} has already been deleted", collection.GetName()));
 
         if (!((!queryEmbeddings.empty() && queryTexts.empty()) || (queryEmbeddings.empty() && !queryTexts.empty()) || (queryEmbeddings.empty() && queryTexts.empty())))
             throw ChromaInvalidArgumentException("You must provide only one of queryEmbeddings or queryTexts");
@@ -457,7 +457,7 @@ namespace chromadb {
 
         try
         {
-            auto response = m_ChromaApiClient.Post("/collections/" + collection.GetId() + "/query", json);
+            auto response = m_ChromaApiClient.Post(std::format("/collections/{}/query", collection.GetId()), json);
 
             std::vector<QueryResponseResource> queryResponses;
             for (size_t i = 0; i < response["ids"].size(); i++)
@@ -513,7 +513,7 @@ namespace chromadb {
     Client::ValidationResult Client::Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents, bool requireEmbeddingsOrDocuments)
     {
         if (collection.GetIsDeleted())
-            throw ChromaInvalidCollectionException("Collection " + collection.GetName() + " has already been deleted");
+            throw ChromaInvalidCollectionException(std::format("Collection {} has already been deleted", collection.GetName()));
 
         if (requireEmbeddingsOrDocuments)
         {
@@ -557,7 +557,7 @@ namespace chromadb {
                     duplicates.insert(id);
             }
 
-            throw ChromaInvalidArgumentException("Expected IDs to be unique, found duplicates for: " + Utils::Join(duplicates, ", "));
+            throw ChromaInvalidArgumentException(std::format("Expected IDs to be unique, found duplicates for: {}", Utils::Join(duplicates, ", ")));
         }
 
         return { validatedIds, finalEmbeddings, metadata, documents };

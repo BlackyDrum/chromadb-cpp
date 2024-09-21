@@ -75,7 +75,7 @@ This guide will help you build and install the ChromaDB library and run an examp
 
 ### Prerequisites
 - CMake (version 3.10 or higher)
-- A C++ compiler (supporting C++17)
+- A C++ compiler (supporting C++20)
 - OpenSSL development libraries
 
 ### Building ChromaDB Library

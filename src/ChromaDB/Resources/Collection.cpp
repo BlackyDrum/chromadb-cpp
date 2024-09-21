@@ -10,7 +10,7 @@ namespace chromadb {
     void Collection::CheckDeleted() const
     {
         if (m_IsDeleted)
-            throw ChromaInvalidCollectionException("Collection " + m_Name + " has already been deleted");
+            throw ChromaInvalidCollectionException(std::format("Collection {} has already been deleted", m_Name));
     }
 
 } // namespace chromadb
