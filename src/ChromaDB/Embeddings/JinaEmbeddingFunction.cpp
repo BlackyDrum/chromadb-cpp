@@ -19,7 +19,7 @@ namespace chromadb {
         std::vector<std::vector<double>> embeddings;
         for (const auto& obj : response["data"])
         {
-            embeddings.push_back(obj["embedding"]);
+            embeddings.emplace_back(obj["embedding"].get<std::vector<double>>());
         }
 
         nlohmann::json additionalData;

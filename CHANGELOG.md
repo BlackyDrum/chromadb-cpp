@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.3] - 2024-10-11
+### Changed
+- Replaced `push_back` with `emplace_back`
+
 ## [0.4.2] - 2024-09-19
 ### Removed
 - Removed `version` from the `docker-compose.yml` file as it is no longer needed.

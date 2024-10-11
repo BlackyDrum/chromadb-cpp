@@ -475,9 +475,9 @@ namespace chromadb {
                     for (const auto& metadata : response["metadatas"][i])
                     {
                         if (!metadata.is_null())
-                            metadatas->push_back(metadata.get<std::unordered_map<std::string, std::string>>());
+                            metadatas->emplace_back(metadata.get<std::unordered_map<std::string, std::string>>());
                         else
-                            metadatas->push_back({});
+                            metadatas->emplace_back(std::unordered_map<std::string, std::string>{});
                     }
                 }
 
@@ -488,9 +488,9 @@ namespace chromadb {
                     for (const auto& document : response["documents"][i])
                     {
                         if (!document.is_null())
-                            documents->push_back(document.get<std::string>());
+                            documents->emplace_back(document.get<std::string>());
                         else
-                            documents->push_back("");
+                            documents->emplace_back("");
                     }
                 }
 
