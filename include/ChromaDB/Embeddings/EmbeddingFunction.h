@@ -20,7 +20,7 @@ namespace chromadb {
 
         virtual std::vector<std::vector<double>> Generate(const std::vector<std::string>& documents) = 0;
 
-        nlohmann::json GetLastRequestAdditionalMetadata() const { return m_LastRequestAdditionalMetadata; }
+        nlohmann::json GetRequestMetadata() const { return m_LastRequestAdditionalMetadata; }
     protected:
         std::string m_BaseUrl;
         std::string m_Path;
