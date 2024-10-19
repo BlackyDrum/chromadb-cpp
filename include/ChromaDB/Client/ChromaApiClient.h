@@ -10,6 +10,7 @@
 #include "Json/json.h"
 
 #include <string>
+#include <format>
 
 namespace chromadb {
 
