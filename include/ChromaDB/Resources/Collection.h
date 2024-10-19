@@ -7,6 +7,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <format>
 
 namespace chromadb {
 

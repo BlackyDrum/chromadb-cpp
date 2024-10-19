@@ -75,7 +75,7 @@ This guide will help you build and install the ChromaDB library and run an examp
 
 ### Prerequisites
 - CMake (version 3.10 or higher)
-- A C++ compiler (supporting C++17)
+- A C++ compiler (supporting C++20)
 - OpenSSL development libraries
 
 ### Building ChromaDB Library
@@ -529,7 +529,7 @@ int main()
 - **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 ### Getting Additional Metadata from Embedding Requests
-If you generated embeddings using an embedding function that calls a provider (e.g., OpenAI or Jina), you can retrieve additional information about the request using the `embeddingFunction->GetLastRequestAdditionalMetadata()` method. This function returns specific metadata for a provider.
+If you generated embeddings using an embedding function that calls a provider (e.g., OpenAI or Jina), you can retrieve additional information about the request using the `embeddingFunction->GetRequestMetadata()` method. This function returns specific metadata for a provider.
 
 ```cpp
 #include "ChromaDB/ChromaDB.h"
@@ -545,7 +545,7 @@ int main()
 
     client.AddEmbeddings(collection, ids, {}, {}, documents);
 
-    std::cout << embeddingFunction->GetLastRequestAdditionalMetadata() << std::endl;
+    std::cout << embeddingFunction->GetRequestMetadata() << std::endl;
     // Example output (specific for the Jina API): 
     // {
     //     "model": "jina-embeddings-v2-base-en",
@@ -557,7 +557,7 @@ int main()
     // }
 
     // Access specific fields in the additional metadata
-    std::cout << embeddingFunction->GetLastRequestAdditionalMetadata()["usage"]["prompt_tokens"] << std::endl; // 8
+    std::cout << embeddingFunction->GetRequestMetadata()["usage"]["prompt_tokens"] << std::endl; // 8
 }
 
 ```

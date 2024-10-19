@@ -5,7 +5,7 @@ namespace chromadb {
     ChromaApiClient::ChromaApiClient(const std::string& scheme, const std::string& host, const std::string& port, const std::string& authToken)
         : m_Scheme(scheme), m_Host(host), m_Port(port), m_AuthToken(authToken)
     {
-        m_BaseUrl = m_Scheme + "://" + m_Host + ":" + m_Port;
+        m_BaseUrl = std::format("{}://{}:{}", m_Scheme, m_Host, m_Port);
     }
 
     nlohmann::json ChromaApiClient::Get(const std::string& endpoint)

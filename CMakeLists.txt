@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
-project(chromadb VERSION 0.4.3)
+project(chromadb VERSION 1.0.0)
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 if (MSVC)
