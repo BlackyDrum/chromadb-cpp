@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - 2024-10-19
+### Changed
+- Updated the C++ standard from C++17 to C++20.
+- Renamed the function `GetLastRequestAdditionalMetadata()` to `GetRequestMetadata()` for clarity.
+- Replaced string concatenation with `std::format` for more readable formatting.
+
 ## [0.4.3] - 2024-10-11
 ### Changed
 - Replaced `push_back` with `emplace_back`
