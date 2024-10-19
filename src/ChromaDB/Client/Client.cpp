@@ -418,7 +418,7 @@ namespace chromadb {
     std::vector<QueryResponseResource> Client::Query(const Collection& collection, const std::vector<std::string>& queryTexts, const std::vector<std::vector<double>>& queryEmbeddings, size_t nResults, const std::vector<std::string>& include, const nlohmann::json& where_document, const nlohmann::json& where)
     {
         if (collection.GetIsDeleted())
-            throw ChromaInvalidCollectionException("Collection " + collection.GetName() + " has already been deleted");
+            throw ChromaInvalidCollectionException(std::format("Collection {} has already been deleted", collection.GetName()));
 
         if (!((!queryEmbeddings.empty() && queryTexts.empty()) || (queryEmbeddings.empty() && !queryTexts.empty()) || (queryEmbeddings.empty() && queryTexts.empty())))
             throw ChromaInvalidArgumentException("You must provide only one of queryEmbeddings or queryTexts");
