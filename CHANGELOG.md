@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - 2024-10-20
+### Changed
+- Updated ChromaDB docker image to version `0.5.15`
+
+### Fixed
+- Check embedding dimensionality to be the same
+
 ## [1.0.0] - 2024-10-19
 ### Changed
 - Updated the C++ standard from C++17 to C++20.
