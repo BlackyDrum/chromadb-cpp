@@ -15,12 +15,12 @@ jobs:
 
     services:
       chroma-no-auth:
-        image: chromadb/chroma:0.5.7
+        image: chromadb/chroma:0.5.15
         ports:
           - 8080:8000
 
       chroma-with-auth:
-        image: chromadb/chroma:0.5.7
+        image: chromadb/chroma:0.5.15
         ports:
           - 8081:8000
         env:
