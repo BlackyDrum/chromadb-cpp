@@ -539,6 +539,16 @@ namespace chromadb {
             finalEmbeddings = embeddings;
         }
 
+        if (!finalEmbeddings.empty())
+        {
+            size_t embeddingDimension = finalEmbeddings.front().size();
+            for (const auto& embedding : finalEmbeddings)
+            {
+                if (embedding.size() != embeddingDimension)
+                    throw ChromaDimensionalityException("All embeddings must have the same dimension");
+            }
+        }
+
         std::vector<std::string> validatedIds = ids;
         std::transform(validatedIds.begin(), validatedIds.end(), validatedIds.begin(), [](const std::string& id) {
             if (id.empty())
