@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2024-10-31
+### Fixed
+- Ensure all non-void functions have return statements to remove warnings
+
 ## [1.0.1] - 2024-10-20
 ### Changed
 - Updated ChromaDB docker image to version `0.5.15`

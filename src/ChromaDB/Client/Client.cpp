@@ -89,6 +89,8 @@ namespace chromadb {
         {
             this->handleChromaApiException(e);
         }
+
+        return "";
     }
 
     size_t Client::GetHeartbeat()
@@ -101,6 +103,8 @@ namespace chromadb {
         {
             this->handleChromaApiException(e);
         }
+
+        return 0;
     }
 
     Collection Client::CreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata, std::shared_ptr<EmbeddingFunction> embeddingFunction)
@@ -141,6 +145,8 @@ namespace chromadb {
         {
             this->handleChromaApiException(e);
         }
+
+        return Collection("", "", {});
     }
 
     Collection Client::GetOrCreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata, std::shared_ptr<EmbeddingFunction> embeddingFunction)
@@ -177,6 +183,8 @@ namespace chromadb {
         {
             this->handleChromaApiException(e);
         }
+
+        return {};
     }
 
     size_t Client::GetCollectionCount()
@@ -189,6 +197,8 @@ namespace chromadb {
         {
             this->handleChromaApiException(e);
         }
+
+        return 0;
     }
 
     void Client::DeleteCollection(Collection& collection)
@@ -328,6 +338,8 @@ namespace chromadb {
         {
             this->handleChromaApiException(e);
         }
+
+        return 0;
     }
 
     void Client::DeleteEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const nlohmann::json& where_document, const nlohmann::json& where)
@@ -413,6 +425,8 @@ namespace chromadb {
         {
             this->handleChromaApiException(e);
         }
+
+        return {};
     }
 
     std::vector<QueryResponseResource> Client::Query(const Collection& collection, const std::vector<std::string>& queryTexts, const std::vector<std::vector<double>>& queryEmbeddings, size_t nResults, const std::vector<std::string>& include, const nlohmann::json& where_document, const nlohmann::json& where)
@@ -507,6 +521,8 @@ namespace chromadb {
         {
             this->handleChromaApiException(e);
         }
+
+        return {};
     }
 
     // Source for this function: https://github.com/CodeWithKyrian/chromadb-php
