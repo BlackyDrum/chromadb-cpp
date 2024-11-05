@@ -18,7 +18,7 @@ protected:
     {
         client = new Client("http", "localhost", "8080", "test_database", "test_tenant", "");
 
-		jinaApiKey = GetEnvVar("JINA_API_KEY");
+        jinaApiKey = GetEnvVar("JINA_API_KEY");
     }
 
     void TearDown() override
@@ -1526,62 +1526,62 @@ TEST_F(ClientTest, ThrowsIfEmptyIdForAdd)
 
 TEST_F(ClientTest, CanAddEmbeddingsUsingEmbeddingFunctionWithManualGeneration)
 {
-	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
+    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
 
     chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
 
-	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
     std::vector<std::string> documents = { "document1", "document2", "document3" };
     auto embeddings = embeddingFunction->Generate(documents);
 
-	EXPECT_EQ(embeddings.size(), 3);
-	EXPECT_EQ(embeddings[0].size(), 1024);
-	EXPECT_EQ(embeddings[1].size(), 1024);
-	EXPECT_EQ(embeddings[2].size(), 1024);
+    EXPECT_EQ(embeddings.size(), 3);
+    EXPECT_EQ(embeddings[0].size(), 1024);
+    EXPECT_EQ(embeddings[1].size(), 1024);
+    EXPECT_EQ(embeddings[2].size(), 1024);
 
-	client->AddEmbeddings(collection, ids, embeddings, {}, documents);
+    client->AddEmbeddings(collection, ids, embeddings, {}, documents);
 
-	auto queryResponse = client->GetEmbeddings(collection, ids, { "embeddings", "documents" }, {}, {});
-	EXPECT_EQ(queryResponse.size(), 3);
+    auto queryResponse = client->GetEmbeddings(collection, ids, { "embeddings", "documents" }, {}, {});
+    EXPECT_EQ(queryResponse.size(), 3);
 
-	EXPECT_EQ(queryResponse[0].id, "ID1");
-	EXPECT_EQ(queryResponse[0].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[0].document, "document1");
+    EXPECT_EQ(queryResponse[0].id, "ID1");
+    EXPECT_EQ(queryResponse[0].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[0].document, "document1");
 
-	EXPECT_EQ(queryResponse[1].id, "ID2");
-	EXPECT_EQ(queryResponse[1].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[1].document, "document2");
+    EXPECT_EQ(queryResponse[1].id, "ID2");
+    EXPECT_EQ(queryResponse[1].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[1].document, "document2");
 
-	EXPECT_EQ(queryResponse[2].id, "ID3");
-	EXPECT_EQ(queryResponse[2].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[2].document, "document3");
+    EXPECT_EQ(queryResponse[2].id, "ID3");
+    EXPECT_EQ(queryResponse[2].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[2].document, "document3");
 }
 
 TEST_F(ClientTest, CanAddEmbeddingsUsingEmbeddingFunctionWithAutoGeneration)
 {
-	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
+    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
 
-	chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
+    chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
 
-	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
-	std::vector<std::string> documents = { "document1", "document2", "document3" };
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> documents = { "document1", "document2", "document3" };
 
-	client->AddEmbeddings(collection, ids, {}, {}, documents);
+    client->AddEmbeddings(collection, ids, {}, {}, documents);
 
-	auto queryResponse = client->GetEmbeddings(collection, ids, { "embeddings", "documents" }, {}, {});
-	EXPECT_EQ(queryResponse.size(), 3);
+    auto queryResponse = client->GetEmbeddings(collection, ids, { "embeddings", "documents" }, {}, {});
+    EXPECT_EQ(queryResponse.size(), 3);
 
-	EXPECT_EQ(queryResponse[0].id, "ID1");
-	EXPECT_EQ(queryResponse[0].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[0].document, "document1");
+    EXPECT_EQ(queryResponse[0].id, "ID1");
+    EXPECT_EQ(queryResponse[0].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[0].document, "document1");
 
-	EXPECT_EQ(queryResponse[1].id, "ID2");
-	EXPECT_EQ(queryResponse[1].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[1].document, "document2");
+    EXPECT_EQ(queryResponse[1].id, "ID2");
+    EXPECT_EQ(queryResponse[1].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[1].document, "document2");
 
-	EXPECT_EQ(queryResponse[2].id, "ID3");
-	EXPECT_EQ(queryResponse[2].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[2].document, "document3");
+    EXPECT_EQ(queryResponse[2].id, "ID3");
+    EXPECT_EQ(queryResponse[2].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[2].document, "document3");
 }
 
 TEST_F(ClientTest, CanAddEmbeddingsUsingEmbeddingFunctionWithManuallySettingEmbeddingFunction)
@@ -1589,7 +1589,7 @@ TEST_F(ClientTest, CanAddEmbeddingsUsingEmbeddingFunctionWithManuallySettingEmbe
     std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
 
     chromadb::Collection collection = client->CreateCollection("test_collection", {});
-	collection.SetEmbeddingFunction(embeddingFunction);
+    collection.SetEmbeddingFunction(embeddingFunction);
 
     std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
     std::vector<std::string> documents = { "document1", "document2", "document3" };
@@ -1614,118 +1614,118 @@ TEST_F(ClientTest, CanAddEmbeddingsUsingEmbeddingFunctionWithManuallySettingEmbe
 
 TEST_F(ClientTest, CanAddEmbeddingsUsingEmbeddingFunctionWithAutoGenerationAndMetadata)
 {
-	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
+    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
 
-	chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
+    chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
 
-	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
-	std::vector<std::string> documents = { "document1", "document2", "document3" };
-	std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> documents = { "document1", "document2", "document3" };
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
 
-	client->AddEmbeddings(collection, ids, {}, metadatas, documents);
+    client->AddEmbeddings(collection, ids, {}, metadatas, documents);
 
-	auto queryResponse = client->GetEmbeddings(collection, ids, { "embeddings", "documents", "metadatas" }, {}, {});
-	EXPECT_EQ(queryResponse.size(), 3);
+    auto queryResponse = client->GetEmbeddings(collection, ids, { "embeddings", "documents", "metadatas" }, {}, {});
+    EXPECT_EQ(queryResponse.size(), 3);
 
-	EXPECT_EQ(queryResponse[0].id, "ID1");
-	EXPECT_EQ(queryResponse[0].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[0].document, "document1");
-	EXPECT_EQ(queryResponse[0].metadata->size(), 1);
-	EXPECT_EQ(queryResponse[0].metadata->at("key1"), "value1");
+    EXPECT_EQ(queryResponse[0].id, "ID1");
+    EXPECT_EQ(queryResponse[0].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[0].document, "document1");
+    EXPECT_EQ(queryResponse[0].metadata->size(), 1);
+    EXPECT_EQ(queryResponse[0].metadata->at("key1"), "value1");
 
-	EXPECT_EQ(queryResponse[1].id, "ID2");
-	EXPECT_EQ(queryResponse[1].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[1].document, "document2");
-	EXPECT_EQ(queryResponse[1].metadata->size(), 1);
-	EXPECT_EQ(queryResponse[1].metadata->at("key1"), "value2");
+    EXPECT_EQ(queryResponse[1].id, "ID2");
+    EXPECT_EQ(queryResponse[1].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[1].document, "document2");
+    EXPECT_EQ(queryResponse[1].metadata->size(), 1);
+    EXPECT_EQ(queryResponse[1].metadata->at("key1"), "value2");
 
-	EXPECT_EQ(queryResponse[2].id, "ID3");
-	EXPECT_EQ(queryResponse[2].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[2].document, "document3");
-	EXPECT_EQ(queryResponse[2].metadata->size(), 1);
-	EXPECT_EQ(queryResponse[2].metadata->at("key1"), "value3");
+    EXPECT_EQ(queryResponse[2].id, "ID3");
+    EXPECT_EQ(queryResponse[2].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[2].document, "document3");
+    EXPECT_EQ(queryResponse[2].metadata->size(), 1);
+    EXPECT_EQ(queryResponse[2].metadata->at("key1"), "value3");
 }
 
 TEST_F(ClientTest, CanAddEmbeddingsUsingEmbeddingFunctionWithManualGenerationAndMetadata)
 {
-	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
+    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
 
-	chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
+    chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
 
-	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
-	std::vector<std::string> documents = { "document1", "document2", "document3" };
-	auto embeddings = embeddingFunction->Generate(documents);
-	std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> documents = { "document1", "document2", "document3" };
+    auto embeddings = embeddingFunction->Generate(documents);
+    std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
 
-	client->AddEmbeddings(collection, ids, embeddings, metadatas, documents);
+    client->AddEmbeddings(collection, ids, embeddings, metadatas, documents);
 
-	auto queryResponse = client->GetEmbeddings(collection, ids, { "embeddings", "documents", "metadatas" }, {}, {});
-	EXPECT_EQ(queryResponse.size(), 3);
+    auto queryResponse = client->GetEmbeddings(collection, ids, { "embeddings", "documents", "metadatas" }, {}, {});
+    EXPECT_EQ(queryResponse.size(), 3);
 
-	EXPECT_EQ(queryResponse[0].id, "ID1");
-	EXPECT_EQ(queryResponse[0].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[0].document, "document1");
-	EXPECT_EQ(queryResponse[0].metadata->size(), 1);
-	EXPECT_EQ(queryResponse[0].metadata->at("key1"), "value1");
+    EXPECT_EQ(queryResponse[0].id, "ID1");
+    EXPECT_EQ(queryResponse[0].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[0].document, "document1");
+    EXPECT_EQ(queryResponse[0].metadata->size(), 1);
+    EXPECT_EQ(queryResponse[0].metadata->at("key1"), "value1");
 
-	EXPECT_EQ(queryResponse[1].id, "ID2");
-	EXPECT_EQ(queryResponse[1].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[1].document, "document2");
-	EXPECT_EQ(queryResponse[1].metadata->size(), 1);
-	EXPECT_EQ(queryResponse[1].metadata->at("key1"), "value2");
+    EXPECT_EQ(queryResponse[1].id, "ID2");
+    EXPECT_EQ(queryResponse[1].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[1].document, "document2");
+    EXPECT_EQ(queryResponse[1].metadata->size(), 1);
+    EXPECT_EQ(queryResponse[1].metadata->at("key1"), "value2");
 
-	EXPECT_EQ(queryResponse[2].id, "ID3");
-	EXPECT_EQ(queryResponse[2].embeddings->size(), 1024);
-	EXPECT_EQ(*queryResponse[2].document, "document3");
-	EXPECT_EQ(queryResponse[2].metadata->size(), 1);
-	EXPECT_EQ(queryResponse[2].metadata->at("key1"), "value3");
+    EXPECT_EQ(queryResponse[2].id, "ID3");
+    EXPECT_EQ(queryResponse[2].embeddings->size(), 1024);
+    EXPECT_EQ(*queryResponse[2].document, "document3");
+    EXPECT_EQ(queryResponse[2].metadata->size(), 1);
+    EXPECT_EQ(queryResponse[2].metadata->at("key1"), "value3");
 }
 
 TEST_F(ClientTest, ThrowsIfWrongApiKeyForEmbeddingFunction)
 {
-	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("wrong-api-key", "jina-embeddings-v3");
+    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("wrong-api-key", "jina-embeddings-v3");
 
-	chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
+    chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
 
-	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
-	std::vector<std::string> documents = { "document1", "document2", "document3" };
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> documents = { "document1", "document2", "document3" };
 
-	EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, documents), EmbeddingProviderRequestException);
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, documents), EmbeddingProviderRequestException);
 }
 
 TEST_F(ClientTest, ThrowsIfWrongEmbeddingModelNameForEmbeddingFunction)
 {
-	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "wrong-embedding-model");
+    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "wrong-embedding-model");
 
-	chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
+    chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
 
-	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
-	std::vector<std::string> documents = { "document1", "document2", "document3" };
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> documents = { "document1", "document2", "document3" };
 
-	EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, documents), EmbeddingProviderRequestException);
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, documents), EmbeddingProviderRequestException);
 }
 
 TEST_F(ClientTest, ThrowsIfWrongHostForEmbeddingFunction)
 {
-	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3", "wrong-host");
+    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3", "wrong-host");
 
-	chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
+    chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
 
-	std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
-	std::vector<std::string> documents = { "document1", "document2", "document3" };
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::string> documents = { "document1", "document2", "document3" };
 
-	EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, documents), EmbeddingProviderConnectionException);
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, documents), EmbeddingProviderConnectionException);
 }
 
 TEST_F(ClientTest, CanGetRequestMetadataFromEmbeddingFunction)
 {
-	std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
-	auto embeddings = embeddingFunction->Generate({ "document1", "document2", "document3" });
+    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");
+    auto embeddings = embeddingFunction->Generate({ "document1", "document2", "document3" });
 
-	auto requestMetadata = embeddingFunction->GetRequestMetadata();
+    auto requestMetadata = embeddingFunction->GetRequestMetadata();
 
-	EXPECT_EQ(requestMetadata["model"], "jina-embeddings-v3");
-	EXPECT_EQ(requestMetadata["object"], "list");
-	EXPECT_GT(requestMetadata["usage"]["prompt_tokens"], 0);
-	EXPECT_GT(requestMetadata["usage"]["total_tokens"], 0);
+    EXPECT_EQ(requestMetadata["model"], "jina-embeddings-v3");
+    EXPECT_EQ(requestMetadata["object"], "list");
+    EXPECT_GT(requestMetadata["usage"]["prompt_tokens"], 0);
+    EXPECT_GT(requestMetadata["usage"]["total_tokens"], 0);
 }
