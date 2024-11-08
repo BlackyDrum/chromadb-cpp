@@ -447,6 +447,8 @@ TEST_F(ClientTest, CanUpdateCollection)
     EXPECT_EQ(collection2.GetId(), collection.GetId());
     EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
 
+    EXPECT_THROW(client->GetCollection("test_collection"), ChromaInvalidCollectionException);
+
     std::vector<Collection> collections = client->GetCollections();
     EXPECT_EQ(collections.size(), 1);
     EXPECT_EQ(collections[0].GetName(), "test_collection_updated");
@@ -482,6 +484,8 @@ TEST_F(ClientTest, CanUpdateCollectionWithMetadata)
     EXPECT_EQ(collection2.GetMetadata().at("key4"), "value4");
     EXPECT_EQ(collection2.GetId(), collection.GetId());
     EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
+
+    EXPECT_THROW(client->GetCollection("test_collection"), ChromaInvalidCollectionException);
 
     std::vector<Collection> collections = client->GetCollections();
     EXPECT_EQ(collections.size(), 1);

@@ -233,7 +233,7 @@ namespace chromadb {
 
         try
         {
-            m_ChromaApiClient.Put(std::format("/collections/{}?tenant={}?&database={}", oldCollection.GetId(), m_Tenant, m_Database), json);
+            m_ChromaApiClient.Put(std::format("/collections/{}?tenant={}&database={}", oldCollection.GetId(), m_Tenant, m_Database), json);
         }
         catch (ChromaException& e)
         {
