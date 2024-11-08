@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3] - 2024-11-08
+### Added
+- Added tests to test embedding functions calling external provider
+
+### Fixed
+- Fixed double question mark in API URL formatting for `Client::UpdateCollection` method
+
 ## [1.0.2] - 2024-10-31
 ### Fixed
 - Ensure all non-void functions have return statements to remove warnings
