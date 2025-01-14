@@ -21,6 +21,7 @@ namespace chromadb {
         if (type == "DimensionalityError") throw ChromaDimensionalityException(message);
         if (type == "InvalidCollection") throw ChromaInvalidCollectionException(message);
         if (type == "TypeError") throw ChromaTypeException(message);
+        if (type == "InvalidArgumentError") throw ChromaInvalidArgumentException(message);
 
         throw ChromaException(message);
     }
