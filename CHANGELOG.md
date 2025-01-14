@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 2025-01-14
+### Added
+- Add `InvalidArgumentError` as throwable Exception
+
+### Changed
+- Updated ChromaDB docker image to version `0.6.2`
+- Update tests to throw correct Exception if invalid collection name is provided
+
 ## [1.0.3] - 2024-11-08
 ### Added
 - Added tests to test embedding functions calling external provider
