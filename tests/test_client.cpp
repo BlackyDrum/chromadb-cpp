@@ -186,7 +186,7 @@ TEST_F(ClientTest, CreateCollectionThrowsExceptionIfCollectionAlreadyExists)
 
 TEST_F(ClientTest, CreateCollectionThrowsExceptionIfInvalidNameProvided)
 {
-    EXPECT_THROW(client->CreateCollection("te"), ChromaValueException);
+    EXPECT_THROW(client->CreateCollection("te"), ChromaInvalidArgumentException);
 }
 
 TEST_F(ClientTest, CanGetCollection)
@@ -331,7 +331,7 @@ TEST_F(ClientTest, GetOrCreateCollectionDoesNotThrowExceptionIfCollectionAlready
 
 TEST_F(ClientTest, GetOrCreateCollectionThrowsExceptionIfInvalidNameProvided)
 {
-    EXPECT_THROW(client->GetOrCreateCollection("te"), ChromaValueException);
+    EXPECT_THROW(client->GetOrCreateCollection("te"), ChromaInvalidArgumentException);
 }
 
 TEST_F(ClientTest, CanGetOrCreateCollectionWithMetadataAndEmbeddingFunctionIfCollectionAlreadyExists)
