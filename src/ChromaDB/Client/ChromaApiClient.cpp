@@ -20,7 +20,6 @@ namespace chromadb {
         };
 
         auto res = https ? sslClient.Get(m_Prefix + endpoint, headers) : client.Get(m_Prefix + endpoint, headers);
-
         if (res)
         {
             if (res->status == httplib::OK_200)
