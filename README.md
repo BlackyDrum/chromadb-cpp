@@ -1,16 +1,20 @@
 ## ChromaDB C++
+
 **Easily interact with ChromaDB Vector Database in C++**
 
 ## Description
+
 [ChromaDB](https://www.trychroma.com/) is an open-source vector database designed for managing and querying high-dimensional vector data efficiently.
 
 ChromaDB C++ lets you easily interact with the ChromaDB Vector Database:
+
 - **Collection Management**: Create, retrieve, update, and delete collections
 - **Embedding Management**: Add, get, update, upsert, and delete embeddings
 - **Querying**: Perform advanced searches on collections using documents or embeddings
 - **Authorization Handling**: Connect securely with authorization tokens
 
 ## Example
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -41,29 +45,33 @@ int main()
 ```
 
 ## Running ChromaDB
+
 To use this library, you need to have ChromaDB running either locally or in the cloud.
 
 To run ChromaDB in a docker container, you can use the following command:
+
 ```bash
 docker container run -p 8080:8000 chromadb/chroma
 ```
 
 Alternatively, you can use a `docker-compose` file:
+
 ```yml
 services:
-    chromadb:
-        image: 'chromadb/chroma'
-        ports:
-            - '8080:8000'
-        volumes:
-            - chroma-data:/chroma/chroma
+  chromadb:
+    image: "chromadb/chroma"
+    ports:
+      - "8080:8000"
+    volumes:
+      - chroma-data:/chroma/chroma
 
 volumes:
-    chroma-data:
-        driver: local
-
+  chroma-data:
+    driver: local
 ```
+
 Run it with:
+
 ```bash
 docker-compose up
 ```
@@ -71,9 +79,11 @@ docker-compose up
 Once running, you can access ChromaDB at: http://localhost:8080
 
 ## Installation
+
 This guide will help you build and install the ChromaDB library and run an example project on both Linux and Windows systems.
 
 ### Prerequisites
+
 - CMake (version 3.10 or higher)
 - A C++ compiler (supporting C++20)
 - OpenSSL development libraries
@@ -81,6 +91,7 @@ This guide will help you build and install the ChromaDB library and run an examp
 ### Building ChromaDB Library
 
 Make sure to run the following command to initialize and update the submodules on both Linux and Windows if not done already:
+
 ```bash
 git submodule update --init --recursive
 ```
@@ -88,22 +99,26 @@ git submodule update --init --recursive
 **Linux**
 
 1. Create a build directory
+
 ```bash
 mkdir build
 cd build
 ```
 
 2. Run CMake
+
 ```bash
 cmake ..
 ```
 
 3. Build the project
+
 ```bash
 make
 ```
 
 4. Install the library
+
 ```bash
 sudo make install
 ```
@@ -111,22 +126,26 @@ sudo make install
 **Windows**
 
 1. Create a build directory
+
 ```bash
 mkdir build
 cd build
 ```
 
 2. Run CMake
+
 ```bash
 cmake ..
 ```
 
 3. Build the project
+
 ```bash
 cmake --build . --config Release
 ```
 
 4. Install the library (you may need administrator privileges)
+
 ```bash
 cmake --install .
 ```
@@ -136,27 +155,32 @@ cmake --install .
 **Linux**
 
 1. Navigate to the examples directory
+
 ```bash
 cd examples
 ```
 
 2. Create a build directory
+
 ```bash
 mkdir build
 cd build
 ```
 
 3. Run CMake
+
 ```bash
 cmake ..
 ```
 
 4. Build the example project
+
 ```bash
 make
 ```
 
 5. Run the example
+
 ```
 ./ExampleProject
 ```
@@ -164,17 +188,20 @@ make
 **Windows**
 
 1. Navigate to the examples directory
+
 ```bash
 cd examples
 ```
 
 2. Create a build directory
+
 ```bash
 mkdir build
 cd build
 ```
 
 3. Run CMake
+
 ```bash
 cmake ..
 ```
@@ -184,22 +211,28 @@ cmake ..
    - Build the project (ensure you build in `Release` mode)
 
 ### Notes
+
 - On Windows, ensure that the `chromadb.dll` is copied to the output directory where the `ExampleProject` executable resides. This is handled by the CMake script with a post-build command.
 - You may need to adjust the `CMAKE_PREFIX_PATH` in the examples `CMakeLists.txt` if the library and include paths for ChromaDB are different on your system.
 - If you encounter any issues with finding the OpenSSL libraries, ensure the `OPENSSL_ROOT_DIR` environment variable is set to the correct path of your OpenSSL installation. You can download OpenSSL pre-built binaries [here](https://github.com/CristiFati/Prebuilt-Binaries/tree/master/OpenSSL/v3.3).
 
 ## Testing
+
 To run tests included in the ChromaDB project:
+
 ```bash
 cd build
 ctest -C Release
 ```
+
 This will execute the tests defined in the `tests` directory, using Google Test.
 
 ## Usage
+
 > To use ChromaDB in your project, simply include the header file "ChromaDB/ChromaDB.h". This header provides access to the full suite of functionalities offered by the ChromaDB C++ library.
 
 ### Connecting to ChromaDB
+
 To connect to a ChromaDB server, you need to create an instance of the `Client` class. You can specify the connection details such as the scheme, host, port, database, tenant, and an authorization token.
 
 ```cpp
@@ -219,7 +252,9 @@ int main()
     chromadb::Client client(scheme, host, port, database, tenant, authToken);
 }
 ```
+
 **Parameters**
+
 - **scheme**: The protocol to use (`http` or `https`).
 - **host**: The hostname or IP address of the ChromaDB server.
 - **port**: The port number on which the ChromaDB server is running.
@@ -228,31 +263,32 @@ int main()
 - **authToken**: (Optional) The authorization token to use.
 
 ### Authentication
+
 ChromaDB supports static token-based authentication. To use it, start the Chroma server with the necessary environment variables as specified in the [documentation](https://docs.trychroma.com/deployment/auth#static-api-token-authentication).
 For Docker Compose, you can use the `env_file` option or pass the environment variables directly as shown below:
 
 ```yml
 services:
-    chroma-with-auth:
-        image: 'chromadb/chroma'
-        ports:
-            - '8081:8000'
-        volumes:
-            - chroma-data:/chroma/chroma
-        env_file: 
-            - .env
-        # Alternatively, you can specify the environment variables directly
-        environment:
-            CHROMA_SERVER_AUTHN_CREDENTIALS: 'authToken'
-            CHROMA_SERVER_AUTHN_PROVIDER: 'chromadb.auth.token_authn.TokenAuthenticationServerProvider'
+  chroma-with-auth:
+    image: "chromadb/chroma"
+    ports:
+      - "8081:8000"
+    volumes:
+      - chroma-data:/chroma/chroma
+    env_file:
+      - .env
+    # Alternatively, you can specify the environment variables directly
+    environment:
+      CHROMA_SERVER_AUTHN_CREDENTIALS: "authToken"
+      CHROMA_SERVER_AUTHN_PROVIDER: "chromadb.auth.token_authn.TokenAuthenticationServerProvider"
 
 volumes:
-    chroma-data:
-        driver: local
-
+  chroma-data:
+    driver: local
 ```
 
 ### Create a Collection
+
 To create a new collection in ChromaDB, use the `CreateCollection` method. This method allows you to specify the name of the collection, optional metadata, and an optional embedding function.
 
 ```cpp
@@ -266,12 +302,15 @@ int main()
     chromadb::Collection collection = client.CreateCollection("test_collection", metadata, embeddingFunction);
 }
 ```
+
 **Parameters**
+
 - **name**: The name of the collection to create.
 - **metadata**: (Optional) A map of metadata key-value pairs for the collection.
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
 
 ### Get a Collection
+
 To retrieve an existing collection in ChromaDB, use the `GetCollection` method. This method allows you to specify the name of the collection and an optional embedding function.
 
 ```cpp
@@ -288,11 +327,14 @@ int main()
 	std::cout << key << ": " << value << std::endl;
 }
 ```
+
 **Parameters**
+
 - **name**: The name of the collection to retrieve.
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
 
 ### Get or Create a Collection
+
 To retrieve an existing collection or create a new one in ChromaDB, use the `GetOrCreateCollection` method. This method allows you to specify the name of the collection, optional metadata, and an optional embedding function.
 
 ```cpp
@@ -303,12 +345,15 @@ int main()
     chromadb::Collection collection = client.GetOrCreateCollection("test_collection");
 }
 ```
+
 **Parameters**
+
 - **name**: The name of the collection to retrieve.
 - **metadata**: (Optional) A map of metadata key-value pairs to associate with the collection.
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collection.
 
 ### Get all Collections
+
 To retrieve all existing collections in ChromaDB, use the `GetCollections` method. This method allows you to specify an optional embedding function that applies to all collections.
 
 ```cpp
@@ -322,10 +367,13 @@ int main()
         std::cout << "Collection name: " << collection.GetName() << std::endl;
 }
 ```
+
 **Parameters**
+
 - **embeddingFunction**: (Optional) A shared pointer to an embedding function for the collections.
 
 ### Get Collection Count
+
 To get the total number of collections in ChromaDB, use the `GetCollectionCount` method.
 
 ```cpp
@@ -338,7 +386,25 @@ int main()
 }
 ```
 
+### Check if Collection exists
+
+To check if a collection exists, use the `CollectionExists` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    bool exists = client.CollectionExists("test_collection");
+}
+```
+
+**Parameters**
+
+- **name**: The name of the collection.
+
 ### Update a Collection
+
 To update an existing collection in ChromaDB, use the `UpdateCollection` method. This method allows you to change the name and metadata of a collection.
 
 ```cpp
@@ -353,12 +419,15 @@ int main()
     std::cout << updatedCollection.GetName() << std::endl; // "test_collection_updated"
 }
 ```
+
 **Parameters**
+
 - **oldName**: The old name of the collection to update.
 - **newName**: The new name for the collection.
 - **newMetadata**: (Optional) A map of new metadata key-value pairs for the collection.
 
 ### Delete a Collection
+
 To delete an existing collection in ChromaDB, use the `DeleteCollection` method. This method allows you to specify the collection you want to remove.
 
 ```cpp
@@ -372,11 +441,14 @@ int main()
     collection.GetName(); // Throws exception
 }
 ```
+
 **Parameters**
+
 - **collection**: The collection to delete.
 
 ### Add Embeddings to a Collection
-To add embeddings to an existing collection in ChromaDB, use the `AddEmbeddings` method. 
+
+To add embeddings to an existing collection in ChromaDB, use the `AddEmbeddings` method.
 This method allows you to specify the collection, the IDs of the embeddings, and optionally, the embeddings themselves, metadata, and documents associated with the embeddings.
 
 ```cpp
@@ -393,6 +465,7 @@ int main()
 ```
 
 **Parameters**
+
 - **collection**: The collection to which embeddings will be added.
 - **ids**: The unique IDs of the embeddings.
 - **embeddings**: (Optional) A vector of embeddings.
@@ -402,10 +475,12 @@ int main()
 > If you do not provide embeddings, you must provide documents along with an embedding function.
 
 ### Add Embeddings with Embedding Function
+
 When adding embeddings to a collection in ChromaDB, you can utilize an embedding function to generate embeddings from documents.
 You need to either call `embeddingFunction->Generate()` to generate embeddings before manually passing them to `AddEmbeddings`, or simply pass an embedding function directly to a collection, and the embeddings will be generated automatically.
 
 **Manual Generation of Embeddings**
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -424,6 +499,7 @@ int main()
 ```
 
 **Automatic Generation of Embeddings**
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -440,9 +516,10 @@ int main()
 }
 ```
 
-We currently supports `JinaEmbeddingFunction`, `OpenAIEmbeddingFunction`, `CohereEmbeddingFunction`, `VoyageAIEmbeddingFunction` and `TogetherAIEmbeddingFunction` for this purpose. 
+We currently support `JinaEmbeddingFunction`, `OpenAIEmbeddingFunction`, `CohereEmbeddingFunction`, `VoyageAIEmbeddingFunction` and `TogetherAIEmbeddingFunction` for this purpose.
 
 **JinaEmbeddingFunction**
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -453,6 +530,7 @@ int main()
 ```
 
 **Parameters**
+
 - **apiKey**: The API key to access the API.
 - **model**: (Optional) The model to use for generating embeddings. Defaults to `jina-embeddings-v2-base-en`.
 - **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.jina.ai`.
@@ -461,6 +539,7 @@ int main()
 > Note: You can get started immediately by obtaining a free Jina API Key with 1M Tokens [here](https://jina.ai/embeddings/#apiform)
 
 **OpenAIEmbeddingFunction**
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -471,6 +550,7 @@ int main()
 ```
 
 **Parameters**
+
 - **apiKey**: The API key to access the API.
 - **model**: (Optional) The model to use for generating embeddings. Defaults to `text-embedding-3-small`.
 - **dimensions**: (Optional) The number of dimensions of the embeddings. Defaults to `1536`.
@@ -478,6 +558,7 @@ int main()
 - **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 **CohereEmbeddingFunction**
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -488,14 +569,15 @@ int main()
 ```
 
 **Parameters**
+
 - **apiKey**: The API key to access the API.
 - **model**: (Optional) The model to use for generating embeddings. Defaults to `embed-english-v3.0`.
 - **inputType**: (Optional) The input type passed to the model. Defaults to `classification`.
 - **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.cohere.com`.
 - **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embed`.
 
-
 **VoyageAIEmbeddingFunction**
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -506,6 +588,7 @@ int main()
 ```
 
 **Parameters**
+
 - **apiKey**: The API key to access the API.
 - **model**: (Optional) The model to use for generating embeddings. Defaults to `voyage-2`.
 - **inputType**: (Optional) The input type passed to the model. Defaults to `document`.
@@ -513,6 +596,7 @@ int main()
 - **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 **TogetherAIEmbeddingFunction**
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -523,12 +607,14 @@ int main()
 ```
 
 **Parameters**
+
 - **apiKey**: The API key to access the API.
 - **model**: (Optional) The model to use for generating embeddings. Defaults to `togethercomputer/m2-bert-80M-8k-retrieval`.
 - **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.together.xyz`.
 - **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
 ### Getting Additional Metadata from Embedding Requests
+
 If you generated embeddings using an embedding function that calls a provider (e.g., OpenAI or Jina), you can retrieve additional information about the **most recent** request using the `embeddingFunction->GetRequestMetadata()` method. This function returns specific metadata for a provider.
 
 ```cpp
@@ -546,7 +632,7 @@ int main()
     client.AddEmbeddings(collection, ids, {}, {}, documents);
 
     std::cout << embeddingFunction->GetRequestMetadata() << std::endl;
-    // Example output (specific for the Jina API): 
+    // Example output (specific for the Jina API):
     // {
     //     "model": "jina-embeddings-v2-base-en",
     //     "object": "list",
@@ -563,6 +649,7 @@ int main()
 ```
 
 ### Get Embeddings from a Collection
+
 To retrieve embeddings from an existing collection in ChromaDB, use the `GetEmbeddings` method. This method allows you to specify the collection, optional IDs of the embeddings, and optional filters and fields to include in the result.
 
 ```cpp
@@ -590,6 +677,7 @@ int main()
 ```
 
 **Parameters**
+
 - **collection**: The collection from which to retrieve embeddings.
 - **ids**: (Optional) The IDs of the embeddings to retrieve.
 - **include**: (Optional) The fields to include in the result (e.g., "metadatas", "documents", "embeddings").
@@ -610,7 +698,9 @@ int main()
     std::cout << queryResponse[0].id << std::endl; // ID2
 }
 ```
+
 The where clause must be an array of key-value pairs. The key must be a string, and the value can be a string or a nested objects of valid filter values:
+
 - `$eq`: Equals
 - `$ne`: Not equals
 - `$in`: In
@@ -662,6 +752,7 @@ int main()
 ```
 
 The `where_document` filter works similarly to the `where` filter but for filtering documents. It additionally supports the `$contains` filter value for more advanced document filtering:
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -678,7 +769,7 @@ int main()
 
     nlohmann::json where_document = { {"$and", { {{"$contains", "Document2"}}, {{"$contains", "Special"}} }} };
     auto queryResponse = client.GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, where_document, {});
-	
+
     std::cout << queryResponse.size() << std::endl; // 1
     std::cout << queryResponse[0].id << std::endl; // ID2
     std::cout << queryResponse[0].embeddings->at(0) << std::endl; // 4.0
@@ -689,9 +780,11 @@ int main()
     std::cout << queryResponse[0].metadata->at("key2") << std::endl; // value3
 }
 ```
+
 > If you need guidance on structuring filters such as the `where` clause, refer to `tests/test_client.cpp` for numerous examples.
 
 ### Get Embedding Count from a Collection
+
 To retrieve the count of embeddings from an existing collection in ChromaDB, use the `GetEmbeddingCount` method. This method provides a straightforward way to determine the number of embeddings in a collection.
 
 ```cpp
@@ -706,9 +799,11 @@ int main()
 ```
 
 **Parameters**
+
 - **collection**: The collection from which to retrieve the count of embeddings.
 
 ### Update Embeddings in a collection
+
 To update embeddings in an existing collection in ChromaDB, use the `UpdateEmbeddings` method. This method allows you to specify the collection, the IDs of the embeddings to update, and optionally, the new embeddings, metadata, and documents associated with the embeddings.
 
 ```cpp
@@ -727,6 +822,7 @@ int main()
 ```
 
 **Parameters**
+
 - **collection**: The collection in which to update embeddings.
 - **ids**: The IDs of the embeddings to update.
 - **embeddings**: (Optional) The new embeddings.
@@ -734,6 +830,7 @@ int main()
 - **documents**: (Optional) The new documents associated with the embeddings.
 
 ### Delete Embeddings from a Collection
+
 To delete embeddings from an existing collection in ChromaDB, use the `DeleteEmbeddings` method. This method allows you to specify the collection, the IDs of the embeddings to delete, and optionally, the `where_document` and `where` clauses to filter which embeddings to delete based on document or metadata criteria.
 
 ```cpp
@@ -748,12 +845,14 @@ int main()
 ```
 
 **Parameters**
+
 - **collection**: The collection from which to delete embeddings.
 - **ids**: The IDs of the embeddings to delete.
 - **where_document**: (Optional) The where clause for filtering which documents to delete.
 - **where**: (Optional) The where clause for filtering which metadata to delete.
 
 ### Query a collection
+
 To query an existing collection in ChromaDB, use the `Query` method. This method allows you to specify the collection, optional query documents, query embeddings, number of results, fields to include in the results, and optional `where_document` and `where` clauses to filter the query based on document or metadata criteria.
 
 > You MUST either provide queryEmbeddings OR queryDocuments. If you provide queryDocuments, you also need to pass an Embedding Function to the collection.
@@ -786,6 +885,7 @@ int main()
 ```
 
 **Parameters**
+
 - **collection**: The collection to query.
 - **queryDocuments**: (Optional) The documents to query.
 - **queryEmbeddings**: (Optional) The embeddings to query.
@@ -795,6 +895,7 @@ int main()
 - **where**: (Optional) The where clause for filtering metadata.
 
 ### Reset ChromaDB
+
 To reset ChromaDB, use the `Reset` method. This will delete all collections and entries.
 
 > Resetting may not be allowed by your configuration. To enable it, include `ALLOW_RESET=TRUE` in your environment variables.
@@ -809,4 +910,5 @@ int main()
 ```
 
 ## License
+
 This project is licensed under the MIT License.

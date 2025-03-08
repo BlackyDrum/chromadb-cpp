@@ -201,6 +201,19 @@ namespace chromadb {
         return 0;
     }
 
+    bool Client::CollectionExists(const std::string& name)
+    {
+        try
+        {
+            m_ChromaApiClient.Get(std::format("/collections/{}?tenant={}&database={}", name, m_Tenant, m_Database));
+            return true;
+        }
+        catch (ChromaException)
+        {
+            return false;
+        }
+    }
+
     void Client::DeleteCollection(Collection& collection)
     {
         try

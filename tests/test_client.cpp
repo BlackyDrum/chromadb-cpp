@@ -551,6 +551,19 @@ TEST_F(ClientTest, CanGetCollectionCount)
     EXPECT_EQ(count, 0);
 }
 
+TEST_F(ClientTest, CanCheckIfCollectionExists)
+{
+    EXPECT_FALSE(client->CollectionExists("test_collection"));
+
+    Collection collection = client->CreateCollection("test_collection");
+
+    EXPECT_TRUE(client->CollectionExists("test_collection"));
+
+    client->DeleteCollection(collection);
+
+    EXPECT_FALSE(client->CollectionExists("test_collection"));
+}
+
 TEST_F(ClientTest, CanAddEmbeddingsWithEmbeddingsWithoutDocumentsWithoutMetadatas)
 {
     Collection collection = client->CreateCollection("test_collection");
