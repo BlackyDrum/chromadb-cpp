@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2025-03-08
+### Added
+- Add `CollectionExists` method to `Client` class
+
 ## [1.0.4] - 2025-01-14
 ### Added
 - Add `InvalidArgumentError` as throwable Exception

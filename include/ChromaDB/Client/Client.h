@@ -144,6 +144,15 @@ namespace chromadb {
         * @throw ChromaException if something goes wrong
         */
         size_t GetCollectionCount();
+
+        /*
+        * @brief Check if a collection exists
+        * 
+        * @param name The name of the collection
+        * 
+        * @return bool True if the collection exists, false otherwise
+        */
+        bool CollectionExists(const std::string& name);
         
         /*
         * @brief Update a collection
