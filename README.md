@@ -13,6 +13,9 @@ ChromaDB C++ lets you easily interact with the ChromaDB Vector Database:
 - **Querying**: Perform advanced searches on collections using documents or embeddings
 - **Authorization Handling**: Connect securely with authorization tokens
 
+> [!NOTE]  
+> This C++ client supports ChromaDB version 1.x.x and above only.
+
 ## Example
 
 ```cpp
