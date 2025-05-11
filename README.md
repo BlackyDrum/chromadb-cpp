@@ -268,7 +268,7 @@ int main()
 
 ### Authentication
 
-ChromaDB supports static token-based authentication. To use it, start the Chroma server with the necessary environment variables as specified in the [documentation](https://docs.trychroma.com/deployment/auth#static-api-token-authentication).
+ChromaDB supports static token-based authentication. To use it, start the Chroma server with the necessary environment variables as specified in the [documentation](https://cookbook.chromadb.dev/security/auth/#token-authentication).
 For Docker Compose, you can use the `env_file` option or pass the environment variables directly as shown below:
 
 ```yml
