@@ -41,6 +41,8 @@
 #include "ChromaDB/Resources/QueryResponseResource.h"
 #include "ChromaDB/Resources/EmbeddingResource.h"
 
+#include "ChromaDB/Resources/UserIdentity.h"
+
 #include "ChromaDB/Exceptions/ChromaException.h"
 #include "ChromaDB/Exceptions/ChromaAuthorizationException.h"
 #include "ChromaDB/Exceptions/ChromaConnectionException.h"

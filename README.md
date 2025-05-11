@@ -13,8 +13,8 @@ ChromaDB C++ lets you easily interact with the ChromaDB Vector Database:
 - **Querying**: Perform advanced searches on collections using documents or embeddings
 - **Authorization Handling**: Connect securely with authorization tokens
 
-> [!WARNING]  
-> This C++ client is currently compatible only with ChromaDB versions earlier than 1.x.x.
+> [!NOTE]  
+> This C++ client supports ChromaDB version 1.x.x and above only. For compatibility with earlier versions, please refer to a prior release [here](https://github.com/BlackyDrum/chromadb-cpp/releases/tag/v1.1.0).
 
 ## Example
 
@@ -896,6 +896,68 @@ int main()
 - **include**: (Optional) The fields to include in the results (e.g., "metadatas", "documents", "embeddings", "distances"). Defaults to "metadatas" and "embeddings".
 - **where_document**: (Optional) The where clause for filtering documents.
 - **where**: (Optional) The where clause for filtering metadata.
+
+### Get version
+
+To get the version of the ChromaDB server, use the `GetVersion` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::string version = client.GetVersion();
+    std::cout << "ChromaDB version: " << version << std::endl;
+}
+```
+
+### Get heartbeat
+
+To get the heartbeat of the ChromaDB server, use the `GetHeartbeat` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    size_t heartbeat = client.GetHeartbeat();
+    std::cout << "ChromaDB heartbeat: " << heartbeat << std::endl;
+}
+```
+
+### Check Server Health
+
+To check the health of the ChromaDB server, use the `CheckHealth` method. This method returns a boolean indicating whether the server and executor are ready.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    bool isHealthy = client.HealthCheck();
+    std::cout << "ChromaDB healthy: " << isHealthy << std::endl;
+}
+```
+
+### Get User Identity
+
+To get the user identity of the ChromaDB server, use the `GetUserIdentity` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    UserIdentity userIdentity = client.GetUserIdentity();
+    std::cout << "User Id: " << userIdentity.userId << std::endl;
+    std::cout << "User Tenant: " << userIdentity.tenant << std::endl;
+
+    for (const auto& database : userIdentity.databases)
+    {
+        std::cout << "Database: " << database << std::endl;
+    }
+}
+```
 
 ### Reset ChromaDB
 

@@ -2,7 +2,7 @@
 
 #include "ChromaDB/Embeddings/EmbeddingFunction.h"
 
-#include "ChromaDB/Exceptions/ChromaInvalidCollectionException.h"
+#include "ChromaDB/Exceptions/ChromaNotFoundException.h"
 
 #include <string>
 #include <memory>
@@ -19,7 +19,7 @@ namespace chromadb {
         * 
         * @return std::string The name of the collection
         * 
-        * @throw ChromaInvalidCollectionException If the collection has been deleted
+        * @throw ChromaNotFoundException If the collection has been deleted
         */
         std::string GetName() const { CheckDeleted(); return m_Name; }
 
@@ -28,7 +28,7 @@ namespace chromadb {
         * 
         * @return std::string The id of the collection
         * 
-        * @throw ChromaInvalidCollectionException If the collection has been deleted
+        * @throw ChromaNotFoundException If the collection has been deleted
         */
         std::string GetId() const { CheckDeleted(); return m_Id; }
 
@@ -37,7 +37,7 @@ namespace chromadb {
         * 
         * @return std::unordered_map<std::string, std::string> The metadata of the collection
         * 
-        * @throw ChromaInvalidCollectionException If the collection has been deleted
+        * @throw ChromaNotFoundException If the collection has been deleted
         */
         std::unordered_map<std::string, std::string> GetMetadata() const { CheckDeleted(); return m_Metadata; }
 
@@ -46,7 +46,7 @@ namespace chromadb {
         * 
         * @param embeddingFunction The embedding function of the collection
         * 
-        * @throw ChromaInvalidCollectionException If the collection has been deleted
+        * @throw ChromaNotFoundException If the collection has been deleted
         */
         void SetEmbeddingFunction(std::shared_ptr<EmbeddingFunction> embeddingFunction) { CheckDeleted(); m_EmbeddingFunction = embeddingFunction; }
 
@@ -55,7 +55,7 @@ namespace chromadb {
         * 
         * @return std::shared_ptr<EmbeddingFunction> The embedding function of the collection
         * 
-        * @throw ChromaInvalidCollectionException If the collection has been deleted
+        * @throw ChromaNotFoundException If the collection has been deleted
         */
         std::shared_ptr<EmbeddingFunction> GetEmbeddingFunction() const { CheckDeleted(); return m_EmbeddingFunction; }
 

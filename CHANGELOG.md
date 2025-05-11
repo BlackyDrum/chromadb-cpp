@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2025-05-11
+### Changed
+- Switched to ChromaDB API v2, which includes breaking changes in the API.
+
 ## [1.1.0] - 2025-03-08
 ### Added
 - Add `CollectionExists` method to `Client` class

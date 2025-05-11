@@ -82,8 +82,6 @@ namespace chromadb {
         std::string m_Port;
         std::string m_AuthToken;
         std::string m_BaseUrl;
-
-        const std::string m_Prefix = "/api/v1";
     };
 
 } // namespace chromadb

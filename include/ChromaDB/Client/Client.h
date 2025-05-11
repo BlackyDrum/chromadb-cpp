@@ -6,6 +6,7 @@
 #include "ChromaDB/Resources/QueryResponseResource.h"
 
 #include "ChromaDB/Resources/EmbeddingResource.h"
+#include "ChromaDB/Resources/UserIdentity.h"
 
 #include "ChromaDB/Exceptions/ChromaException.h"
 #include "ChromaDB/Exceptions/ChromaAuthorizationException.h"
@@ -72,6 +73,24 @@ namespace chromadb {
         * @throw ChromaException if something goes wrong
         */
         size_t GetHeartbeat();
+
+        /*
+        * @brief Check the health of the server
+        * 
+        * @return bool True if the server and executor are ready, false otherwise
+        * 
+        * @throw ChromaException if something goes wrong
+        */
+        bool HealthCheck();
+
+        /*
+        * @brief Get the user identity
+        * 
+        * @return UserIdentity The user identity
+        * 
+        * * @throw ChromaException if something goes wrong
+        */
+        UserIdentity GetUserIdentity();
 
         /*
         * @brief Get the current database name
@@ -274,6 +293,8 @@ namespace chromadb {
 
         std::string m_Database;
         std::string m_Tenant;
+
+        std::string m_ChromaApiUrlPrefix = "";
 
         struct ValidationResult
         {
