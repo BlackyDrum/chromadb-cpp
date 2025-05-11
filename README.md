@@ -922,6 +922,20 @@ int main()
 }
 ```
 
+### Check Server Health
+
+To check the health of the ChromaDB server, use the `CheckHealth` method. This method returns a boolean indicating whether the server and executor are ready.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    bool isHealthy = client.HealthCheck();
+    std::cout << "ChromaDB healthy: " << isHealthy << std::endl;
+}
+```
+
 ### Get User Identity
 
 To get the user identity of the ChromaDB server, use the `GetUserIdentity` method.
