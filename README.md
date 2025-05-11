@@ -903,8 +903,8 @@ To get the version of the ChromaDB server, use the `GetVersion` method.
 
 int main()
 {
-	std::string version = client.GetVersion();
-	std::cout << "ChromaDB version: " << version << std::endl;
+    std::string version = client.GetVersion();
+    std::cout << "ChromaDB version: " << version << std::endl;
 }
 ```
 
@@ -917,8 +917,8 @@ To get the heartbeat of the ChromaDB server, use the `GetHeartbeat` method.
 
 int main()
 {
-	size_t heartbeat = client.GetHeartbeat();
-	std::cout << "ChromaDB heartbeat: " << heartbeat << std::endl;
+    size_t heartbeat = client.GetHeartbeat();
+    std::cout << "ChromaDB heartbeat: " << heartbeat << std::endl;
 }
 ```
 
@@ -936,9 +936,9 @@ int main()
     std::cout << "User Tenant: " << userIdentity.tenant << std::endl;
 
     for (const auto& database : userIdentity.databases)
-	{
-		std::cout << "Database: " << database << std::endl;
-	}
+    {
+        std::cout << "Database: " << database << std::endl;
+    }
 }
 ```
 
