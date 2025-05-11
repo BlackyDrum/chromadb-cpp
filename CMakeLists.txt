@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(chromadb VERSION 1.1.0)
+project(chromadb VERSION 2.0.0)
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_CXX_STANDARD 20)
