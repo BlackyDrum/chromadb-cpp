@@ -99,7 +99,7 @@ Make sure to run the following command to initialize and update the submodules o
 git submodule update --init --recursive
 ```
 
-**Linux**
+### Linux
 
 1. Create a build directory
 
@@ -126,7 +126,7 @@ make
 sudo make install
 ```
 
-**Windows**
+### Windows
 
 1. Create a build directory
 
@@ -155,7 +155,7 @@ cmake --install .
 
 ### Running the example project
 
-**Linux**
+### Linux
 
 1. Navigate to the examples directory
 
@@ -188,7 +188,7 @@ make
 ./ExampleProject
 ```
 
-**Windows**
+### Windows
 
 1. Navigate to the examples directory
 
