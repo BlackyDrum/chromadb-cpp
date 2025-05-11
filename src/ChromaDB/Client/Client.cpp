@@ -123,6 +123,26 @@ namespace chromadb {
         return false;
     }
 
+    UserIdentity Client::GetUserIdentity()
+    {
+        try
+        {
+            auto json = m_ChromaApiClient.Get("/api/v2/auth/identity");
+
+            std::vector<std::string> databases;
+            for (const auto& database : json["databases"])
+                databases.push_back(database.get<std::string>());
+
+            return UserIdentity(databases, json["tenant"].get<std::string>(), json["user_id"].get<std::string>());
+        }
+        catch (ChromaException& e)
+        {
+            this->handleChromaApiException(e);
+        }
+
+        return UserIdentity({}, "", "");
+    }
+
     Collection Client::CreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata, std::shared_ptr<EmbeddingFunction> embeddingFunction)
     {
         nlohmann::json json = {
