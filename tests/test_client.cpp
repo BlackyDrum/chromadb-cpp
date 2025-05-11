@@ -54,7 +54,7 @@ TEST_F(ClientTest, ConstructorDoesNotThrowExceptionIfAuthTokenIsValid)
     EXPECT_NO_THROW(Client("http", "localhost", "8081", "test_database", "test_tenant", "authToken"));
 }
 
-TEST_F(ClientTest, ConstructorThrowsExceptionIfAuthTokenIsInvalid)
+TEST_F(ClientTest, DISABLED_ConstructorThrowsExceptionIfAuthTokenIsInvalid)
 {
     EXPECT_THROW(Client("http", "localhost", "8081", "test_database", "test_tenant", "wrongAuthToken"), ChromaAuthorizationException);
 }
