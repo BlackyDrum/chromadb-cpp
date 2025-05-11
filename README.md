@@ -13,7 +13,7 @@ ChromaDB C++ lets you easily interact with the ChromaDB Vector Database:
 - **Querying**: Perform advanced searches on collections using documents or embeddings
 - **Authorization Handling**: Connect securely with authorization tokens
 
-> [!NOTE]  
+> [!IMPORTANT]  
 > This C++ client supports ChromaDB version 1.x.x and above only. For compatibility with earlier versions, please refer to a prior release [here](https://github.com/BlackyDrum/chromadb-cpp/releases/tag/v1.1.0).
 
 ## Example
@@ -232,7 +232,8 @@ This will execute the tests defined in the `tests` directory, using Google Test.
 
 ## Usage
 
-> To use ChromaDB in your project, simply include the header file "ChromaDB/ChromaDB.h". This header provides access to the full suite of functionalities offered by the ChromaDB C++ library.
+> [!NOTE]
+> To use ChromaDB in your project, simply include the header file `"ChromaDB/ChromaDB.h"`. This header provides access to the full suite of functionalities offered by the ChromaDB C++ library.
 
 ### Connecting to ChromaDB
 
@@ -475,6 +476,7 @@ int main()
 - **metadata**: (Optional) A vector of metadata key-value pairs associated with the embeddings.
 - **documents**: (Optional) A vector of documents associated with the embeddings
 
+> [!WARNING]
 > If you do not provide embeddings, you must provide documents along with an embedding function.
 
 ### Add Embeddings with Embedding Function
@@ -539,7 +541,8 @@ int main()
 - **baseUrl**: (Optional) The base URL of the API server. Defaults to `api.jina.ai`.
 - **path**: (Optional) The path of the endpoint for generating embeddings. Defaults to `/v1/embeddings`.
 
-> Note: You can get started immediately by obtaining a free Jina API Key with 1M Tokens [here](https://jina.ai/embeddings/#apiform)
+> [!TIP]
+> You can get started immediately by obtaining a free Jina API Key with 1M Tokens [here](https://jina.ai/embeddings/#apiform)
 
 **OpenAIEmbeddingFunction**
 
@@ -711,6 +714,7 @@ The where clause must be an array of key-value pairs. The key must be a string, 
 - `$and`: And
 - `$or`: Or
 
+> [!NOTE]
 > The `$gt`, `$gte`, `$lt`, and `$lte` filters are also officially supported in ChromaDB. However, this C++ driver only supports strings for metadata values, so these operators are not available in this implementation yet.
 
 ```cpp
@@ -784,6 +788,7 @@ int main()
 }
 ```
 
+> [!TIP]
 > If you need guidance on structuring filters such as the `where` clause, refer to `tests/test_client.cpp` for numerous examples.
 
 ### Get Embedding Count from a Collection
@@ -858,7 +863,8 @@ int main()
 
 To query an existing collection in ChromaDB, use the `Query` method. This method allows you to specify the collection, optional query documents, query embeddings, number of results, fields to include in the results, and optional `where_document` and `where` clauses to filter the query based on document or metadata criteria.
 
-> You MUST either provide queryEmbeddings OR queryDocuments. If you provide queryDocuments, you also need to pass an Embedding Function to the collection.
+> [!WARNING]
+> You MUST either provide `queryEmbeddings` OR `queryDocuments`. If you provide `queryDocuments`, you also need to pass an Embedding Function to the collection.
 
 ```cpp
 #include "ChromaDB/ChromaDB.h"
@@ -963,6 +969,7 @@ int main()
 
 To reset ChromaDB, use the `Reset` method. This will delete all collections and entries.
 
+> [!NOTE]
 > Resetting may not be allowed by your configuration. To enable it, include `ALLOW_RESET=TRUE` in your environment variables.
 
 ```cpp
