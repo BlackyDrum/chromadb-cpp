@@ -83,6 +83,13 @@ namespace chromadb {
         */
         bool HealthCheck();
 
+        /*
+        * @brief Get the user identity
+        * 
+        * @return UserIdentity The user identity
+        * 
+        * * @throw ChromaException if something goes wrong
+        */
         UserIdentity GetUserIdentity();
 
         /*
