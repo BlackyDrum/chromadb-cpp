@@ -1749,5 +1749,5 @@ TEST_F(ClientTest, CanGetRequestMetadataFromEmbeddingFunction)
 
 TEST_F(ClientTest, CanCheckHealth)
 {
-	EXPECT_TRUE(client->HealthCheck());
+    EXPECT_TRUE(client->HealthCheck());
 }

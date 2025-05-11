@@ -74,11 +74,11 @@ namespace chromadb {
         size_t GetHeartbeat();
 
         /*
-		* @brief Check the health of the server
+        * @brief Check the health of the server
         * 
         * @return bool True if the server and executor are ready, false otherwise
         * 
-		* @throw ChromaException if something goes wrong
+        * @throw ChromaException if something goes wrong
         */
         bool HealthCheck();
 

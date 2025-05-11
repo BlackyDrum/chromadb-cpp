@@ -28,7 +28,7 @@ namespace chromadb {
             this->CreateDatabase();
         }
 
-		m_ChromaApiUrlPrefix = std::format("/api/v2/tenants/{}/databases/{}", m_Tenant, m_Database);
+        m_ChromaApiUrlPrefix = std::format("/api/v2/tenants/{}/databases/{}", m_Tenant, m_Database);
     }
 
     void Client::CreateTenant()
