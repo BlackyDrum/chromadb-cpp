@@ -1746,3 +1746,8 @@ TEST_F(ClientTest, CanGetRequestMetadataFromEmbeddingFunction)
     EXPECT_GT(requestMetadata["usage"]["prompt_tokens"], 0);
     EXPECT_GT(requestMetadata["usage"]["total_tokens"], 0);
 }
+
+TEST_F(ClientTest, CanCheckHealth)
+{
+	EXPECT_TRUE(client->HealthCheck());
+}

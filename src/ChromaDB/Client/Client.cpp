@@ -109,6 +109,20 @@ namespace chromadb {
         return 0;
     }
 
+    bool Client::HealthCheck()
+    {
+        try
+        {
+            return m_ChromaApiClient.Get("/api/v2/healthcheck")["is_executor_ready"];
+        }
+        catch (ChromaException& e)
+        {
+            this->handleChromaApiException(e);
+        }
+
+        return false;
+    }
+
     Collection Client::CreateCollection(const std::string& name, const std::unordered_map<std::string, std::string>& metadata, std::shared_ptr<EmbeddingFunction> embeddingFunction)
     {
         nlohmann::json json = {
