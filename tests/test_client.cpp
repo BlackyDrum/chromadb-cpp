@@ -1751,3 +1751,12 @@ TEST_F(ClientTest, CanCheckHealth)
 {
     EXPECT_TRUE(client->HealthCheck());
 }
+
+TEST_F(ClientTest, CanGetUserIdentity)
+{
+	UserIdentity userIdentity = client->GetUserIdentity();
+	EXPECT_EQ(userIdentity.userId, "");
+	EXPECT_EQ(userIdentity.tenant, "default_tenant");
+	EXPECT_EQ(userIdentity.databases.size(), 1);
+	EXPECT_EQ(userIdentity.databases[0], "default_database");
+}
