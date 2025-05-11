@@ -275,6 +275,8 @@ namespace chromadb {
         std::string m_Database;
         std::string m_Tenant;
 
+        std::string m_ChromaApiUrlPrefix = "";
+
         struct ValidationResult
         {
             std::vector<std::string> ids;

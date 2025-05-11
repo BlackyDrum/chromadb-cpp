@@ -181,7 +181,7 @@ TEST_F(ClientTest, CreateCollectionThrowsExceptionIfCollectionAlreadyExists)
 {
     Collection collection = client->CreateCollection("test_collection");
 
-    EXPECT_THROW(client->CreateCollection("test_collection"), ChromaUniqueConstraintException);
+    EXPECT_THROW(client->CreateCollection("test_collection"), ChromaException);
 }
 
 TEST_F(ClientTest, CreateCollectionThrowsExceptionIfInvalidNameProvided)
@@ -245,7 +245,7 @@ TEST_F(ClientTest, GetCollectionThrowsExceptionIfCollectionDoesNotExist)
 {
     Collection collection = client->CreateCollection("test_collection");
 
-    EXPECT_THROW(client->GetCollection("test_collection2"), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->GetCollection("test_collection2"), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, CanGetOrCreateCollectionWithoutMetadata)
@@ -447,7 +447,7 @@ TEST_F(ClientTest, CanUpdateCollection)
     EXPECT_EQ(collection2.GetId(), collection.GetId());
     EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
 
-    EXPECT_THROW(client->GetCollection("test_collection"), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->GetCollection("test_collection"), ChromaNotFoundException);
 
     std::vector<Collection> collections = client->GetCollections();
     EXPECT_EQ(collections.size(), 1);
@@ -485,7 +485,7 @@ TEST_F(ClientTest, CanUpdateCollectionWithMetadata)
     EXPECT_EQ(collection2.GetId(), collection.GetId());
     EXPECT_EQ(collection2.GetEmbeddingFunction(), nullptr);
 
-    EXPECT_THROW(client->GetCollection("test_collection"), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->GetCollection("test_collection"), ChromaNotFoundException);
 
     std::vector<Collection> collections = client->GetCollections();
     EXPECT_EQ(collections.size(), 1);
@@ -501,12 +501,12 @@ TEST_F(ClientTest, UpdateCollectionThrowsExceptionIfCollectionDoesNotExist)
 {
     Collection collection = client->CreateCollection("test_collection");
 
-    EXPECT_THROW(client->UpdateCollection("test_collection2", "test_collection_updated"), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->UpdateCollection("test_collection2", "test_collection_updated"), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, UpdateCollectionThrowsExceptionIfInvalidNameProvided)
 {
-    EXPECT_THROW(client->UpdateCollection("test_collection", "te"), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->UpdateCollection("test_collection", "te"), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, CanDeleteCollection)
@@ -526,7 +526,7 @@ TEST_F(ClientTest, DeleteCollectionThrowsExceptionIfCollectionAlreadyDeleted)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(client->DeleteCollection(collection), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->DeleteCollection(collection), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, CanGetCollectionCount)
@@ -731,7 +731,7 @@ TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfCollectionDoesNotExist)
     std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
     std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
 
-    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, {}), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfNotEnoughIdsProvided)
@@ -1160,7 +1160,7 @@ TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForGet)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(client->GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, {}, {}), ChromaException);
+    EXPECT_THROW(client->GetEmbeddings(collection, {}, { "embeddings", "documents", "metadatas" }, {}, {}), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, CanGetEmbeddingCount)
@@ -1377,7 +1377,7 @@ TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForUpdate)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(client->UpdateEmbeddings(collection, { "ID1", "ID2" }, {}, {}, {}), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->UpdateEmbeddings(collection, { "ID1", "ID2" }, {}, {}, {}), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForDelete)
@@ -1386,7 +1386,7 @@ TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForDelete)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(client->DeleteEmbeddings(collection, { "ID1", "ID3" }), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->DeleteEmbeddings(collection, { "ID1", "ID3" }), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForQuery)
@@ -1395,7 +1395,7 @@ TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForQuery)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(client->Query(collection, {}, { { 1.0, 2.0, 3.0 } }, 2, { "embeddings", "documents", "metadatas", "distances" }), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->Query(collection, {}, { { 1.0, 2.0, 3.0 } }, 2, { "embeddings", "documents", "metadatas", "distances" }), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForGetEmbeddingCount)
@@ -1404,7 +1404,7 @@ TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForGetEmbeddingCount)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(client->GetEmbeddingCount(collection), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->GetEmbeddingCount(collection), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForAdd)
@@ -1418,7 +1418,7 @@ TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForAdd)
     std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
     std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
 
-    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForUpsert)
@@ -1432,7 +1432,7 @@ TEST_F(ClientTest, ThrowsIfCollectionDoesNotExistForUpsert)
     std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
     std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
 
-    EXPECT_THROW(client->UpsertEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidCollectionException);
+    EXPECT_THROW(client->UpsertEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForGetId)
@@ -1441,7 +1441,7 @@ TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForGetId)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(collection.GetId(), ChromaInvalidCollectionException);
+    EXPECT_THROW(collection.GetId(), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForGetName)
@@ -1450,7 +1450,7 @@ TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForGetName)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(collection.GetName(), ChromaInvalidCollectionException);
+    EXPECT_THROW(collection.GetName(), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForGetMetadata)
@@ -1459,7 +1459,7 @@ TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForGetMetadata)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(collection.GetMetadata(), ChromaInvalidCollectionException);
+    EXPECT_THROW(collection.GetMetadata(), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForGetEmbeddingFunction)
@@ -1468,7 +1468,7 @@ TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForGetEmbeddingFunction)
 
     client->DeleteCollection(collection);
 
-    EXPECT_THROW(collection.GetEmbeddingFunction(), ChromaInvalidCollectionException);
+    EXPECT_THROW(collection.GetEmbeddingFunction(), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForSetEmbeddingFunction)
@@ -1479,7 +1479,7 @@ TEST_F(ClientTest, ThrowsIfCollectionWasDeletedForSetEmbeddingFunction)
 
     std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>("jina-api-key");
 
-    EXPECT_THROW(collection.SetEmbeddingFunction(embeddingFunction), ChromaInvalidCollectionException);
+    EXPECT_THROW(collection.SetEmbeddingFunction(embeddingFunction), ChromaNotFoundException);
 }
 
 TEST_F(ClientTest, HasDeletedFlagCorrectlySet)

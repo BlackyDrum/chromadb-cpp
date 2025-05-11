@@ -19,7 +19,7 @@ namespace chromadb {
             { "Authorization", "Bearer " + m_AuthToken },
         };
 
-        auto res = https ? sslClient.Get(m_Prefix + endpoint, headers) : client.Get(m_Prefix + endpoint, headers);
+        auto res = https ? sslClient.Get(endpoint, headers) : client.Get(endpoint, headers);
         if (res)
         {
             if (res->status == httplib::OK_200)
@@ -43,7 +43,7 @@ namespace chromadb {
             { "Authorization", "Bearer " + m_AuthToken },
         };
 
-        auto res = https ? sslClient.Post(m_Prefix + endpoint, headers, body.dump(), "application/json") : client.Post(m_Prefix + endpoint, headers, body.dump(), "application/json");
+        auto res = https ? sslClient.Post(endpoint, headers, body.dump(), "application/json") : client.Post(endpoint, headers, body.dump(), "application/json");
         if (res)
         {
             if (res->status == httplib::OK_200 || res->status == httplib::Created_201)
@@ -67,7 +67,7 @@ namespace chromadb {
             { "Authorization", "Bearer " + m_AuthToken },
         };
 
-        auto res = https ? sslClient.Put(m_Prefix + endpoint, headers, body.dump(), "application/json") : client.Put(m_Prefix + endpoint, headers, body.dump(), "application/json");
+        auto res = https ? sslClient.Put(endpoint, headers, body.dump(), "application/json") : client.Put(endpoint, headers, body.dump(), "application/json");
         if (res)
         {
             if (res->status == httplib::OK_200)
@@ -90,7 +90,7 @@ namespace chromadb {
             { "Authorization", "Bearer " + m_AuthToken },
         };
 
-        auto res = https ? sslClient.Delete(m_Prefix + endpoint, headers) : client.Delete(m_Prefix + endpoint, headers);
+        auto res = https ? sslClient.Delete(endpoint, headers) : client.Delete(endpoint, headers);
         if (res)
         {
             if (res->status == httplib::OK_200)
