@@ -14,7 +14,7 @@ ChromaDB C++ lets you easily interact with the ChromaDB Vector Database:
 - **Authorization Handling**: Connect securely with authorization tokens
 
 > [!NOTE]  
-> This C++ client supports ChromaDB version 1.x.x and above only.
+> This C++ client supports ChromaDB version 1.x.x and above only. For compatibility with earlier versions, please refer to a prior release [here](https://github.com/BlackyDrum/chromadb-cpp/releases/tag/v1.1.0).
 
 ## Example
 
