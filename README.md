@@ -283,8 +283,9 @@ services:
       - .env
     # Alternatively, you can specify the environment variables directly
     environment:
-      CHROMA_SERVER_AUTHN_CREDENTIALS: "authToken"
-      CHROMA_SERVER_AUTHN_PROVIDER: "chromadb.auth.token_authn.TokenAuthenticationServerProvider"
+      CHROMA_SERVER_AUTHN_CREDENTIALS: 'authToken'
+      CHROMA_SERVER_AUTHN_PROVIDER: 'chromadb.auth.token_authn.TokenAuthenticationServerProvider'
+      CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: 'Authorization'
 
 volumes:
   chroma-data:
