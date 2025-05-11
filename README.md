@@ -897,6 +897,54 @@ int main()
 - **where_document**: (Optional) The where clause for filtering documents.
 - **where**: (Optional) The where clause for filtering metadata.
 
+### Get version
+
+To get the version of the ChromaDB server, use the `GetVersion` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+	std::string version = client.GetVersion();
+	std::cout << "ChromaDB version: " << version << std::endl;
+}
+```
+
+### Get heartbeat
+
+To get the heartbeat of the ChromaDB server, use the `GetHeartbeat` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+	size_t heartbeat = client.GetHeartbeat();
+	std::cout << "ChromaDB heartbeat: " << heartbeat << std::endl;
+}
+```
+
+### Get User Identity
+
+To get the user identity of the ChromaDB server, use the `GetUserIdentity` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    UserIdentity userIdentity = client.GetUserIdentity();
+    std::cout << "User Id: " << userIdentity.userId << std::endl;
+    std::cout << "User Tenant: " << userIdentity.tenant << std::endl;
+
+    for (const auto& database : userIdentity.databases)
+	{
+		std::cout << "Database: " << database << std::endl;
+	}
+}
+```
+
 ### Reset ChromaDB
 
 To reset ChromaDB, use the `Reset` method. This will delete all collections and entries.
