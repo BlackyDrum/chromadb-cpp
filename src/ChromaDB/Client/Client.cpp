@@ -292,6 +292,24 @@ namespace chromadb {
         return this->GetCollection(newName, oldCollection.GetEmbeddingFunction());
     }
 
+    Collection Client::ForkCollection(const Collection& collection, const std::string& newName, std::shared_ptr<EmbeddingFunction> embeddingFunction)
+    {
+        nlohmann::json json = {
+            { "new_name", newName }
+        };
+
+        try
+        {
+            m_ChromaApiClient.Post(std::format("{}/collections/{}/fork", m_ChromaApiUrlPrefix, collection.GetId()), json);
+        }
+        catch (ChromaException& e)
+        {
+            this->handleChromaApiException(e);
+        }
+
+        return this->GetCollection(newName, embeddingFunction);
+    }
+
     void Client::AddEmbeddings(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents)
     {
         ValidationResult validationResult = this->Validate(collection, ids, embeddings, metadata, documents, true);

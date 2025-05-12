@@ -431,6 +431,31 @@ int main()
 - **newName**: The new name for the collection.
 - **newMetadata**: (Optional) A map of new metadata key-value pairs for the collection.
 
+### Fork a Collection
+
+> [!CAUTION]
+> Forking is experimental and only works for hosted ChromaDB instances. It is not supported for local instances.
+
+To create a fork of an existing collection in ChromaDB, use the `ForkCollection` method. This method allows you to specify the collection to fork and the new name for the forked collection.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    chromadb::Collection collection = client.CreateCollection("test_collection");
+    chromadb::Collection forkedCollection = client.ForkCollection(collection, "forked_collection");
+
+    std::cout << forkedCollection.GetName() << std::endl; // "forked_collection"
+}
+```
+
+**Parameters**
+
+- **collection**: The collection to fork.
+- **newName**: The new name for the forked collection.
+- **embeddingFunction**: (Optional) A shared pointer to an embedding function for the forked collection.
+
 ### Delete a Collection
 
 To delete an existing collection in ChromaDB, use the `DeleteCollection` method. This method allows you to specify the collection you want to remove.

@@ -185,6 +185,19 @@ namespace chromadb {
         * @throw ChromaException if something goes wrong
         */
         Collection UpdateCollection(const std::string& oldName, const std::string& newName, const std::unordered_map<std::string, std::string>& newMetadata = {});
+
+        /*
+        * @brief Fork a collection
+        * 
+        * @param collection The collection to fork
+        * @param newName The name of the new collection
+        * @param embeddingFunction The embedding function of the new collection (optional)
+        * 
+        * @return Collection The forked collection
+        * 
+        * @throw ChromaException if something goes wrong
+        */
+        Collection ForkCollection(const Collection& collection, const std::string& newName, std::shared_ptr<EmbeddingFunction> embeddingFunction = nullptr);
         
         /*
         * @brief Delete a collection
