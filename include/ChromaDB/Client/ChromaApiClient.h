@@ -23,9 +23,8 @@ namespace chromadb {
         * @param scheme The scheme of the server (http or https)
         * @param host The host of the server
         * @param port The port of the server
-        * @param authToken The authorization token to use
         */
-        ChromaApiClient(const std::string& scheme, const std::string& host, const std::string& port, const std::string& authToken);
+        ChromaApiClient(const std::string& scheme, const std::string& host, const std::string& port);
 
         /*
         * @brief Make a GET request to the server
@@ -80,7 +79,6 @@ namespace chromadb {
         std::string m_Scheme;
         std::string m_Host;
         std::string m_Port;
-        std::string m_AuthToken;
         std::string m_BaseUrl;
     };
 

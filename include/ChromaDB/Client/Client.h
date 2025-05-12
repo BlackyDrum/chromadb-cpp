@@ -43,11 +43,10 @@ namespace chromadb {
         * @param port The port of the server
         * @param database The database to use. If it does not exist, it will be created. (optional)
         * @param tenant The tenant to use. If it does not exist, it will be created. (optional)
-        * @param authToken The authorization token to use (optional)
         * 
         * @throw ChromaException if something goes wrong
         */
-        Client(const std::string& scheme, const std::string& host, const std::string& port, const std::string& database = "default_database", const std::string& tenant = "default_tenant", const std::string& authToken = "");
+        Client(const std::string& scheme, const std::string& host, const std::string& port, const std::string& database = "default_database", const std::string& tenant = "default_tenant");
 
         /*
         * @brief Reset ChromaDB

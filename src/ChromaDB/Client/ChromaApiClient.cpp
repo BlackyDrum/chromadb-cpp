@@ -2,8 +2,8 @@
 
 namespace chromadb {
 
-    ChromaApiClient::ChromaApiClient(const std::string& scheme, const std::string& host, const std::string& port, const std::string& authToken)
-        : m_Scheme(scheme), m_Host(host), m_Port(port), m_AuthToken(authToken)
+    ChromaApiClient::ChromaApiClient(const std::string& scheme, const std::string& host, const std::string& port)
+        : m_Scheme(scheme), m_Host(host), m_Port(port)
     {
         m_BaseUrl = std::format("{}://{}:{}", m_Scheme, m_Host, m_Port);
     }
@@ -15,11 +15,7 @@ namespace chromadb {
 
         bool https = m_Scheme == "https";
 
-        nlohmann::json headers = {
-            { "Authorization", "Bearer " + m_AuthToken },
-        };
-
-        auto res = https ? sslClient.Get(endpoint, headers) : client.Get(endpoint, headers);
+        auto res = https ? sslClient.Get(endpoint) : client.Get(endpoint);
         if (res)
         {
             if (res->status == httplib::OK_200)
@@ -39,8 +35,7 @@ namespace chromadb {
         bool https = m_Scheme == "https";
 
         nlohmann::json headers = {
-            { "Content-Type", "application/json" },
-            { "Authorization", "Bearer " + m_AuthToken },
+            { "Content-Type", "application/json" }
         };
 
         auto res = https ? sslClient.Post(endpoint, headers, body.dump(), "application/json") : client.Post(endpoint, headers, body.dump(), "application/json");
@@ -63,8 +58,7 @@ namespace chromadb {
         bool https = m_Scheme == "https";
 
         nlohmann::json headers = {
-            { "Content-Type", "application/json" },
-            { "Authorization", "Bearer " + m_AuthToken },
+            { "Content-Type", "application/json" }
         };
 
         auto res = https ? sslClient.Put(endpoint, headers, body.dump(), "application/json") : client.Put(endpoint, headers, body.dump(), "application/json");
@@ -86,11 +80,7 @@ namespace chromadb {
 
         bool https = m_Scheme == "https";
 
-        nlohmann::json headers = {
-            { "Authorization", "Bearer " + m_AuthToken },
-        };
-
-        auto res = https ? sslClient.Delete(endpoint, headers) : client.Delete(endpoint, headers);
+        auto res = https ? sslClient.Delete(endpoint) : client.Delete(endpoint);
         if (res)
         {
             if (res->status == httplib::OK_200)

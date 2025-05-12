@@ -16,18 +16,10 @@ jobs:
       JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
 
     services:
-      chroma-no-auth:
+      chromadb:
         image: chromadb/chroma:1.0.8
         ports:
           - 8080:8000
-
-      chroma-with-auth:
-        image: chromadb/chroma:1.0.8
-        ports:
-          - 8081:8000
-        env:
-            CHROMA_SERVER_AUTHN_CREDENTIALS: authToken
-            CHROMA_SERVER_AUTHN_PROVIDER: chromadb.auth.token_authn.TokenAuthenticationServerProvider
 
     steps:
     - name: Checkout code

@@ -11,7 +11,6 @@ ChromaDB C++ lets you easily interact with the ChromaDB Vector Database:
 - **Collection Management**: Create, retrieve, update, and delete collections
 - **Embedding Management**: Add, get, update, upsert, and delete embeddings
 - **Querying**: Perform advanced searches on collections using documents or embeddings
-- **Authorization Handling**: Connect securely with authorization tokens
 
 > [!IMPORTANT]  
 > This C++ client supports ChromaDB version 1.x.x and above only. For compatibility with earlier versions, please refer to a prior release [here](https://github.com/BlackyDrum/chromadb-cpp/releases/tag/v1.1.0).
@@ -237,7 +236,7 @@ This will execute the tests defined in the `tests` directory, using Google Test.
 
 ### Connecting to ChromaDB
 
-To connect to a ChromaDB server, you need to create an instance of the `Client` class. You can specify the connection details such as the scheme, host, port, database, tenant, and an authorization token.
+To connect to a ChromaDB server, you need to create an instance of the `Client` class. You can specify the connection details such as the scheme, host, port, database and tenant.
 
 ```cpp
 #include "ChromaDB/ChromaDB.h"
@@ -250,10 +249,9 @@ int main()
     std::string port = "8080";
     std::string database = "my_database";
     std::string tenant = "my_tenant";
-    std::string authToken = "my_auth_token";
 
     // Create a ChromaDB client
-    chromadb::Client client(scheme, host, port, database, tenant, authToken);
+    chromadb::Client client(scheme, host, port, database, tenant);
 }
 ```
 
@@ -264,33 +262,6 @@ int main()
 - **port**: The port number on which the ChromaDB server is running.
 - **database**: (Optional) The database to use (defaults to `default_database`). If it does not exist, it will be created.
 - **tenant**: (Optional) The tenant to use (defaults to `default_tenant`). If it does not exist, it will be created.
-- **authToken**: (Optional) The authorization token to use.
-
-### Authentication
-
-ChromaDB supports static token-based authentication. To use it, start the Chroma server with the necessary environment variables as specified in the [documentation](https://cookbook.chromadb.dev/security/auth/#token-authentication).
-For Docker Compose, you can use the `env_file` option or pass the environment variables directly as shown below:
-
-```yml
-services:
-  chroma-with-auth:
-    image: "chromadb/chroma"
-    ports:
-      - "8081:8000"
-    volumes:
-      - chroma-data:/chroma/chroma
-    env_file:
-      - .env
-    # Alternatively, you can specify the environment variables directly
-    environment:
-      CHROMA_SERVER_AUTHN_CREDENTIALS: "authToken"
-      CHROMA_SERVER_AUTHN_PROVIDER: "chromadb.auth.token_authn.TokenAuthenticationServerProvider"
-      CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: "Authorization"
-
-volumes:
-  chroma-data:
-    driver: local
-```
 
 ### Create a Collection
 

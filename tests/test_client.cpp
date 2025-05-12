@@ -16,7 +16,7 @@ protected:
 protected:
     void SetUp() override
     {
-        client = new Client("http", "localhost", "8080", "test_database", "test_tenant", "");
+        client = new Client("http", "localhost", "8080", "test_database", "test_tenant");
 
         jinaApiKey = GetEnvVar("JINA_API_KEY");
     }
@@ -46,17 +46,7 @@ TEST_F(ClientTest, ConstructorInitializesCorrectly)
 
 TEST_F(ClientTest, ConstructorThrowsExceptionIfServerIsNotReachable)
 {
-    EXPECT_THROW(Client("http", "localhost", "8070", "test_database", "test_tenant", "authToken"), ChromaConnectionException);
-}
-
-TEST_F(ClientTest, ConstructorDoesNotThrowExceptionIfAuthTokenIsValid)
-{
-    EXPECT_NO_THROW(Client("http", "localhost", "8081", "test_database", "test_tenant", "authToken"));
-}
-
-TEST_F(ClientTest, DISABLED_ConstructorThrowsExceptionIfAuthTokenIsInvalid)
-{
-    EXPECT_THROW(Client("http", "localhost", "8081", "test_database", "test_tenant", "wrongAuthToken"), ChromaAuthorizationException);
+    EXPECT_THROW(Client("http", "localhost", "8070", "test_database", "test_tenant"), ChromaConnectionException);
 }
 
 TEST_F(ClientTest, ReturnsCorrectVersion)
