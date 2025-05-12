@@ -13,7 +13,7 @@ ChromaDB C++ lets you easily interact with the ChromaDB Vector Database:
 - **Querying**: Perform advanced searches on collections using documents or embeddings
 
 > [!IMPORTANT]  
-> This C++ client supports ChromaDB version 1.x.x and above only. For compatibility with earlier versions, please refer to a prior release [here](https://github.com/BlackyDrum/chromadb-cpp/releases/tag/v1.1.0).
+> This C++ client supports ChromaDB version 1.x.x and above only.
 
 ## Example
 
