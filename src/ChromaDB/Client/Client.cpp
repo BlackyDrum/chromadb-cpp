@@ -653,7 +653,7 @@ namespace chromadb {
                     duplicates.insert(id);
             }
 
-            throw ChromaInvalidArgumentException(std::format("Expected IDs to be unique, found duplicates for: {}", Utils::Join(duplicates, ", ")));
+            throw ChromaUniqueConstraintException(std::format("Expected IDs to be unique, found duplicates for: {}", Utils::Join(duplicates, ", ")));
         }
 
         return { validatedIds, finalEmbeddings, metadata, documents };

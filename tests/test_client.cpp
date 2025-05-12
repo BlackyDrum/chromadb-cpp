@@ -848,7 +848,7 @@ TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfIDsAreNotUnique)
     std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
     std::vector<std::string> documents = { "Document1", "Document2" };
 
-    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, documents), ChromaInvalidArgumentException);
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, {}, documents), ChromaUniqueConstraintException);
 }
 
 TEST_F(ClientTest, AddEmbeddingsThrowsExceptionIfNoDocumentsAndNoEmbeddingsAndNoEmbeddingFunctionProvided)
@@ -1502,7 +1502,7 @@ TEST_F(ClientTest, ThrowsIfDuplicateIdsForAdd)
     std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
     std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
 
-    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidArgumentException);
+    EXPECT_THROW(client->AddEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaUniqueConstraintException);
 }
 
 TEST_F(ClientTest, ThrowsIfDuplicateIdsForUpsert)
@@ -1514,7 +1514,7 @@ TEST_F(ClientTest, ThrowsIfDuplicateIdsForUpsert)
     std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
     std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
 
-    EXPECT_THROW(client->UpsertEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidArgumentException);
+    EXPECT_THROW(client->UpsertEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaUniqueConstraintException);
 }
 
 TEST_F(ClientTest, ThrowsIfDuplicateIdsForUpdate)
@@ -1526,7 +1526,7 @@ TEST_F(ClientTest, ThrowsIfDuplicateIdsForUpdate)
     std::vector<std::string> documents = { { "Document1" }, { "Document2" }, { "Document3" } };
     std::vector<std::unordered_map<std::string, std::string>> metadatas = { { {"key1", "value1"} }, { {"key1", "value2"} }, { {"key1", "value3"} } };
 
-    EXPECT_THROW(client->UpdateEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaInvalidArgumentException);
+    EXPECT_THROW(client->UpdateEmbeddings(collection, ids, embeddings, metadatas, documents), ChromaUniqueConstraintException);
 }
 
 TEST_F(ClientTest, ThrowsIfEmptyIdForAdd)
