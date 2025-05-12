@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2025-05-12
+### Added
+- Added `ForkCollection` method to `Client` class to create a new collection from an existing one (only working for hosted ChromaDB).
+
+### Fixed
+- Throw correct exception if duplicate IDs are provided.
+
 ## [2.0.0] - 2025-05-11
 ### Changed
 - Switched to ChromaDB API v2, which includes breaking changes in the API.
