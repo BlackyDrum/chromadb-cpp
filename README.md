@@ -66,7 +66,7 @@ services:
     ports:
       - "8080:8000"
     volumes:
-      - chroma-data:/chroma/chroma
+      - chroma-data:/data
 
 volumes:
   chroma-data:
@@ -283,9 +283,9 @@ services:
       - .env
     # Alternatively, you can specify the environment variables directly
     environment:
-      CHROMA_SERVER_AUTHN_CREDENTIALS: 'authToken'
-      CHROMA_SERVER_AUTHN_PROVIDER: 'chromadb.auth.token_authn.TokenAuthenticationServerProvider'
-      CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: 'Authorization'
+      CHROMA_SERVER_AUTHN_CREDENTIALS: "authToken"
+      CHROMA_SERVER_AUTHN_PROVIDER: "chromadb.auth.token_authn.TokenAuthenticationServerProvider"
+      CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: "Authorization"
 
 volumes:
   chroma-data:
