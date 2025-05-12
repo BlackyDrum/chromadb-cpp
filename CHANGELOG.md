@@ -65,7 +65,7 @@ All notable changes to this project will be documented in this file.
 - Accessing a deleted collection now throws an exception if the collection object is accessed.
 
 ## [0.4.1] - 2024-09-19
-## Changed
+### Changed
 - Updated error type from `AuthorizationError` to `AuthError` for compatibility with the latest ChromaDB version.
 - Adjusted tests to expect other exception type.
 
@@ -74,7 +74,7 @@ All notable changes to this project will be documented in this file.
 - `GetOrCreateCollection`: Added `GetOrCreateCollection` method to retrieve an existing collection or create a new one if it does not exist.
 - Support for Retrieving Additional Metadata: Added support for retrieving additional metadata from embedding requests using the `GetLastRequestAdditionalMetadata()` method in embedding functions (e.g., JinaEmbeddingFunction, OpenAIEmbeddingFunction, ...).
 
-## Changed
+### Changed
 Renamed `Utils::join` to `Utils::Join`: The join function in the Utils class has been renamed to `Join` for consistency.
 
 ## [0.3.1] - 2024-06-18
