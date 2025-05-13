@@ -43,7 +43,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
     }
 
@@ -59,7 +59,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
     }
 
@@ -71,7 +71,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
     }
 
@@ -89,7 +89,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return "";
@@ -103,7 +103,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return 0;
@@ -117,7 +117,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return false;
@@ -137,7 +137,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return UserIdentity({}, "", "");
@@ -159,7 +159,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return this->GetCollection(name, embeddingFunction);
@@ -179,7 +179,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return Collection("", "", {});
@@ -217,7 +217,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return {};
@@ -231,7 +231,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return 0;
@@ -264,7 +264,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
     }
 
@@ -286,7 +286,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return this->GetCollection(newName, oldCollection.GetEmbeddingFunction());
@@ -304,7 +304,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return this->GetCollection(newName, embeddingFunction);
@@ -333,7 +333,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
     }
 
@@ -363,7 +363,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
     }
 
@@ -390,7 +390,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
     }
 
@@ -406,7 +406,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return 0;
@@ -436,7 +436,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
     }
 
@@ -493,7 +493,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return {};
@@ -589,7 +589,7 @@ namespace chromadb {
         }
         catch (ChromaException& e)
         {
-            this->handleChromaApiException(e);
+            this->HandleChromaApiException(e);
         }
 
         return {};
@@ -659,7 +659,7 @@ namespace chromadb {
         return { validatedIds, finalEmbeddings, metadata, documents };
     }
 
-    void Client::handleChromaApiException(const ChromaException& e)
+    void Client::HandleChromaApiException(const ChromaException& e)
     {
         const auto* connectException = dynamic_cast<const ChromaConnectionException*>(&e);
         if (connectException)

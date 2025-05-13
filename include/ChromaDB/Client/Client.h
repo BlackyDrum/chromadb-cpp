@@ -324,7 +324,7 @@ namespace chromadb {
 
         ValidationResult Validate(const Collection& collection, const std::vector<std::string>& ids, const std::vector<std::vector<double>>& embeddings, const std::vector<std::unordered_map<std::string, std::string>>& metadata, const std::vector<std::string>& documents, bool requireEmbeddingsOrDocuments);
 
-        void handleChromaApiException(const ChromaException& e);
+        void HandleChromaApiException(const ChromaException& e);
     };
 
 } // namespace chromadb
