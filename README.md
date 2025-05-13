@@ -66,6 +66,7 @@ services:
       - "8080:8000"
     volumes:
       - chroma-data:/data
+      - ./chroma-config.yaml:/config.yaml
 
 volumes:
   chroma-data:
