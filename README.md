@@ -50,13 +50,7 @@ int main()
 
 To use this library, you need to have ChromaDB running either locally or in the cloud.
 
-To run ChromaDB in a docker container, you can use the following command:
-
-```bash
-docker container run -p 8080:8000 chromadb/chroma
-```
-
-Alternatively, you can use a `docker-compose` file:
+To run ChromaDB in a docker container, you can use the provided `docker-compose` file:
 
 ```yml
 services:
