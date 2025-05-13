@@ -12,7 +12,7 @@
 
 namespace chromadb {
 
-    void ChromaException::throwSpecific(const std::string& message, const std::string& type)
+    void ChromaException::ThrowSpecific(const std::string& message, const std::string& type)
     {
         if (type == "NotFoundError") throw ChromaNotFoundException(message);
         if (type == "AuthError") throw ChromaAuthorizationException(message);

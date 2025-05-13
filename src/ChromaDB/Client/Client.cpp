@@ -685,12 +685,12 @@ namespace chromadb {
                         if (message.front() == '\'' && message.back() == '\'')
                             message = message.substr(1, message.size() - 2);
 
-                        ChromaException::throwSpecific(message, error_type);
+                        ChromaException::ThrowSpecific(message, error_type);
                     }
                 }
 
                 if (error.contains("error") && error.contains("message"))
-                    ChromaException::throwSpecific(error["message"].get<std::string>(), error["error"].get<std::string>());
+                    ChromaException::ThrowSpecific(error["message"].get<std::string>(), error["error"].get<std::string>());
             }
         }
 
