@@ -26,15 +26,4 @@ namespace chromadb {
         throw ChromaException(message);
     }
 
-    std::string ChromaException::inferTypeFromMessage(const std::string& message)
-    {
-        if (message.find("NotFoundError") != std::string::npos) return "NotFoundError";
-        if (message.find("AuthError") != std::string::npos || message.find("Forbidden") != std::string::npos) return "AuthError";
-        if (message.find("UniqueConstraintError") != std::string::npos) return "UniqueConstraintError";
-        if (message.find("ValueError") != std::string::npos) return "ValueError";
-        if (message.find("dimensionality") != std::string::npos) return "DimensionalityError";
-
-        return "UnknownError";
-    }
-
 } // namespace chromadb

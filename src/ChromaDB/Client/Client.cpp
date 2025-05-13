@@ -689,26 +689,8 @@ namespace chromadb {
                     }
                 }
 
-                if (error.contains("detail"))
-                {
-                    std::string message = error["detail"].get<std::string>();
-                    std::string error_type = ChromaException::inferTypeFromMessage(message);
-
-                    ChromaException::throwSpecific(message, error_type);
-                }
-
                 if (error.contains("error") && error.contains("message"))
-                {
                     ChromaException::throwSpecific(error["message"].get<std::string>(), error["error"].get<std::string>());
-                }
-
-                if (error.contains("error"))
-                {
-                    std::string message = error["error"].get<std::string>();
-                    std::string error_type = ChromaException::inferTypeFromMessage(message);
-
-                    ChromaException::throwSpecific(message, error_type);
-                }
             }
         }
 

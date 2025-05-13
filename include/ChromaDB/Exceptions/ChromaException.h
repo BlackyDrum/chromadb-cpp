@@ -17,8 +17,6 @@ namespace chromadb {
 
         static void throwSpecific(const std::string& message, const std::string& type);
 
-        static std::string inferTypeFromMessage(const std::string& message);
-
     private:
         std::string m_Message;
     };
