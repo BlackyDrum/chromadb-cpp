@@ -967,7 +967,7 @@ int main()
 To reset ChromaDB, use the `Reset` method. This will delete all collections and entries.
 
 > [!NOTE]
-> Resetting may not be allowed by your configuration. To enable it, include `ALLOW_RESET=TRUE` in your environment variables.
+> Resetting may not be allowed by your configuration. To enable it, set `allow_reset` to `true` in the `chroma-config.yaml` file.
 
 ```cpp
 #include "ChromaDB/ChromaDB.h"
