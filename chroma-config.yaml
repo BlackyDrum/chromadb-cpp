@@ -1,2 +1,2 @@
 persist_path: "/data"
-allow_reset: true
+allow_reset: false
