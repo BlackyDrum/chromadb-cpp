@@ -2,8 +2,8 @@
 
 namespace chromadb {
 
-    JinaEmbeddingFunction::JinaEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& baseUrl, const std::string& path)
-        : EmbeddingFunction(apiKey, model, baseUrl, path)
+    JinaEmbeddingFunction::JinaEmbeddingFunction(const std::string& apiKey, const std::string& model)
+        : EmbeddingFunction(apiKey, model, "api.jina.ai", "/v1/embeddings")
     {
     }
 

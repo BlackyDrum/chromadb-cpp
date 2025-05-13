@@ -2,8 +2,8 @@
 
 namespace chromadb {
 
-    CohereEmbeddingFunction::CohereEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& inputType, const std::string& baseUrl, const std::string& path)
-        : EmbeddingFunction(apiKey, model, baseUrl, path), m_InputType(inputType)
+    CohereEmbeddingFunction::CohereEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& inputType)
+        : EmbeddingFunction(apiKey, model, "api.cohere.com", "/v1/embed"), m_InputType(inputType)
     {
     }
 

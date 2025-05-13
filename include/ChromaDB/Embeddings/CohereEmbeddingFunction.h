@@ -13,10 +13,8 @@ namespace chromadb {
         * @param apiKey The API key
         * @param model The model to use (optional)
         * @param inputType The input type (optional)
-        * @param baseUrl The base URL of the server (optional)
-        * @param path The path of the endpoint (optional)
         */
-        CohereEmbeddingFunction(const std::string& apiKey, const std::string& model = "embed-english-v3.0", const std::string& inputType = "classification", const std::string & baseUrl = "api.cohere.com", const std::string & path = "/v1/embed");
+        CohereEmbeddingFunction(const std::string& apiKey, const std::string& model = "embed-english-v3.0", const std::string& inputType = "classification");
 
         /*
         * @brief Generate the embeddings of the documents

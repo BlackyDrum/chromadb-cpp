@@ -12,10 +12,8 @@ namespace chromadb {
         * 
         * @param apiKey The API key
         * @param model The model to use (optional)
-        * @param baseUrl The base URL of the server (optional)
-        * @param path The path of the endpoint (optional)
         */
-        JinaEmbeddingFunction(const std::string& apiKey, const std::string& model = "jina-embeddings-v2-base-en", const std::string& baseUrl = "api.jina.ai", const std::string& path = "/v1/embeddings");
+        JinaEmbeddingFunction(const std::string& apiKey, const std::string& model = "jina-embeddings-v2-base-en");
 
         /*
         * @brief Generate the embeddings of the documents

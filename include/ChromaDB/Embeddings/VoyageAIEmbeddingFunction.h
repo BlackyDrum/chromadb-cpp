@@ -13,10 +13,8 @@ namespace chromadb {
         * @param apiKey The API key
         * @param model The model to use (optional)
         * @param inputType The input type (optional)
-        * @param baseUrl The base URL of the server (optional)
-        * @param path The path of the endpoint (optional)
         */
-        VoyageAIEmbeddingFunction(const std::string& apiKey, const std::string& model = "voyage-2", const std::string& inputType = "document", const std::string& baseUrl = "api.voyageai.com", const std::string& path = "/v1/embeddings");
+        VoyageAIEmbeddingFunction(const std::string& apiKey, const std::string& model = "voyage-2", const std::string& inputType = "document");
 
         /*
         * @brief Generate the embeddings of the documents

@@ -2,8 +2,8 @@
 
 namespace chromadb {
 
-    OpenAIEmbeddingFunction::OpenAIEmbeddingFunction(const std::string& apiKey, const std::string& model, size_t dimensions, const std::string& baseUrl, const std::string& path)
-        : EmbeddingFunction(apiKey, model, baseUrl, path), m_Dimensions(dimensions)
+    OpenAIEmbeddingFunction::OpenAIEmbeddingFunction(const std::string& apiKey, const std::string& model, size_t dimensions)
+        : EmbeddingFunction(apiKey, model, "api.openai.com", "/v1/embeddings"), m_Dimensions(dimensions)
     {
     }
 

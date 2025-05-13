@@ -2,8 +2,8 @@
 
 namespace chromadb {
 
-    TogetherAIEmbeddingFunction::TogetherAIEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& baseUrl, const std::string& path)
-        : EmbeddingFunction(apiKey, model, baseUrl, path)
+    TogetherAIEmbeddingFunction::TogetherAIEmbeddingFunction(const std::string& apiKey, const std::string& model)
+        : EmbeddingFunction(apiKey, model, "api.together.xyz", "/v1/embeddings")
     {
     }
 

@@ -1712,18 +1712,6 @@ TEST_F(ClientTest, ThrowsIfWrongEmbeddingModelNameForEmbeddingFunction)
     EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, documents), EmbeddingProviderRequestException);
 }
 
-TEST_F(ClientTest, ThrowsIfWrongHostForEmbeddingFunction)
-{
-    std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3", "wrong-host");
-
-    chromadb::Collection collection = client->CreateCollection("test_collection", {}, embeddingFunction);
-
-    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
-    std::vector<std::string> documents = { "document1", "document2", "document3" };
-
-    EXPECT_THROW(client->AddEmbeddings(collection, ids, {}, {}, documents), EmbeddingProviderConnectionException);
-}
-
 TEST_F(ClientTest, CanGetRequestMetadataFromEmbeddingFunction)
 {
     std::shared_ptr<EmbeddingFunction> embeddingFunction = std::make_shared<JinaEmbeddingFunction>(jinaApiKey, "jina-embeddings-v3");

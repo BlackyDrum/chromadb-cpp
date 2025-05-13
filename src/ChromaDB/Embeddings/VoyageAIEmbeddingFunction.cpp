@@ -2,8 +2,8 @@
 
 namespace chromadb {
 
-    VoyageAIEmbeddingFunction::VoyageAIEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& inputType, const std::string& baseUrl, const std::string& path)
-        : EmbeddingFunction(apiKey, model, baseUrl, path), m_InputType(inputType)
+    VoyageAIEmbeddingFunction::VoyageAIEmbeddingFunction(const std::string& apiKey, const std::string& model, const std::string& inputType)
+        : EmbeddingFunction(apiKey, model, "api.voyageai.com", "/v1/embeddings"), m_InputType(inputType)
     {
     }
 

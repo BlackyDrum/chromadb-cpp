@@ -13,10 +13,8 @@ namespace chromadb {
         * @param apiKey The API key
         * @param model The model to use (optional)
         * @param dimensions The number of dimensions of the embeddings (optional)
-        * @param baseUrl The base URL of the server (optional)
-        * @param path The path of the endpoint (optional)
         */
-        OpenAIEmbeddingFunction(const std::string& apiKey, const std::string& model = "text-embedding-3-small", size_t dimensions = 1536, const std::string& baseUrl = "api.openai.com", const std::string& path = "/v1/embeddings");
+        OpenAIEmbeddingFunction(const std::string& apiKey, const std::string& model = "text-embedding-3-small", size_t dimensions = 1536);
 
         /*
         * @brief Generate the embeddings of the documents
