@@ -295,7 +295,7 @@ int main()
 
     std::cout << "Collection metadata: " << std::endl;
     for (const auto& [key, value] : collection.GetMetadata())
-	std::cout << key << ": " << value << std::endl;
+        std::cout << key << ": " << value << std::endl;
 }
 ```
 
