@@ -513,7 +513,7 @@ int main()
 }
 ```
 
-We currently support `JinaEmbeddingFunction`, `OpenAIEmbeddingFunction`, `CohereEmbeddingFunction`, `VoyageAIEmbeddingFunction`, `TogetherAIEmbeddingFunction` and `Ollama` for this purpose.
+We currently support `JinaEmbeddingFunction`, `OpenAIEmbeddingFunction`, `CohereEmbeddingFunction`, `VoyageAIEmbeddingFunction`, `TogetherAIEmbeddingFunction` and `LocalOllamaEmbeddingFunction` for this purpose.
 
 **JinaEmbeddingFunction**
 
