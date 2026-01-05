@@ -7,8 +7,9 @@ namespace chromadb {
     {
     }
 
-    nlohmann::json EmbeddingFunction::Request(const nlohmann::json& body)
+    nlohmann::json EmbeddingFunction::Request(const nlohmann::json& body, bool useSSL)
     {
+        httplib::Client client(m_BaseUrl);
         httplib::SSLClient sslClient(m_BaseUrl);
 
         httplib::Headers headers = {
@@ -16,7 +17,7 @@ namespace chromadb {
             { "Authorization", "Bearer " + m_ApiKey }
         };
 
-        httplib::Result res = sslClient.Post(m_Path, headers, body.dump(), "application/json");
+        httplib::Result res = useSSL ? sslClient.Post(m_Path, headers, body.dump(), "application/json") : client.Post(m_Path, headers, body.dump(), "application/json");
         if (res)
         {
             if (res->status == httplib::OK_200)
