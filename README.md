@@ -513,7 +513,7 @@ int main()
 }
 ```
 
-We currently support `JinaEmbeddingFunction`, `OpenAIEmbeddingFunction`, `CohereEmbeddingFunction`, `VoyageAIEmbeddingFunction` and `TogetherAIEmbeddingFunction` for this purpose.
+We currently support `JinaEmbeddingFunction`, `OpenAIEmbeddingFunction`, `CohereEmbeddingFunction`, `VoyageAIEmbeddingFunction`, `TogetherAIEmbeddingFunction` and `Ollama` for this purpose.
 
 **JinaEmbeddingFunction**
 
@@ -600,6 +600,22 @@ int main()
 
 - **apiKey**: The API key to access the API.
 - **model**: (Optional) The model to use for generating embeddings. Defaults to `togethercomputer/m2-bert-80M-8k-retrieval`.
+
+**LocalOllamaEmbeddingFunction**
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    std::shared_ptr<chromadb::LocalOllamaEmbeddingFunction> localOllamaEmbeddingFunction = std::make_shared<chromadb::LocalOllamaEmbeddingFunction>("localhost:11434");
+}
+```
+
+**Parameters**
+
+- **address**: (Optional) The local Ollama server address. Defaults to `localhost:11434`.
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `deepseek-r1:14b`.
 
 ### Getting Additional Metadata from Embedding Requests
 
