@@ -29,7 +29,7 @@ namespace chromadb {
 
         nlohmann::json m_LastRequestAdditionalMetadata;
     protected:
-        nlohmann::json Request(const nlohmann::json& body);
+        virtual nlohmann::json Request(const nlohmann::json& body);
     };
 
 } // namespace chromadb

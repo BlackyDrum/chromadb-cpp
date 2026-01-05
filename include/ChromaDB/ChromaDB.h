@@ -62,3 +62,4 @@
 #include "ChromaDB/Embeddings/CohereEmbeddingFunction.h"
 #include "ChromaDB/Embeddings/VoyageAIEmbeddingFunction.h"
 #include "ChromaDB/Embeddings/TogetherAIEmbeddingFunction.h"
+#include "ChromaDB/Embeddings/LocalOllamaEmbeddingFunction.h"
