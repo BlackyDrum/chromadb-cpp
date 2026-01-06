@@ -447,6 +447,9 @@ int main()
 To add embeddings to an existing collection in ChromaDB, use the `AddEmbeddings` method.
 This method allows you to specify the collection, the IDs of the embeddings, and optionally, the embeddings themselves, metadata, and documents associated with the embeddings.
 
+> [!NOTE]
+> If you do not provide embeddings, you must provide documents along with an embedding function.
+
 ```cpp
 #include "ChromaDB/ChromaDB.h"
 
@@ -467,9 +470,6 @@ int main()
 - **embeddings**: (Optional) A vector of embeddings.
 - **metadata**: (Optional) A vector of metadata key-value pairs associated with the embeddings.
 - **documents**: (Optional) A vector of documents associated with the embeddings
-
-> [!WARNING]
-> If you do not provide embeddings, you must provide documents along with an embedding function.
 
 ### Add Embeddings with Embedding Function
 
@@ -861,7 +861,7 @@ int main()
 
 To query an existing collection in ChromaDB, use the `Query` method. This method allows you to specify the collection, optional query documents, query embeddings, number of results, fields to include in the results, and optional `where_document` and `where` clauses to filter the query based on document or metadata criteria.
 
-> [!WARNING]
+> [!NOTE]
 > You MUST either provide `queryEmbeddings` OR `queryDocuments`. If you provide `queryDocuments`, you also need to pass an Embedding Function to the collection.
 
 ```cpp
