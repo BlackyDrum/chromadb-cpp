@@ -615,7 +615,7 @@ int main()
 **Parameters**
 
 - **address**: (Optional) The local Ollama server address. Defaults to `localhost:11434`.
-- **model**: (Optional) The model to use for generating embeddings. Defaults to `deepseek-r1:14b`.
+- **model**: (Optional) The model to use for generating embeddings. Defaults to `embeddinggemma`.
 
 ### Getting Additional Metadata from Embedding Requests
 

@@ -13,7 +13,7 @@ namespace chromadb {
         * @param address The local Ollama server address (optional)
         * @param model The model to use (optional)
         */
-        LocalOllamaEmbeddingFunction(const std::string& address = "localhost:11434", const std::string& model = "deepseek-r1:14b");
+        LocalOllamaEmbeddingFunction(const std::string& address = "localhost:11434", const std::string& model = "embeddinggemma");
 
         /*
         * @brief Generate the embeddings of the documents
