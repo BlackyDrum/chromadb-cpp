@@ -25,6 +25,9 @@ namespace chromadb {
         * @throw ChromaException if something goes wrong
         */
         std::vector<std::vector<double>> Generate(const std::vector<std::string>& documents);
+
+    protected:
+        void ConfigureClient(httplib::Client& client) const override;
     };
 
 } // namespace chromadb

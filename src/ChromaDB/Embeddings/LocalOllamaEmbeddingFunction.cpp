@@ -32,4 +32,11 @@ namespace chromadb {
         return embeddings;
     }
 
+    void LocalOllamaEmbeddingFunction::ConfigureClient(httplib::Client& client) const
+    {
+        client.set_connection_timeout(10, 0);
+        client.set_read_timeout(120, 0);
+        client.set_write_timeout(120, 0);
+    }
+
 } // namespace chromadb

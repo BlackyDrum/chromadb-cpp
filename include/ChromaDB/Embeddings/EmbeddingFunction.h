@@ -30,6 +30,9 @@ namespace chromadb {
         nlohmann::json m_LastRequestAdditionalMetadata;
     protected:
         nlohmann::json Request(const nlohmann::json& body, bool useSSL = true);
+
+        virtual void ConfigureClient(httplib::Client& client) const {}
+        virtual void ConfigureSSLClient(httplib::SSLClient& client) const {}
     };
 
 } // namespace chromadb

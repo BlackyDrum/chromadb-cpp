@@ -12,6 +12,9 @@ namespace chromadb {
         httplib::Client client(m_BaseUrl);
         httplib::SSLClient sslClient(m_BaseUrl);
 
+        ConfigureClient(client);
+        ConfigureSSLClient(sslClient);
+
         httplib::Headers headers = {
             { "Content-Type", "application/json;charset=utf-8" },
             { "Authorization", "Bearer " + m_ApiKey }
