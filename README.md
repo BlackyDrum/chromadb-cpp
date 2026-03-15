@@ -357,6 +357,24 @@ int main()
 }
 ```
 
+### Get Collection Dimension
+
+To get the embedding dimension of a Collection, use the `GetCollectionDimension` method.
+
+```cpp
+#include "ChromaDB/ChromaDB.h"
+
+int main()
+{
+    size_t collectionDimension = client.GetCollectionDimension("test_collection");
+    std::cout << "Collection dimension: " << collectionDimension << std::endl;
+}
+```
+
+**Parameters**
+
+- **name**: The name of the collection to check the dimension.
+
 ### Check if Collection exists
 
 To check if a collection exists, use the `CollectionExists` method.

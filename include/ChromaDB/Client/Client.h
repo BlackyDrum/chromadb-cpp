@@ -164,6 +164,17 @@ namespace chromadb {
         size_t GetCollectionCount();
 
         /*
+        * @brief Get the dimension of a collection
+        * 
+        * @param name The name of the collection
+        * 
+        * @return size_t The dimension of the collection
+        * 
+        * @throw ChromaException if something goes wrong
+        */
+        size_t GetCollectionDimension(const std::string& name);
+
+        /*
         * @brief Check if a collection exists
         * 
         * @param name The name of the collection

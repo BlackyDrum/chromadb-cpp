@@ -541,6 +541,24 @@ TEST_F(ClientTest, CanGetCollectionCount)
     EXPECT_EQ(count, 0);
 }
 
+TEST_F(ClientTest, CanGetCorrectDimension)
+{
+    Collection collection = client->CreateCollection("test_collection");
+
+    std::vector<std::string> ids = { "ID1", "ID2", "ID3" };
+    std::vector<std::vector<double>> embeddings = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+
+    EXPECT_EQ(client->GetCollectionDimension("test_collection"), 0);
+
+    client->AddEmbeddings(collection, ids, embeddings, {}, {});
+
+    EXPECT_EQ(client->GetCollectionDimension("test_collection"), 3);
+
+    client->DeleteEmbeddings(collection, ids);
+
+    EXPECT_EQ(client->GetCollectionDimension("test_collection"), 3);
+}
+
 TEST_F(ClientTest, CanCheckIfCollectionExists)
 {
     EXPECT_FALSE(client->CollectionExists("test_collection"));

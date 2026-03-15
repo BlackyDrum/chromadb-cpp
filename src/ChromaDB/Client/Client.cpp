@@ -237,6 +237,22 @@ namespace chromadb {
         return 0;
     }
 
+    size_t Client::GetCollectionDimension(const std::string& name)
+    {
+        try
+        {
+            auto json = m_ChromaApiClient.Get(std::format("{}/collections/{}", m_ChromaApiUrlPrefix, name));
+
+            return json["dimension"].is_null() ? 0 : json["dimension"].get<size_t>();
+        }
+        catch (ChromaException& e)
+        {
+            this->HandleChromaApiException(e);
+        }
+
+        return 0;
+    }
+
     bool Client::CollectionExists(const std::string& name)
     {
         try
